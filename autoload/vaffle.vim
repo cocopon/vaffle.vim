@@ -37,6 +37,11 @@ endfunction
 function! vaffle#refresh() abort
   call s:keep_buffer_singularity()
 
+  let cursor_items = vaffle#item#get_cursor_items('n')
+  if !empty(cursor_items)
+    call vaffle#env#save_cursor(cursor_items[0])
+  endif
+
   let cwd = vaffle#env#get().dir
   call vaffle#env#set_up(cwd)
   call vaffle#buffer#redraw()

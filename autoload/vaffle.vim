@@ -304,8 +304,6 @@ function! vaffle#toggle_hidden() abort
 
   call vaffle#env#set_up_items()
   call vaffle#buffer#redraw()
-
-  call vaffle#env#restore_cursor()
 endfunction
 
 

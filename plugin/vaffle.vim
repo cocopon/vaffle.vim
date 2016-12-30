@@ -20,7 +20,7 @@ augroup END
 
 function! s:set_up_default_config()
   let config_dict = {
-        \   'vaffle_auto_cd': 1,
+        \   'vaffle_auto_cd': 0,
         \   'vaffle_force_delete': 0,
         \   'vaffle_show_hidden_files': 0,
         \   'vaffle_use_default_mappings': 1,

@@ -114,7 +114,7 @@ function! vaffle#toggle_current(mode) abort
     call vaffle#buffer#redraw_item(item)
 
     " Move cursor to next item
-    normal! j
+    normal! j0
 
     return
   endif

@@ -141,7 +141,7 @@ function! vaffle#buffer#redraw() abort
   silent keepjumps %d
 
   let items = vaffle#env#get().items
-  if len(items) > 0
+  if !empty(items)
     let lnum = 1
     for item in items
       let line = s:create_line_from_item(item)
@@ -155,11 +155,12 @@ function! vaffle#buffer#redraw() abort
   setlocal nomodifiable
   setlocal nomodified
 
+  let initial_lnum = 1
   let cursor_item = vaffle#env#restore_cursor()
   if !empty(cursor_item)
-    let lnum = index(items, cursor_item) + 1
-    call setpos('.', [0, lnum, 1, 0])
+    let initial_lnum = index(items, cursor_item) + 1
   endif
+  call cursor([initial_lnum, 1, 0, 1])
 endfunction
 
 

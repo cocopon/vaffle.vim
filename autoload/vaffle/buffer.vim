@@ -55,16 +55,7 @@ function! s:generate_unique_bufname(path) abort
 endfunction
 
 
-function! vaffle#buffer#init(path) abort
-  let prev_bufnr = bufnr('%')
-  let path = vaffle#util#normalize_path(a:path)
-
-  " Create new `nofile` buffer to avoid unwanted sync
-  " between different windows
-  enew
-  execute printf('silent file %s',
-        \ s:generate_unique_bufname(path))
-
+function! s:store_options() abort
   let options = {
         \   'bufhidden':  { 'type': 'string', 'value': &bufhidden},
         \   'buftype':    { 'type': 'string', 'value': &buftype},
@@ -75,6 +66,51 @@ function! vaffle#buffer#init(path) abort
   call vaffle#env#set(
         \ 'initial_options',
         \ options)
+endfunction
+
+
+function! s:restore_options() abort
+  let options = vaffle#env#get().initial_options
+  for option_name in keys(options)
+    let option = options[option_name]
+    let command = (option.type ==? 'bool')
+          \ ? printf('setlocal %s%s',
+          \   (option.value ? '' : 'no'),
+          \   option_name)
+          \ : printf('setlocal %s=%s',
+          \   option_name,
+          \   option.value)
+    execute command
+  endfor
+endfunction
+
+
+function! s:should_restore() abort
+  if &filetype ==? 'vaffle'
+    " Active Vaffle buffer
+    return 0
+  endif
+
+  if !has_key(vaffle#env#get(), 'restored')
+    " Non-vaffle buffer
+    return 0
+  endif
+
+  return !vaffle#env#get().restored
+endfunction
+
+
+function! vaffle#buffer#init(path) abort
+  let prev_bufnr = bufnr('%')
+  let new_path = vaffle#util#normalize_path(a:path)
+
+  " Create new `nofile` buffer to avoid unwanted sync
+  " between different windows
+  enew
+  execute printf('silent file %s',
+        \ s:generate_unique_bufname(new_path))
+
+  call s:store_options()
   setlocal bufhidden=wipe
   setlocal buftype=nowrite
   setlocal filetype=vaffle
@@ -88,7 +124,7 @@ function! vaffle#buffer#init(path) abort
           \ prev_bufnr)
   endif
 
-  call vaffle#env#set_up(path)
+  call vaffle#env#set_up(new_path)
   call vaffle#buffer#redraw()
 
   if g:vaffle_use_default_mappings
@@ -97,12 +133,12 @@ function! vaffle#buffer#init(path) abort
 
   if g:vaffle_auto_cd
     try
-      execute printf('lcd %s', fnameescape(path))
+      execute printf('lcd %s', fnameescape(new_path))
     catch /:E472:/
       " E472: Command failed
       " Permission denied, etc.
       call vaffle#util#echo_error(
-            \ printf('Changing directory failed: ''%s''', path))
+            \ printf('Changing directory failed: ''%s''', new_path))
       return
     endtry
   endif
@@ -110,22 +146,11 @@ endfunction
 
 
 function! vaffle#buffer#restore_if_needed() abort
-  if !vaffle#env#should_restore()
+  if !s:should_restore()
     return 0
   endif
 
-  let options = vaffle#env#get().initial_options
-  for option_name in keys(options)
-    let option = options[option_name]
-    let command = (option.type ==? 'bool')
-          \ ? printf('setlocal %s%s',
-          \   (option.value ? '' : 'no'),
-          \   option_name)
-          \ : printf('setlocal %s=%s',
-          \   option_name,
-          \   option.value)
-    execute command
-  endfor
+  call s:restore_options()
   setlocal modifiable
 
   call vaffle#env#set('restored', 1)

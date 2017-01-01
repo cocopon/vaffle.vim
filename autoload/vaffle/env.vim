@@ -101,25 +101,4 @@ function! vaffle#env#restore_from_buffer() abort
 endfunction
 
 
-function! vaffle#env#should_restore() abort
-  if &filetype ==? 'vaffle'
-    " Active Vaffle buffer
-    return 0
-  endif
-
-  if !exists('w:vaffle')
-    " Buffer not for Vaffle
-    return 0
-  endif
-
-  if !exists('w:vaffle.restored')
-        \ || w:vaffle.restored
-    " Already restored
-    return 0
-  endif
-
-  return 1
-endfunction
-
-
 let &cpo = s:save_cpo

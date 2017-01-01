@@ -66,10 +66,11 @@ function! vaffle#buffer#init(path) abort
         \ s:generate_unique_bufname(path))
 
   let options = {
-        \   'bufhidden': { 'type': 'string', 'value': &bufhidden},
-        \   'buftype':   { 'type': 'string', 'value': &buftype},
-        \   'swapfile':  { 'type': 'bool',   'value': &swapfile},
-        \   'wrap':      { 'type': 'bool',   'value': &wrap},
+        \   'bufhidden':  { 'type': 'string', 'value': &bufhidden},
+        \   'buftype':    { 'type': 'string', 'value': &buftype},
+        \   'matchpairs': { 'type': 'string', 'value': &matchpairs},
+        \   'swapfile':   { 'type': 'bool',   'value': &swapfile},
+        \   'wrap':       { 'type': 'bool',   'value': &wrap},
         \ }
   call vaffle#env#set(
         \ 'initial_options',
@@ -77,6 +78,7 @@ function! vaffle#buffer#init(path) abort
   setlocal bufhidden=wipe
   setlocal buftype=nowrite
   setlocal filetype=vaffle
+  setlocal matchpairs=
   setlocal noswapfile
   setlocal nowrap
 
@@ -139,12 +141,16 @@ function! vaffle#buffer#redraw() abort
   silent keepjumps %d
 
   let items = vaffle#env#get().items
-  let lnum = 1
-  for item in items
-    let line = s:create_line_from_item(item)
-    call setline(lnum, line)
-    let lnum += 1
-  endfor
+  if len(items) > 0
+    let lnum = 1
+    for item in items
+      let line = s:create_line_from_item(item)
+      call setline(lnum, line)
+      let lnum += 1
+    endfor
+  else
+    call setline(1, '  (no items)')
+  endif
 
   setlocal nomodifiable
   setlocal nomodified

@@ -21,10 +21,16 @@ endfunction
 
 
 function! vaffle#init(...) abort
+  let path = (a:0 == 0)
+        \ ? getcwd()
+        \ : a:1
+  if !isdirectory(path)
+    call vaffle#util#echo_error(
+          \ printf('Not a directory: ''%s''', path))
+    return
+  endif
+
   try
-    let path = (a:0 == 0)
-          \ ? getcwd()
-          \ : a:1
     call vaffle#buffer#init(path)
   catch /:E37:/
     call vaffle#util#echo_error(

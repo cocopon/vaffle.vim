@@ -100,15 +100,30 @@ function! s:should_restore() abort
 endfunction
 
 
-function! vaffle#buffer#init(path) abort
-  let prev_bufnr = bufnr('%')
-  let new_path = vaffle#util#normalize_path(a:path)
+function! s:perform_auto_cd_if_needed(path) abort
+  if !g:vaffle_auto_cd
+    return
+  endif
 
-  " Create new `nofile` buffer to avoid unwanted sync
+  try
+    execute printf('lcd %s', fnameescape(a:path))
+  catch /:E472:/
+    " E472: Command failed
+    " Permission denied, etc.
+    call vaffle#util#echo_error(
+          \ printf('Changing directory failed: ''%s''', a:path))
+    return
+  endtry
+endfunction
+
+
+function! vaffle#buffer#init(path) abort
+  let path = vaffle#util#normalize_path(a:path)
+
+  " Give unique name to buffer to avoid unwanted sync
   " between different windows
-  enew
   execute printf('silent file %s',
-        \ s:generate_unique_bufname(new_path))
+        \ s:generate_unique_bufname(path))
 
   call s:store_options()
   setlocal bufhidden=wipe
@@ -118,30 +133,24 @@ function! vaffle#buffer#init(path) abort
   setlocal noswapfile
   setlocal nowrap
 
-  " Delete unused directory buffer
-  if isdirectory(bufname(prev_bufnr))
-    execute printf('bwipeout! %d',
-          \ prev_bufnr)
-  endif
-
-  call vaffle#env#set_up(new_path)
-  call vaffle#buffer#redraw()
-
   if g:vaffle_use_default_mappings
     call s:set_up_default_mappings()
   endif
 
-  if g:vaffle_auto_cd
-    try
-      execute printf('lcd %s', fnameescape(new_path))
-    catch /:E472:/
-      " E472: Command failed
-      " Permission denied, etc.
-      call vaffle#util#echo_error(
-            \ printf('Changing directory failed: ''%s''', new_path))
-      return
-    endtry
-  endif
+  call vaffle#env#set_up(path)
+  call vaffle#buffer#redraw()
+
+  call s:perform_auto_cd_if_needed(path)
+endfunction
+
+
+function! vaffle#buffer#reuse(path) abort
+  let path = vaffle#util#normalize_path(a:path)
+
+  call vaffle#env#set_up(path)
+  call vaffle#buffer#redraw()
+
+  call s:perform_auto_cd_if_needed(path)
 endfunction
 
 

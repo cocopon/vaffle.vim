@@ -25,7 +25,7 @@ function! vaffle#event#on_bufenter() abort
     call vaffle#buffer#restore_if_needed()
 
     " Store bufnr of non-vaffle buffer to restore initial state
-    if &filetype !=? 'vaffle'
+    if &filetype !=? 'vaffle' && !get(g:, 'vaffle_creating_vaffle_buffer', 0)
       call vaffle#env#set('non_vaffle_bufnr', bufnr('%'))
     endif
 

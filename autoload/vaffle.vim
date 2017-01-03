@@ -30,6 +30,18 @@ function! vaffle#init(...) abort
     return
   endif
 
+  if &filetype ==? 'vaffle'
+    call vaffle#buffer#reuse(path)
+    return
+  endif
+
+  if !isdirectory(bufname('%'))
+    " Create new buffer for non-directory buffer
+    let g:vaffle_creating_vaffle_buffer = 1
+    enew
+    unlet g:vaffle_creating_vaffle_buffer
+  endif
+
   try
     call vaffle#buffer#init(path)
   catch /:E37:/

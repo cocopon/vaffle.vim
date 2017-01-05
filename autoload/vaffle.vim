@@ -62,8 +62,11 @@ function! vaffle#refresh() abort
     call vaffle#env#save_cursor(env, cursor_items[0])
   endif
 
-  let cwd = env.dir
-  call vaffle#env#set_up(cwd)
+  let new_env = vaffle#env#create(env.dir)
+  call vaffle#env#inherit(new_env, env)
+  let new_env.items = vaffle#env#create_items(new_env)
+  call vaffle#buffer#set_env(new_env)
+
   call vaffle#buffer#redraw()
 endfunction
 
@@ -308,9 +311,8 @@ function! vaffle#toggle_hidden() abort
   call s:keep_buffer_singularity()
 
   let env = vaffle#buffer#get_env()
-  call vaffle#buffer#set_env(
-        \ 'shows_hidden_files',
-        \ !env.shows_hidden_files)
+  let env.shows_hidden_files = !env.shows_hidden_files
+  call vaffle#buffer#set_env(env)
 
   let item = get(
         \ vaffle#item#get_cursor_items('n'),
@@ -320,9 +322,10 @@ function! vaffle#toggle_hidden() abort
     call vaffle#env#save_cursor(env, item)
   endif
 
-  call vaffle#buffer#set_env(
-        \ 'items',
-        \ vaffle#env#create_items(env))
+  let env = vaffle#buffer#get_env()
+  let env.items = vaffle#env#create_items(env)
+  call vaffle#buffer#set_env(env)
+
   call vaffle#buffer#redraw()
 endfunction
 

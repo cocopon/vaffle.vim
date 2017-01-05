@@ -29,7 +29,9 @@ function! vaffle#event#on_bufenter() abort
   if !should_init
     if !get(g:, 'vaffle_creating_vaffle_buffer', 0)
       " Store bufnr of non-vaffle buffer to restore initial state
-      call vaffle#buffer#set_env('non_vaffle_bufnr', bufnr)
+      let env = vaffle#buffer#get_env()
+      let env.non_vaffle_bufnr = bufnr
+      call vaffle#buffer#set_env(env)
     endif
 
     return

@@ -57,17 +57,14 @@ function! s:generate_unique_bufname(path) abort
 endfunction
 
 
-function! s:store_options() abort
-  let options = {
+function! s:get_options_dict() abort
+  return {
         \   'bufhidden':  { 'type': 'string', 'value': &bufhidden},
         \   'buftype':    { 'type': 'string', 'value': &buftype},
         \   'matchpairs': { 'type': 'string', 'value': &matchpairs},
         \   'swapfile':   { 'type': 'bool',   'value': &swapfile},
         \   'wrap':       { 'type': 'bool',   'value': &wrap},
         \ }
-  call vaffle#buffer#set_env(
-        \ 'initial_options',
-        \ options)
 endfunction
 
 
@@ -112,7 +109,7 @@ function! vaffle#buffer#init(path) abort
   execute printf('silent file %s',
         \ s:generate_unique_bufname(path))
 
-  call s:store_options()
+  let initial_options = s:get_options_dict()
   setlocal bufhidden=wipe
   setlocal buftype=nowrite
   setlocal filetype=vaffle
@@ -124,7 +121,12 @@ function! vaffle#buffer#init(path) abort
     call s:set_up_default_mappings()
   endif
 
-  call vaffle#env#set_up(path)
+  let env = vaffle#env#create(path)
+  call vaffle#env#inherit(env, vaffle#buffer#get_env())
+  let env.initial_options = initial_options
+  let env.items = vaffle#env#create_items(env)
+  call vaffle#buffer#set_env(env)
+
   call vaffle#buffer#redraw()
 
   call s:perform_auto_cd_if_needed(path)
@@ -134,7 +136,11 @@ endfunction
 function! vaffle#buffer#reuse(path) abort
   let path = vaffle#util#normalize_path(a:path)
 
-  call vaffle#env#set_up(path)
+  let env = vaffle#env#create(path)
+  call vaffle#env#inherit(env, vaffle#buffer#get_env())
+  let env.items = vaffle#env#create_items(env)
+  call vaffle#buffer#set_env(env)
+
   call vaffle#buffer#redraw()
 
   call s:perform_auto_cd_if_needed(path)
@@ -222,9 +228,9 @@ function! vaffle#buffer#get_env() abort
 endfunction
 
 
-function! vaffle#buffer#set_env(key, value) abort
-  let w:vaffle = get(w:, 'vaffle', get(b:, 'vaffle', {}))
-  let w:vaffle[a:key] = a:value
+function! vaffle#buffer#set_env(env) abort
+  let w:vaffle = a:env
+  let b:vaffle = w:vaffle
 endfunction
 
 

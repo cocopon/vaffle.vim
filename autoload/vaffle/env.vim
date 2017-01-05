@@ -7,34 +7,33 @@ set cpo&vim
 
 
 function! vaffle#env#create(path) abort
+  let env = {}
+  let env.dir = vaffle#util#normalize_path(a:path)
+  let env.initial_options = {}
+  let env.cursor_paths = {}
+  let env.non_vaffle_bufnr = -1
+  let env.non_vaffle_bufnr = -1
+  let env.shows_hidden_files = g:vaffle_show_hidden_files
+  let env.items = []
+  return env
 endfunction
 
 
-function! vaffle#env#set_up(path) abort
-  let w:vaffle = get(w:, 'vaffle', {})
-
-  let w:vaffle.dir = vaffle#util#normalize_path(a:path)
-  let w:vaffle.cursor_paths = get(
-        \ w:vaffle,
+function! vaffle#env#inherit(env, old_env) abort
+  let a:env.cursor_paths = get(
+        \ a:old_env,
         \ 'cursor_paths',
-        \ {})
+        \ a:env.cursor_paths)
 
-  let w:vaffle.non_vaffle_bufnr = get(
-        \ w:vaffle,
+  let a:env.non_vaffle_bufnr = get(
+        \ a:old_env,
         \ 'non_vaffle_bufnr',
-        \ -1)
-  if w:vaffle.non_vaffle_bufnr == bufnr('%')
-    let w:vaffle.non_vaffle_bufnr = -1
-  endif
+        \ a:env.non_vaffle_bufnr)
 
-  let w:vaffle.shows_hidden_files = get(
-        \ w:vaffle,
+  let a:env.shows_hidden_files = get(
+        \ a:old_env,
         \ 'shows_hidden_files',
-        \ g:vaffle_show_hidden_files)
-
-  let w:vaffle.items = vaffle#env#create_items(w:vaffle)
-
-  let b:vaffle = w:vaffle
+        \ a:env.shows_hidden_files)
 endfunction
 
 
@@ -64,9 +63,8 @@ endfunction
 
 
 function! vaffle#env#save_cursor(env, item) abort
-  let cursor_paths = a:env.cursor_paths
-  let cursor_paths[a:env.dir] = a:item.path
-  call vaffle#buffer#set_env('cursor_paths', cursor_paths)
+  let a:env.cursor_paths[a:env.dir] = a:item.path
+  call vaffle#buffer#set_env(a:env)
 endfunction
 
 

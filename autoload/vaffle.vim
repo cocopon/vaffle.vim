@@ -59,7 +59,7 @@ function! vaffle#refresh() abort
 
   let cursor_items = vaffle#item#get_cursor_items('n')
   if !empty(cursor_items)
-    call vaffle#env#save_cursor(env, cursor_items[0])
+    call vaffle#buffer#save_cursor(cursor_items[0])
   endif
 
   let new_env = vaffle#env#create(env.dir)
@@ -82,8 +82,9 @@ function! vaffle#open_current() abort
     return
   endif
 
+  call vaffle#buffer#save_cursor(item)
+
   let env = vaffle#buffer#get_env()
-  call vaffle#env#save_cursor(env, item)
   call vaffle#file#open(env, [item])
 endfunction
 
@@ -96,9 +97,9 @@ function! vaffle#open_selected() abort
     return
   endif
 
-  let env = vaffle#buffer#get_env()
-  call vaffle#env#save_cursor(env, items[0])
+  call vaffle#buffer#save_cursor(items[0])
 
+  let env = vaffle#buffer#get_env()
   call vaffle#file#open(env, items)
 endfunction
 
@@ -111,7 +112,7 @@ function! vaffle#open_parent() abort
 
   let cursor_items = vaffle#item#get_cursor_items('n')
   if !empty(cursor_items)
-    call vaffle#env#save_cursor(env, cursor_items[0])
+    call vaffle#buffer#save_cursor(cursor_items[0])
   endif
 
   let item = vaffle#item#create(parent_dir)
@@ -319,7 +320,7 @@ function! vaffle#toggle_hidden() abort
         \ 0,
         \ {})
   if !empty(item)
-    call vaffle#env#save_cursor(env, item)
+    call vaffle#buffer#save_cursor(item)
   endif
 
   let env = vaffle#buffer#get_env()

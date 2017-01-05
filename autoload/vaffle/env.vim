@@ -62,34 +62,4 @@ function! vaffle#env#create_items(env) abort
 endfunction
 
 
-function! vaffle#env#save_cursor(env, item) abort
-  let a:env.cursor_paths[a:env.dir] = a:item.path
-  call vaffle#buffer#set_env(a:env)
-endfunction
-
-
-function! vaffle#env#restore_cursor(env) abort
-  let cursor_paths = a:env.cursor_paths
-  let cursor_path = get(cursor_paths, a:env.dir, '')
-  if empty(cursor_path)
-    return {}
-  endif
-
-  let items = filter(
-        \ copy(a:env.items),
-        \ 'v:val.path ==# cursor_path')
-  if empty(items)
-    return {}
-  endif
-
-  return items[0]
-endfunction
-
-
-function! vaffle#env#restore_from_buffer() abort
-  " Split buffer doesn't have `w:vaffle` so restore it from `b:vaffle`
-  let w:vaffle = deepcopy(b:vaffle)
-endfunction
-
-
 let &cpo = s:save_cpo

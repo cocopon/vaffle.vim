@@ -307,11 +307,11 @@ endfunction
 function! vaffle#toggle_hidden() abort
   call s:keep_buffer_singularity()
 
-  call vaffle#env#set(
-        \ 'shows_hidden_files',
-        \ !vaffle#buffer#get_env().shows_hidden_files)
-
   let env = vaffle#buffer#get_env()
+  call vaffle#buffer#set_env(
+        \ 'shows_hidden_files',
+        \ !env.shows_hidden_files)
+
   let item = get(
         \ vaffle#item#get_cursor_items('n'),
         \ 0,
@@ -320,7 +320,8 @@ function! vaffle#toggle_hidden() abort
     call vaffle#env#save_cursor(env, item)
   endif
 
-  call vaffle#env#set('items',
+  call vaffle#buffer#set_env(
+        \ 'items',
         \ vaffle#env#create_items(env))
   call vaffle#buffer#redraw()
 endfunction

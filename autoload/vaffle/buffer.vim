@@ -65,7 +65,7 @@ function! s:store_options() abort
         \   'swapfile':   { 'type': 'bool',   'value': &swapfile},
         \   'wrap':       { 'type': 'bool',   'value': &wrap},
         \ }
-  call vaffle#env#set(
+  call vaffle#buffer#set_env(
         \ 'initial_options',
         \ options)
 endfunction
@@ -222,9 +222,9 @@ function! vaffle#buffer#get_env() abort
 endfunction
 
 
-function! vaffle#buffer#set_env(env) abort
-  let w:vaffle = a:env
-  let b:vaffle = w:vaffle
+function! vaffle#buffer#set_env(key, value) abort
+  let w:vaffle = get(w:, 'vaffle', get(b:, 'vaffle', {}))
+  let w:vaffle[a:key] = a:value
 endfunction
 
 

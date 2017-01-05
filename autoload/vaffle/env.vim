@@ -63,16 +63,10 @@ function! vaffle#env#create_items(env) abort
 endfunction
 
 
-function! vaffle#env#set(key, value) abort
-  let w:vaffle = get(w:, 'vaffle', get(b:, 'vaffle', {}))
-  let w:vaffle[a:key] = a:value
-endfunction
-
-
 function! vaffle#env#save_cursor(env, item) abort
   let cursor_paths = a:env.cursor_paths
   let cursor_paths[a:env.dir] = a:item.path
-  call vaffle#env#set('cursor_paths', cursor_paths)
+  call vaffle#buffer#set_env('cursor_paths', cursor_paths)
 endfunction
 
 

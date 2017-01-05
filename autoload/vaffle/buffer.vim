@@ -72,7 +72,7 @@ endfunction
 
 
 function! s:restore_options() abort
-  let options = vaffle#env#get().initial_options
+  let options = vaffle#buffer#get_env().initial_options
   for option_name in keys(options)
     let option = options[option_name]
     let command = (option.type ==? 'bool')
@@ -172,7 +172,7 @@ function! vaffle#buffer#redraw() abort
   " Clear buffer before drawing items
   silent keepjumps %d
 
-  let items = vaffle#env#get().items
+  let items = vaffle#buffer#get_env().items
   if !empty(items)
     let lnum = 1
     for item in items
@@ -210,8 +210,20 @@ endfunction
 function! vaffle#buffer#duplicate() abort
   call vaffle#env#restore_from_buffer()
   call vaffle#file#edit(
-        \ vaffle#env#get(),
+        \ vaffle#buffer#get_env(),
         \ '')
+endfunction
+
+
+function! vaffle#buffer#get_env() abort
+  let w:vaffle = get(w:, 'vaffle', get(b:, 'vaffle', {}))
+  return w:vaffle
+endfunction
+
+
+function! vaffle#buffer#set_env(env) abort
+  let w:vaffle = a:env
+  let b:vaffle = w:vaffle
 endfunction
 
 

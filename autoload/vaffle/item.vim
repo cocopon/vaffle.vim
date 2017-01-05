@@ -7,7 +7,7 @@ set cpo&vim
 
 
 function! vaffle#item#get_cursor_items(mode) abort
-  let items = vaffle#env#get().items
+  let items = vaffle#buffer#get_env().items
   if empty(items)
     return []
   endif
@@ -23,7 +23,7 @@ endfunction
 
 
 function! vaffle#item#get_selected_items() abort
-  let items = vaffle#env#get().items
+  let items = vaffle#buffer#get_env().items
   let selected_items = filter(
         \ copy(items),
         \ 'v:val.selected')

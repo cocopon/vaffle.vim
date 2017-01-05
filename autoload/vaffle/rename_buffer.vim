@@ -62,7 +62,7 @@ function! vaffle#rename_buffer#new(items) abort
     execute printf('bwipeout %d', bufnr)
   endif
 
-  let parent_env = vaffle#env#get()
+  let parent_env = vaffle#buffer#get_env()
   let parent_bufnr = bufnr('%')
 
   vnew

@@ -63,12 +63,6 @@ function! vaffle#env#create_items(env) abort
 endfunction
 
 
-function! vaffle#env#get() abort
-  let w:vaffle = get(w:, 'vaffle', get(b:, 'vaffle', {}))
-  return w:vaffle
-endfunction
-
-
 function! vaffle#env#set(key, value) abort
   let w:vaffle = get(w:, 'vaffle', get(b:, 'vaffle', {}))
   let w:vaffle[a:key] = a:value
@@ -76,14 +70,14 @@ endfunction
 
 
 function! vaffle#env#save_cursor(item) abort
-  let cursor_paths = vaffle#env#get().cursor_paths
+  let cursor_paths = vaffle#buffer#get_env().cursor_paths
   let cursor_paths[w:vaffle.dir] = a:item.path
   call vaffle#env#set('cursor_paths', cursor_paths)
 endfunction
 
 
 function! vaffle#env#restore_cursor() abort
-  let cursor_paths = vaffle#env#get().cursor_paths
+  let cursor_paths = vaffle#buffer#get_env().cursor_paths
   let cursor_path = get(cursor_paths, w:vaffle.dir, '')
   if empty(cursor_path)
     return {}

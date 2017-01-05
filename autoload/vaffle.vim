@@ -320,7 +320,8 @@ function! vaffle#toggle_hidden() abort
     call vaffle#env#save_cursor(item)
   endif
 
-  call vaffle#env#set_up_items()
+  call vaffle#env#set('items',
+        \ vaffle#env#create_items(vaffle#env#get()))
   call vaffle#buffer#redraw()
 endfunction
 

@@ -6,6 +6,10 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
+function! vaffle#env#create(path) abort
+endfunction
+
+
 function! vaffle#env#set_up(path) abort
   let w:vaffle = get(w:, 'vaffle', {})
 
@@ -28,32 +32,34 @@ function! vaffle#env#set_up(path) abort
         \ 'shows_hidden_files',
         \ g:vaffle_show_hidden_files)
 
-  call vaffle#env#set_up_items()
+  let w:vaffle.items = vaffle#env#create_items(w:vaffle)
+
+  let b:vaffle = w:vaffle
 endfunction
 
 
-function! vaffle#env#set_up_items() abort
-  let paths = vaffle#compat#glob_list(w:vaffle.dir . '/*')
-  if w:vaffle.shows_hidden_files
-    let hidden_paths = vaffle#compat#glob_list(w:vaffle.dir . '/.*')
+function! vaffle#env#create_items(env) abort
+  let paths = vaffle#compat#glob_list(a:env.dir . '/*')
+  if a:env.shows_hidden_files
+    let hidden_paths = vaffle#compat#glob_list(a:env.dir . '/.*')
     " Exclude '.' & '..'
     call filter(hidden_paths, 'match(v:val, ''/\.\.\?$'') < 0')
 
     call extend(paths, hidden_paths)
   end
 
-  let w:vaffle.items =  map(
+  let items =  map(
         \ copy(paths),
         \ 'vaffle#item#create(v:val)')
-  call sort(w:vaffle.items, 'vaffle#sorter#default#compare')
+  call sort(items, 'vaffle#sorter#default#compare')
 
   let index = 0
-  for item in w:vaffle.items
+  for item in items
     let item.index = index
     let index += 1
   endfor
 
-  let b:vaffle = w:vaffle
+  return items
 endfunction
 
 

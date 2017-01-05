@@ -9,7 +9,6 @@ set cpo&vim
 function! vaffle#env#set_up(path) abort
   let w:vaffle = get(w:, 'vaffle', {})
 
-  let w:vaffle.restored = 0
   let w:vaffle.dir = vaffle#util#normalize_path(a:path)
   let w:vaffle.cursor_paths = get(
         \ w:vaffle,

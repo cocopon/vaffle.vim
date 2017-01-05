@@ -16,23 +16,31 @@ endfunction
 function! vaffle#event#on_bufenter() abort
   call s:newtralize_netrw()
 
-  let path = expand('%:p')
+  let bufnr = bufnr('%')
+  let bufname = bufname(bufnr)
+  let is_vaffle_buffer = vaffle#buffer#is_for_vaffle(bufnr)
+  let path = is_vaffle_buffer
+        \ ? vaffle#buffer#extract_path_from_bufname(bufname)
+        \ : expand('%:p')
 
-  let is_nofile_buffer = empty(path)
-  let is_normal_buffer_for_file = !empty(path) && !isdirectory(path)
-  if is_nofile_buffer
-        \ || is_normal_buffer_for_file
-    call vaffle#buffer#restore_if_needed()
+  let should_init = is_vaffle_buffer
+        \ || isdirectory(path)
 
-    " Store bufnr of non-vaffle buffer to restore initial state
-    if &filetype !=? 'vaffle' && !get(g:, 'vaffle_creating_vaffle_buffer', 0)
-      call vaffle#env#set('non_vaffle_bufnr', bufnr('%'))
+  if !should_init
+    if !get(g:, 'vaffle_creating_vaffle_buffer', 0)
+      " Store bufnr of non-vaffle buffer to restore initial state
+      call vaffle#env#set('non_vaffle_bufnr', bufnr)
     endif
 
     return
   endif
 
   call vaffle#init(path)
+endfunction
+
+
+function! vaffle#event#on_bufleave() abort
+  call vaffle#buffer#restore_if_needed()
 endfunction
 
 

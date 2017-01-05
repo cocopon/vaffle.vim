@@ -87,21 +87,6 @@ function! s:restore_options() abort
 endfunction
 
 
-function! s:should_restore() abort
-  if &filetype ==? 'vaffle'
-    " Active Vaffle buffer
-    return 0
-  endif
-
-  if !has_key(vaffle#env#get(), 'restored')
-    " Non-vaffle buffer
-    return 0
-  endif
-
-  return !vaffle#env#get().restored
-endfunction
-
-
 function! s:perform_auto_cd_if_needed(path) abort
   if !g:vaffle_auto_cd
     return
@@ -156,15 +141,26 @@ function! vaffle#buffer#reuse(path) abort
 endfunction
 
 
+function! vaffle#buffer#is_for_vaffle(bufnr) abort
+  let bufname = bufname(a:bufnr)
+  return (match(bufname, '^vaffle://\d\+/') >= 0)
+endfunction
+
+
+function! vaffle#buffer#extract_path_from_bufname(bufnr) abort
+  let bufname = bufname(a:bufnr)
+  let matches = matchlist(bufname, '^vaffle://\d\+/\(.*\)$')
+  return get(matches, 1, '')
+endfunction
+
+
 function! vaffle#buffer#restore_if_needed() abort
-  if !s:should_restore()
+  if !vaffle#buffer#is_for_vaffle(bufnr('%'))
     return 0
   endif
 
   call s:restore_options()
   setlocal modifiable
-
-  call vaffle#env#set('restored', 1)
 
   return 1
 endfunction

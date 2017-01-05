@@ -55,12 +55,14 @@ endfunction
 function! vaffle#refresh() abort
   call s:keep_buffer_singularity()
 
+  let env = vaffle#buffer#get_env()
+
   let cursor_items = vaffle#item#get_cursor_items('n')
   if !empty(cursor_items)
-    call vaffle#env#save_cursor(cursor_items[0])
+    call vaffle#env#save_cursor(env, cursor_items[0])
   endif
 
-  let cwd = vaffle#buffer#get_env().dir
+  let cwd = env.dir
   call vaffle#env#set_up(cwd)
   call vaffle#buffer#redraw()
 endfunction
@@ -77,11 +79,9 @@ function! vaffle#open_current() abort
     return
   endif
 
-  call vaffle#env#save_cursor(item)
-
-  call vaffle#file#open(
-        \ vaffle#buffer#get_env(),
-        \ [item])
+  let env = vaffle#buffer#get_env()
+  call vaffle#env#save_cursor(env, item)
+  call vaffle#file#open(env, [item])
 endfunction
 
 
@@ -93,11 +93,10 @@ function! vaffle#open_selected() abort
     return
   endif
 
-  call vaffle#env#save_cursor(items[0])
+  let env = vaffle#buffer#get_env()
+  call vaffle#env#save_cursor(env, items[0])
 
-  call vaffle#file#open(
-        \ vaffle#buffer#get_env(),
-        \ items)
+  call vaffle#file#open(env, items)
 endfunction
 
 
@@ -109,7 +108,7 @@ function! vaffle#open_parent() abort
 
   let cursor_items = vaffle#item#get_cursor_items('n')
   if !empty(cursor_items)
-    call vaffle#env#save_cursor(cursor_items[0])
+    call vaffle#env#save_cursor(env, cursor_items[0])
   endif
 
   let item = vaffle#item#create(parent_dir)
@@ -312,16 +311,17 @@ function! vaffle#toggle_hidden() abort
         \ 'shows_hidden_files',
         \ !vaffle#buffer#get_env().shows_hidden_files)
 
+  let env = vaffle#buffer#get_env()
   let item = get(
         \ vaffle#item#get_cursor_items('n'),
         \ 0,
         \ {})
   if !empty(item)
-    call vaffle#env#save_cursor(item)
+    call vaffle#env#save_cursor(env, item)
   endif
 
   call vaffle#env#set('items',
-        \ vaffle#env#create_items(vaffle#buffer#get_env()))
+        \ vaffle#env#create_items(env))
   call vaffle#buffer#redraw()
 endfunction
 

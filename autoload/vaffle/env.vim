@@ -69,22 +69,22 @@ function! vaffle#env#set(key, value) abort
 endfunction
 
 
-function! vaffle#env#save_cursor(item) abort
-  let cursor_paths = vaffle#buffer#get_env().cursor_paths
-  let cursor_paths[w:vaffle.dir] = a:item.path
+function! vaffle#env#save_cursor(env, item) abort
+  let cursor_paths = a:env.cursor_paths
+  let cursor_paths[a:env.dir] = a:item.path
   call vaffle#env#set('cursor_paths', cursor_paths)
 endfunction
 
 
-function! vaffle#env#restore_cursor() abort
-  let cursor_paths = vaffle#buffer#get_env().cursor_paths
-  let cursor_path = get(cursor_paths, w:vaffle.dir, '')
+function! vaffle#env#restore_cursor(env) abort
+  let cursor_paths = a:env.cursor_paths
+  let cursor_path = get(cursor_paths, a:env.dir, '')
   if empty(cursor_path)
     return {}
   endif
 
   let items = filter(
-        \ copy(w:vaffle.items),
+        \ copy(a:env.items),
         \ 'v:val.path ==# cursor_path')
   if empty(items)
     return {}

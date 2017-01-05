@@ -172,7 +172,8 @@ function! vaffle#buffer#redraw() abort
   " Clear buffer before drawing items
   silent keepjumps %d
 
-  let items = vaffle#buffer#get_env().items
+  let env = vaffle#buffer#get_env()
+  let items = env.items
   if !empty(items)
     let lnum = 1
     for item in items
@@ -188,7 +189,7 @@ function! vaffle#buffer#redraw() abort
   setlocal nomodified
 
   let initial_lnum = 1
-  let cursor_item = vaffle#env#restore_cursor()
+  let cursor_item = vaffle#env#restore_cursor(env)
   if !empty(cursor_item)
     let initial_lnum = index(items, cursor_item) + 1
   endif

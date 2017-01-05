@@ -38,16 +38,18 @@ endfunction
 
 
 function! s:generate_unique_bufname(path) abort
-  " Add prefix `#:` (waffle!) to avoid truncating path
-  " with statusline item `%t`
-  let bufname = fnameescape(printf('#:%s', a:path))
+  let bufname = ''
+  let index = 0
 
-  let index = 2
-  while bufnr(bufname) >= 0
+  while 1
     " Add index to avoid duplicated buffer name
-    let bufname = fnameescape(printf('#%d:%s',
+    let bufname = fnameescape(printf('vaffle://%d/%s',
           \ index,
           \ a:path))
+    if bufnr(bufname) < 0
+      break
+    endif
+
     let index += 1
   endwhile
 

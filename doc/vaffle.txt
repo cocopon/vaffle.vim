@@ -170,7 +170,7 @@ version, but not supported.
   n     *        |<Plug>(vaffle-toggle-all)|
 
   n     K        |<Plug>(vaffle-mkdir)|
-  n     N        |<Plug>(vaffle-new-file)|
+  n     e        |<Plug>(vaffle-new-file)|
   n     d        |<Plug>(vaffle-delete-selected)|
   n     m        |<Plug>(vaffle-move-selected)|
   n     r        |<Plug>(vaffle-rename-selected)|

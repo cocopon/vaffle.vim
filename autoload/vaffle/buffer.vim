@@ -43,7 +43,7 @@ function! s:generate_unique_bufname(path) abort
 
   while 1
     " Add index to avoid duplicated buffer name
-    let bufname = fnameescape(printf('vaffle://%d/%s',
+    let bufname = fnameescape(printf('vaffle:%d/%s',
           \ index,
           \ a:path))
     if bufnr(bufname) < 0
@@ -166,15 +166,15 @@ function! vaffle#buffer#init(path) abort
 endfunction
 
 
-function! vaffle#buffer#is_for_vaffle(bufnr) abort
-  let bufname = bufname(a:bufnr)
-  return (match(bufname, '^vaffle://\d\+/') >= 0)
+function! vaffle#buffer#extract_path_from_bufname(bufname) abort
+  let matches = matchlist(a:bufname, '^vaffle:\d\+/\(.*\)$')
+  return get(matches, 1, '')
 endfunction
 
 
-function! vaffle#buffer#extract_path_from_bufname(bufname) abort
-  let matches = matchlist(a:bufname, '^vaffle://\d\+/\(.*\)$')
-  return get(matches, 1, '')
+function! vaffle#buffer#is_for_vaffle(bufnr) abort
+  let bufname = bufname(a:bufnr)
+  return !empty(vaffle#buffer#extract_path_from_bufname(bufname))
 endfunction
 
 

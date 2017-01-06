@@ -199,15 +199,16 @@ version, but not supported.
 
 *g:vaffle_use_default_mappings*
                 (Default: 1)
-                If disabled, Vaffle doesn't set up the default
-                mappings.
+                If disabled, Vaffle doesn't set up the default mappings. To
+		customize key mappings, see
+		|vaffle-example-custom-key-mappings|.
 
 
 ==============================================================================
 5. Examples                                                  *vaffle-examples*
 
 
-Customizing key mappings:
+Customizing key mappings:                 *vaffle-example-custom-key-mappings*
 >
   function! s:customize_vaffle_mappings() abort
     " Customize key mappings here

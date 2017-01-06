@@ -17,22 +17,17 @@ function! vaffle#event#on_bufenter() abort
   call s:newtralize_netrw()
 
   let bufnr = bufnr('%')
-  let bufname = bufname(bufnr)
   let is_vaffle_buffer = vaffle#buffer#is_for_vaffle(bufnr)
-  let path = is_vaffle_buffer
-        \ ? vaffle#buffer#extract_path_from_bufname(bufname)
-        \ : expand('%:p')
+  let path = expand('%:p')
 
   let should_init = is_vaffle_buffer
         \ || isdirectory(path)
 
+  " Store bufnr of non-directory buffer to back to initial buffer
   if !should_init
-    if !get(g:, 'vaffle_creating_vaffle_buffer', 0)
-      " Store bufnr of non-vaffle buffer to restore initial state
-      let env = vaffle#buffer#get_env()
-      let env.non_vaffle_bufnr = bufnr
-      call vaffle#buffer#set_env(env)
-    endif
+    let env = vaffle#buffer#get_env()
+    let env.non_vaffle_bufnr = bufnr
+    call vaffle#buffer#set_env(env)
 
     return
   endif

@@ -21,25 +21,24 @@ endfunction
 
 
 function! vaffle#init(...) abort
-  let path = (a:0 == 0)
-        \ ? getcwd()
-        \ : a:1
-  if !isdirectory(path)
-    call vaffle#util#echo_error(
-          \ printf('Not a directory: ''%s''', path))
-    return
+  let bufnr = bufnr('%')
+  let is_vaffle_buffer = vaffle#buffer#is_for_vaffle(bufnr)
+
+  let path = get(a:000, 0, '')
+  let extracted_path = vaffle#buffer#extract_path_from_bufname(path)
+  if !empty(extracted_path)
+    let path = extracted_path
+  endif
+  if empty(path)
+    let path = getcwd()
   endif
 
-  if &filetype ==? 'vaffle'
-    call vaffle#buffer#reuse(path)
+  let bufname = bufname('%')
+  if !is_vaffle_buffer && !isdirectory(bufname)
+    " Open new directory buffer and overwrite it
+    " (will be initialized by vaffle#event#on_bufenter)
+    execute printf('edit %s', fnameescape(path))
     return
-  endif
-
-  if !isdirectory(bufname('%'))
-    " Create new buffer for non-directory buffer
-    let g:vaffle_creating_vaffle_buffer = 1
-    enew
-    unlet g:vaffle_creating_vaffle_buffer
   endif
 
   try

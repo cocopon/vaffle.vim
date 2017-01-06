@@ -143,22 +143,21 @@ function! vaffle#buffer#init(path) abort
 
   let env = vaffle#env#create(path)
   call vaffle#env#inherit(env, vaffle#buffer#get_env())
+
   let env.initial_options = initial_options
   let env.items = vaffle#env#create_items(env)
-  call vaffle#buffer#set_env(env)
+  if env.non_vaffle_bufnr == bufnr('%')
+    " Exclude empty buffer used for Vaffle
+    " For example:
+    " :enew
+    "   Created new empty buffer (bufnr: 2)
+    "   Updated `non_vaffle_bufnr` (= 2)
+    " :Vaffle
+    "   Used buffer (bufnr: 2) for Vaffle
+    "   `non_vaffle_bufnr` is 2, but should not restore it
+    let env.non_vaffle_bufnr = -1
+  endif
 
-  call vaffle#buffer#redraw()
-
-  call s:perform_auto_cd_if_needed(path)
-endfunction
-
-
-function! vaffle#buffer#reuse(path) abort
-  let path = vaffle#util#normalize_path(a:path)
-
-  let env = vaffle#env#create(path)
-  call vaffle#env#inherit(env, vaffle#buffer#get_env())
-  let env.items = vaffle#env#create_items(env)
   call vaffle#buffer#set_env(env)
 
   call vaffle#buffer#redraw()
@@ -173,9 +172,8 @@ function! vaffle#buffer#is_for_vaffle(bufnr) abort
 endfunction
 
 
-function! vaffle#buffer#extract_path_from_bufname(bufnr) abort
-  let bufname = bufname(a:bufnr)
-  let matches = matchlist(bufname, '^vaffle://\d\+/\(.*\)$')
+function! vaffle#buffer#extract_path_from_bufname(bufname) abort
+  let matches = matchlist(a:bufname, '^vaffle://\d\+/\(.*\)$')
   return get(matches, 1, '')
 endfunction
 

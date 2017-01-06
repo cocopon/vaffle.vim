@@ -1,11 +1,11 @@
 *vaffle.txt*  Lightweight filer for Vim.
 
 
-                       ____                  __________                      ~
-                    __/_/_/_  __,  _________/ __/ __/ /____                  ~
-                   /_/_/_/_/  | | / / _  /_  __  __/ / _  /                  ~
-                  /_/_/_/_/   | |/ / // /_/ / / / / / ___/                   ~
-                   /_/_/      |___/___^__/_/ /_/ /_/____/                    ~
+                      ______                   __________                    ~
+                  ___/__/__/__  __,  _________/ __/ __/ /____                ~
+                 /__/__/__/__/  | | / / _  /_  __  __/ / _, /                ~
+                /__/__/__/__/   | |/ / // /_/ / / / / / ___/                 ~
+                  /__/__/       |___/___^__/_/ /_/ /_/____/                  ~
                                                                              ~
                          Sweet treat for your hungry                         ~
 
@@ -75,8 +75,8 @@ Dirvish, and has intuitive user interface like vimfiler!
 Vaffle requires Vim (>= 8.0) to access full features. It may work in earlier
 version, but not supported.
 
-  Feature Used     Supported Version~
-  ---------------  -----------------~
+  Feature Used     Supported Version ~
+  ---------------  ----------------- ~
   |win_getid()|      v7.4.1557
   |win_gotoid()|     v7.4.1557
   |win_findbuf()|    v7.4.1558
@@ -154,8 +154,8 @@ version, but not supported.
 3.4. Default Key Mappings                        *vaffle-default-key-mappings*
 
 
-  Mode  {lhs}    {rhs}~
-  ----  -------  --------------------------------~
+  Mode  {lhs}    {rhs} ~
+  ----  -------  -------------------------------- ~
   n     h        |<Plug>(vaffle-open-parent)|
   n     l        |<Plug>(vaffle-open-current)|
   n     <CR>     |<Plug>(vaffle-open-selected)|
@@ -206,7 +206,7 @@ version, but not supported.
 5. About                                                        *vaffle-about*
 
 
-|Vaffle| is developed by cocopon and licensed under the MIT License.
+Vaffle is developed by cocopon and licensed under the MIT License.
 Visit the project page for the latest information:
 
   https://github.com/cocopon/vaffle.vim

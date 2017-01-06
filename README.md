@@ -23,8 +23,7 @@ Vaffle is...
 
 Usage
 -----
-See the [document](https://github.com/cocopon/vaffle.vim/blob/master/doc/vaffle.txt)
-for detailed information.
+See the [document][vim-doc] for detailed information.
 
 
 
@@ -32,3 +31,8 @@ for detailed information.
 License
 -------
 MIT License. See `LICENSE.txt` for more information.
+
+
+
+
+[vim-doc]: https://github.com/cocopon/vaffle.vim/blob/master/doc/vaffle.txt

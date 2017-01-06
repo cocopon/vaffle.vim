@@ -121,7 +121,31 @@ function! s:get_saved_cursor_lnum() abort
 endfunction
 
 
+function! s:should_wipe_out(bufnr) abort
+  if !bufexists(a:bufnr)
+    return 0
+  endif
+
+  return vaffle#buffer#is_for_vaffle(a:bufnr)
+        \ && !buflisted(a:bufnr)
+        \ && !bufloaded(a:bufnr)
+endfunction
+
+
+function! s:clean_up_outdated_buffers() abort
+  let all_bufnrs = range(1, bufnr('$'))
+  let outdated_bufnrs = filter(
+        \ all_bufnrs,
+        \ 's:should_wipe_out(v:val)')
+  for bufnr in outdated_bufnrs
+    execute printf('bwipeout %d', bufnr)
+  endfor
+endfunction
+
+
 function! vaffle#buffer#init(path) abort
+  call s:clean_up_outdated_buffers()
+
   let path = vaffle#util#normalize_path(a:path)
 
   " Give unique name to buffer to avoid unwanted sync

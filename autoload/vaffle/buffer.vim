@@ -218,7 +218,7 @@ function! vaffle#buffer#redraw() abort
   setlocal modifiable
 
   " Clear buffer before drawing items
-  silent keepjumps %d
+  silent keepjumps %delete _
 
   let env = vaffle#buffer#get_env()
   let items = env.items

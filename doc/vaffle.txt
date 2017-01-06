@@ -24,8 +24,9 @@
     3.2. Operations for Selections ............ |vaffle-key-mappings-selected|
     3.3. Other Operations ..................... |vaffle-key-mappings-others|
     3.4. Default Key Mappings ................. |vaffle-default-key-mappings|
-  4. Options ................................ |vaffle-options|
-  5. About .................................. |vaffle-about|
+  4. Global Options ......................... |vaffle-options|
+  5. Examples ............................... |vaffle-examples|
+  6. About .................................. |vaffle-about|
 
 
 ==============================================================================
@@ -177,7 +178,7 @@ version, but not supported.
 
 
 ==============================================================================
-4. Options                                                    *vaffle-options*
+4. Global Options                                             *vaffle-options*
 
 
 *g:vaffle_auto_cd*
@@ -203,7 +204,24 @@ version, but not supported.
 
 
 ==============================================================================
-5. About                                                        *vaffle-about*
+5. Examples                                                  *vaffle-examples*
+
+
+Customizing key mappings:
+>
+  function! s:customize_vaffle_mappings() abort
+    " Customize key mappings here
+    nmap N <Plug>(vaffle-new-file)
+  endfunction
+
+  augroup vimrc_vaffle
+    autocmd!
+    autocmd FileType vaffle call s:customize_vaffle_mappings()
+  augroup END
+<
+
+==============================================================================
+6. About                                                        *vaffle-about*
 
 
 Vaffle is developed by cocopon and licensed under the MIT License.

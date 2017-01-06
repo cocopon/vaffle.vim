@@ -45,7 +45,7 @@ function! s:get_selected_items(env) abort
     return selected_items
   endif
 
-  return vaffle#item#get_cursor_items('n')
+  return s:get_cursor_items(a:env, 'n')
 endfunction
 
 

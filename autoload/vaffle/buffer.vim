@@ -130,7 +130,7 @@ function! vaffle#buffer#init(path) abort
         \ s:generate_unique_bufname(path))
 
   let initial_options = s:get_options_dict()
-  setlocal bufhidden=wipe
+  setlocal bufhidden=delete
   setlocal buftype=nowrite
   setlocal filetype=vaffle
   setlocal matchpairs=

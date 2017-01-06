@@ -38,16 +38,18 @@ endfunction
 
 
 function! s:generate_unique_bufname(path) abort
-  " Add prefix `#:` (waffle!) to avoid truncating path
-  " with statusline item `%t`
-  let bufname = fnameescape(printf('#:%s', a:path))
+  let bufname = ''
+  let index = 0
 
-  let index = 2
-  while bufnr(bufname) >= 0
+  while 1
     " Add index to avoid duplicated buffer name
-    let bufname = fnameescape(printf('#%d:%s',
+    let bufname = fnameescape(printf('vaffle://%d/%s',
           \ index,
           \ a:path))
+    if bufnr(bufname) < 0
+      break
+    endif
+
     let index += 1
   endwhile
 
@@ -55,66 +57,19 @@ function! s:generate_unique_bufname(path) abort
 endfunction
 
 
-function! vaffle#buffer#init(path) abort
-  let prev_bufnr = bufnr('%')
-  let path = vaffle#util#normalize_path(a:path)
-
-  " Create new `nofile` buffer to avoid unwanted sync
-  " between different windows
-  enew
-  execute printf('silent file %s',
-        \ s:generate_unique_bufname(path))
-
-  let options = {
+function! s:get_options_dict() abort
+  return {
         \   'bufhidden':  { 'type': 'string', 'value': &bufhidden},
         \   'buftype':    { 'type': 'string', 'value': &buftype},
         \   'matchpairs': { 'type': 'string', 'value': &matchpairs},
         \   'swapfile':   { 'type': 'bool',   'value': &swapfile},
         \   'wrap':       { 'type': 'bool',   'value': &wrap},
         \ }
-  call vaffle#env#set(
-        \ 'initial_options',
-        \ options)
-  setlocal bufhidden=wipe
-  setlocal buftype=nowrite
-  setlocal filetype=vaffle
-  setlocal matchpairs=
-  setlocal noswapfile
-  setlocal nowrap
-
-  " Delete unused directory buffer
-  if isdirectory(bufname(prev_bufnr))
-    execute printf('bwipeout! %d',
-          \ prev_bufnr)
-  endif
-
-  call vaffle#env#set_up(path)
-  call vaffle#buffer#redraw()
-
-  if g:vaffle_use_default_mappings
-    call s:set_up_default_mappings()
-  endif
-
-  if g:vaffle_auto_cd
-    try
-      execute printf('lcd %s', fnameescape(path))
-    catch /:E472:/
-      " E472: Command failed
-      " Permission denied, etc.
-      call vaffle#util#echo_error(
-            \ printf('Changing directory failed: ''%s''', path))
-      return
-    endtry
-  endif
 endfunction
 
 
-function! vaffle#buffer#restore_if_needed() abort
-  if !vaffle#env#should_restore()
-    return 0
-  endif
-
-  let options = vaffle#env#get().initial_options
+function! s:restore_options() abort
+  let options = vaffle#buffer#get_env().initial_options
   for option_name in keys(options)
     let option = options[option_name]
     let command = (option.type ==? 'bool')
@@ -126,9 +81,110 @@ function! vaffle#buffer#restore_if_needed() abort
           \   option.value)
     execute command
   endfor
-  setlocal modifiable
+endfunction
 
-  call vaffle#env#set('restored', 1)
+
+function! s:perform_auto_cd_if_needed(path) abort
+  if !g:vaffle_auto_cd
+    return
+  endif
+
+  try
+    execute printf('lcd %s', fnameescape(a:path))
+  catch /:E472:/
+    " E472: Command failed
+    " Permission denied, etc.
+    call vaffle#util#echo_error(
+          \ printf('Changing directory failed: ''%s''', a:path))
+    return
+  endtry
+endfunction
+
+
+function! s:get_saved_cursor_lnum() abort
+  let env = vaffle#buffer#get_env()
+  let cursor_paths = env.cursor_paths
+  let cursor_path = get(cursor_paths, env.dir, '')
+  if empty(cursor_path)
+    return 1
+  endif
+
+  let items = filter(
+        \ copy(env.items),
+        \ 'v:val.path ==# cursor_path')
+  if empty(items)
+    return 1
+  endif
+
+  let cursor_item = items[0]
+  return index(env.items, cursor_item) + 1
+endfunction
+
+
+function! vaffle#buffer#init(path) abort
+  let path = vaffle#util#normalize_path(a:path)
+
+  " Give unique name to buffer to avoid unwanted sync
+  " between different windows
+  execute printf('silent file %s',
+        \ s:generate_unique_bufname(path))
+
+  let initial_options = s:get_options_dict()
+  setlocal bufhidden=wipe
+  setlocal buftype=nowrite
+  setlocal filetype=vaffle
+  setlocal matchpairs=
+  setlocal noswapfile
+  setlocal nowrap
+
+  if g:vaffle_use_default_mappings
+    call s:set_up_default_mappings()
+  endif
+
+  let env = vaffle#env#create(path)
+  call vaffle#env#inherit(env, vaffle#buffer#get_env())
+
+  let env.initial_options = initial_options
+  let env.items = vaffle#env#create_items(env)
+  if env.non_vaffle_bufnr == bufnr('%')
+    " Exclude empty buffer used for Vaffle
+    " For example:
+    " :enew
+    "   Created new empty buffer (bufnr: 2)
+    "   Updated `non_vaffle_bufnr` (= 2)
+    " :Vaffle
+    "   Used buffer (bufnr: 2) for Vaffle
+    "   `non_vaffle_bufnr` is 2, but should not restore it
+    let env.non_vaffle_bufnr = -1
+  endif
+
+  call vaffle#buffer#set_env(env)
+
+  call vaffle#buffer#redraw()
+
+  call s:perform_auto_cd_if_needed(path)
+endfunction
+
+
+function! vaffle#buffer#is_for_vaffle(bufnr) abort
+  let bufname = bufname(a:bufnr)
+  return (match(bufname, '^vaffle://\d\+/') >= 0)
+endfunction
+
+
+function! vaffle#buffer#extract_path_from_bufname(bufname) abort
+  let matches = matchlist(a:bufname, '^vaffle://\d\+/\(.*\)$')
+  return get(matches, 1, '')
+endfunction
+
+
+function! vaffle#buffer#restore_if_needed() abort
+  if !vaffle#buffer#is_for_vaffle(bufnr('%'))
+    return 0
+  endif
+
+  call s:restore_options()
+  setlocal modifiable
 
   return 1
 endfunction
@@ -140,7 +196,8 @@ function! vaffle#buffer#redraw() abort
   " Clear buffer before drawing items
   silent keepjumps %d
 
-  let items = vaffle#env#get().items
+  let env = vaffle#buffer#get_env()
+  let items = env.items
   if !empty(items)
     let lnum = 1
     for item in items
@@ -155,11 +212,7 @@ function! vaffle#buffer#redraw() abort
   setlocal nomodifiable
   setlocal nomodified
 
-  let initial_lnum = 1
-  let cursor_item = vaffle#env#restore_cursor()
-  if !empty(cursor_item)
-    let initial_lnum = index(items, cursor_item) + 1
-  endif
+  let initial_lnum = s:get_saved_cursor_lnum()
   call cursor([initial_lnum, 1, 0, 1])
 endfunction
 
@@ -176,10 +229,31 @@ endfunction
 
 
 function! vaffle#buffer#duplicate() abort
-  call vaffle#env#restore_from_buffer()
+  " Split buffer doesn't have `w:vaffle` so restore it from `b:vaffle`
+  let w:vaffle = deepcopy(b:vaffle)
+
   call vaffle#file#edit(
-        \ vaffle#env#get(),
+        \ vaffle#buffer#get_env(),
         \ '')
+endfunction
+
+
+function! vaffle#buffer#get_env() abort
+  let w:vaffle = get(w:, 'vaffle', get(b:, 'vaffle', {}))
+  return w:vaffle
+endfunction
+
+
+function! vaffle#buffer#set_env(env) abort
+  let w:vaffle = a:env
+  let b:vaffle = w:vaffle
+endfunction
+
+
+function! vaffle#buffer#save_cursor(item) abort
+  let env = vaffle#buffer#get_env()
+  let env.cursor_paths[env.dir] = a:item.path
+  call vaffle#buffer#set_env(env)
 endfunction
 
 

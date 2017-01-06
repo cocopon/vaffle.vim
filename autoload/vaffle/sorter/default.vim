@@ -2,8 +2,8 @@
 " License: MIT License
 
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 
 function! vaffle#sorter#default#compare(r1, r2) abort
@@ -16,4 +16,4 @@ function! vaffle#sorter#default#compare(r1, r2) abort
 endfunction
 
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo

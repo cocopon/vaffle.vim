@@ -2,8 +2,8 @@
 " License: MIT License
 
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 
 function! s:keep_buffer_singularity() abort
@@ -112,8 +112,7 @@ function! vaffle#open_current() abort
 
   call vaffle#buffer#save_cursor(item)
 
-  let env = vaffle#buffer#get_env()
-  call vaffle#file#open(env, [item])
+  call vaffle#file#open([item])
 endfunction
 
 
@@ -128,8 +127,7 @@ function! vaffle#open_selected() abort
 
   call vaffle#buffer#save_cursor(items[0])
 
-  let env = vaffle#buffer#get_env()
-  call vaffle#file#open(env, items)
+  call vaffle#file#open(items)
 endfunction
 
 
@@ -145,7 +143,7 @@ function! vaffle#open_parent() abort
 
   let parent_dir = fnamemodify(env.dir, ':h')
   let item = vaffle#item#create(parent_dir)
-  call vaffle#file#open(env, [item])
+  call vaffle#file#open([item])
 endfunction
 
 
@@ -245,9 +243,7 @@ function! vaffle#delete_selected() abort
     return
   endif
 
-  call vaffle#file#delete(
-        \ vaffle#buffer#get_env(),
-        \ items)
+  call vaffle#file#delete(items)
   call vaffle#refresh()
 endfunction
 
@@ -364,4 +360,4 @@ function! vaffle#toggle_hidden() abort
 endfunction
 
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo

@@ -2,8 +2,8 @@
 " License: MIT License
 
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 
 function! s:set_up_default_mappings() abort
@@ -257,4 +257,4 @@ function! vaffle#buffer#save_cursor(item) abort
 endfunction
 
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo

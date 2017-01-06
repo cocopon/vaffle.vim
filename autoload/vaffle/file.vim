@@ -2,11 +2,11 @@
 " License: MIT License
 
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 
-function! vaffle#file#open(env, items) abort
+function! vaffle#file#open(items) abort
   if len(a:items) == 1
     let path = a:items[0].path
     if isdirectory(path)
@@ -23,7 +23,7 @@ function! vaffle#file#open(env, items) abort
 endfunction
 
 
-function! vaffle#file#delete(env, items) abort
+function! vaffle#file#delete(items) abort
   for item in a:items
     let flag = g:vaffle_force_delete
           \ ? 'rf'
@@ -125,4 +125,4 @@ function! vaffle#file#rename(env, items, new_basenames) abort
 endfunction
 
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo

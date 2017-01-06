@@ -2,8 +2,8 @@
 " License: MIT License
 
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 
 if exists('g:loaded_vaffle')
@@ -60,4 +60,4 @@ nnoremap <silent> <Plug>(vaffle-quit)            :<C-u>call vaffle#quit()<CR>
 nnoremap <silent> <Plug>(vaffle-refresh)         :<C-u>call vaffle#refresh()<CR>
 
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo

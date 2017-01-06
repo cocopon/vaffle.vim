@@ -2,8 +2,8 @@
 " License: MIT License
 
 
-let s:save_cpo = &cpo
-set cpo&vim
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 
 function! vaffle#compat#glob_list(expr) abort
@@ -58,4 +58,4 @@ function! vaffle#compat#win_gotoid(expr) abort
 endfunction
 
 
-let &cpo = s:save_cpo
+let &cpoptions = s:save_cpo

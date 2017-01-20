@@ -6,10 +6,12 @@ let s:save_cpo = &cpoptions
 set cpoptions&vim
 
 
+" `vaffle#env` represents an environment to create Vaffle buffer.
+
+
 function! vaffle#env#create(path) abort
   let env = {}
   let env.dir = vaffle#util#normalize_path(a:path)
-  let env.initial_options = {}
   let env.cursor_paths = {}
   let env.non_vaffle_bufnr = -1
   let env.shows_hidden_files = g:vaffle_show_hidden_files

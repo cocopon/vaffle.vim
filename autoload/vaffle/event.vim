@@ -36,9 +36,4 @@ function! vaffle#event#on_bufenter() abort
 endfunction
 
 
-function! vaffle#event#on_bufleave() abort
-  call vaffle#buffer#restore_if_needed()
-endfunction
-
-
 let &cpoptions = s:save_cpo

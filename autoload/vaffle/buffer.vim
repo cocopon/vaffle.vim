@@ -57,33 +57,6 @@ function! s:generate_unique_bufname(path) abort
 endfunction
 
 
-function! s:get_options_dict() abort
-  return {
-        \   'bufhidden':  { 'type': 'string', 'value': &bufhidden},
-        \   'buftype':    { 'type': 'string', 'value': &buftype},
-        \   'matchpairs': { 'type': 'string', 'value': &matchpairs},
-        \   'swapfile':   { 'type': 'bool',   'value': &swapfile},
-        \   'wrap':       { 'type': 'bool',   'value': &wrap},
-        \ }
-endfunction
-
-
-function! s:restore_options() abort
-  let options = vaffle#buffer#get_env().initial_options
-  for option_name in keys(options)
-    let option = options[option_name]
-    let command = (option.type ==? 'bool')
-          \ ? printf('setlocal %s%s',
-          \   (option.value ? '' : 'no'),
-          \   option_name)
-          \ : printf('setlocal %s=%s',
-          \   option_name,
-          \   option.value)
-    execute command
-  endfor
-endfunction
-
-
 function! s:perform_auto_cd_if_needed(path) abort
   if !g:vaffle_auto_cd
     return
@@ -153,11 +126,11 @@ function! vaffle#buffer#init(path) abort
   execute printf('silent file %s',
         \ s:generate_unique_bufname(path))
 
-  let initial_options = s:get_options_dict()
   setlocal bufhidden=delete
   setlocal buftype=nowrite
   setlocal filetype=vaffle
   setlocal matchpairs=
+  setlocal nobuflisted
   setlocal noswapfile
   setlocal nowrap
 
@@ -168,7 +141,6 @@ function! vaffle#buffer#init(path) abort
   let env = vaffle#env#create(path)
   call vaffle#env#inherit(env, vaffle#buffer#get_env())
 
-  let env.initial_options = initial_options
   let env.items = vaffle#env#create_items(env)
   if env.non_vaffle_bufnr == bufnr('%')
     " Exclude empty buffer used for Vaffle
@@ -199,18 +171,6 @@ endfunction
 function! vaffle#buffer#is_for_vaffle(bufnr) abort
   let bufname = bufname(a:bufnr)
   return !empty(vaffle#buffer#extract_path_from_bufname(bufname))
-endfunction
-
-
-function! vaffle#buffer#restore_if_needed() abort
-  if !vaffle#buffer#is_for_vaffle(bufnr('%'))
-    return 0
-  endif
-
-  call s:restore_options()
-  setlocal modifiable
-
-  return 1
 endfunction
 
 

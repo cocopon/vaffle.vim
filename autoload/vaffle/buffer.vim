@@ -140,20 +140,7 @@ function! vaffle#buffer#init(path) abort
 
   let env = vaffle#env#create(path)
   call vaffle#env#inherit(env, vaffle#buffer#get_env())
-
   let env.items = vaffle#env#create_items(env)
-  if env.non_vaffle_bufnr == bufnr('%')
-    " Exclude empty buffer used for Vaffle
-    " For example:
-    " :enew
-    "   Created new empty buffer (bufnr: 2)
-    "   Updated `non_vaffle_bufnr` (= 2)
-    " :Vaffle
-    "   Used buffer (bufnr: 2) for Vaffle
-    "   `non_vaffle_bufnr` is 2, but should not restore it
-    let env.non_vaffle_bufnr = -1
-  endif
-
   call vaffle#buffer#set_env(env)
 
   call vaffle#buffer#redraw()
@@ -213,9 +200,6 @@ endfunction
 
 
 function! vaffle#buffer#duplicate() abort
-  " Split buffer doesn't have `w:vaffle` so restore it from `b:vaffle`
-  let w:vaffle = deepcopy(b:vaffle)
-
   call vaffle#file#edit(
         \ vaffle#buffer#get_env(),
         \ '')
@@ -223,14 +207,13 @@ endfunction
 
 
 function! vaffle#buffer#get_env() abort
-  let w:vaffle = get(w:, 'vaffle', get(b:, 'vaffle', {}))
-  return w:vaffle
+  let b:vaffle = get(b:, 'vaffle', {})
+  return b:vaffle
 endfunction
 
 
 function! vaffle#buffer#set_env(env) abort
-  let w:vaffle = a:env
-  let b:vaffle = w:vaffle
+  let b:vaffle = a:env
 endfunction
 
 

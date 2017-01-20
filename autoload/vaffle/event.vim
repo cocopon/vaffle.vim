@@ -23,12 +23,9 @@ function! vaffle#event#on_bufenter() abort
   let should_init = is_vaffle_buffer
         \ || isdirectory(path)
 
-  " Store bufnr of non-directory buffer to back to initial buffer
   if !should_init
-    let env = vaffle#buffer#get_env()
-    let env.non_vaffle_bufnr = bufnr
-    call vaffle#buffer#set_env(env)
-
+    " Store bufnr of non-directory buffer to back to initial buffer
+    call vaffle#window#store_non_vaffle_buffer(bufnr)
     return
   endif
 

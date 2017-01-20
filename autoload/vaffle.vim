@@ -72,6 +72,7 @@ function! vaffle#init(...) abort
 
   try
     call vaffle#buffer#init(path)
+    call vaffle#window#init()
   catch /:E37:/
     call vaffle#util#echo_error(
           \ 'E37: No write since last change')
@@ -204,7 +205,7 @@ function! vaffle#quit() abort
   call s:keep_buffer_singularity()
 
   " Try restoring previous buffer
-  let bufnr = vaffle#buffer#get_env().non_vaffle_bufnr
+  let bufnr = vaffle#window#get_env().non_vaffle_bufnr
   if bufexists(bufnr)
     execute printf('buffer! %d', bufnr)
     return

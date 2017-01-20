@@ -13,7 +13,6 @@ function! vaffle#env#create(path) abort
   let env = {}
   let env.dir = vaffle#util#normalize_path(a:path)
   let env.cursor_paths = {}
-  let env.non_vaffle_bufnr = -1
   let env.shows_hidden_files = g:vaffle_show_hidden_files
   let env.items = []
   return env
@@ -25,11 +24,6 @@ function! vaffle#env#inherit(env, old_env) abort
         \ a:old_env,
         \ 'cursor_paths',
         \ a:env.cursor_paths)
-
-  let a:env.non_vaffle_bufnr = get(
-        \ a:old_env,
-        \ 'non_vaffle_bufnr',
-        \ a:env.non_vaffle_bufnr)
 
   let a:env.shows_hidden_files = get(
         \ a:old_env,

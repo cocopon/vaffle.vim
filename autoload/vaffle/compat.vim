@@ -18,16 +18,6 @@ function! vaffle#compat#glob_list(expr) abort
 endfunction
 
 
-function! vaffle#compat#gettabinfo(arg) abort
-  if !exists('*gettabinfo')
-    " gettabinfo() is available since patch 7.4.2204
-    return []
-  endif
-
-  return gettabinfo(a:arg)
-endfunction
-
-
 function! vaffle#compat#win_findbuf(bufnr) abort
   if !exists('*win_findbuf')
     " win_findbuf() is available since patch 7.4.1558

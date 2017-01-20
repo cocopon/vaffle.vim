@@ -210,17 +210,7 @@ function! vaffle#quit() abort
     return
   endif
 
-  " Avoid quitting the last window
-  let tabinfo = vaffle#compat#gettabinfo(tabpagenr())
-  if !empty(tabinfo)
-    if len(tabinfo[0].windows) <= 1
-      " This is the last window: create empty buffer
-      enew
-      return
-    endif
-  endif
-
-  quit
+  enew
 endfunction
 
 

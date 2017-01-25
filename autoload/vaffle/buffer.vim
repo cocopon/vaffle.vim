@@ -20,8 +20,8 @@ function! s:set_up_default_mappings() abort
   " Operations for a item on cursor
   nmap <buffer> <silent> l          <Plug>(vaffle-open-current)
   " Misc
-  nmap <buffer> <silent> K          <Plug>(vaffle-mkdir)
-  nmap <buffer> <silent> e          <Plug>(vaffle-new-file)
+  nmap <buffer> <silent> o          <Plug>(vaffle-mkdir)
+  nmap <buffer> <silent> i          <Plug>(vaffle-new-file)
   nmap <buffer> <silent> h          <Plug>(vaffle-open-parent)
   nmap <buffer> <silent> q          <Plug>(vaffle-quit)
   nmap <buffer> <silent> <C-[>      <Plug>(vaffle-quit)

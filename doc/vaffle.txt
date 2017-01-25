@@ -169,8 +169,8 @@ version, but not supported.
   nv    <Space>  |<Plug>(vaffle-toggle-current)|
   n     *        |<Plug>(vaffle-toggle-all)|
 
-  n     K        |<Plug>(vaffle-mkdir)|
-  n     e        |<Plug>(vaffle-new-file)|
+  n     o        |<Plug>(vaffle-mkdir)|
+  n     i        |<Plug>(vaffle-new-file)|
   n     d        |<Plug>(vaffle-delete-selected)|
   n     m        |<Plug>(vaffle-move-selected)|
   n     r        |<Plug>(vaffle-rename-selected)|
@@ -211,6 +211,7 @@ Customizing key mappings:                 *vaffle-example-custom-key-mappings*
 >
   function! s:customize_vaffle_mappings() abort
     " Customize key mappings here
+    nmap K <Plug>(vaffle-mkdir)
     nmap N <Plug>(vaffle-new-file)
   endfunction
 

@@ -37,7 +37,7 @@ function! vaffle#env#create_items(env) abort
   if a:env.shows_hidden_files
     let hidden_paths = vaffle#compat#glob_list(a:env.dir . '/.*')
     " Exclude '.' & '..'
-    call filter(hidden_paths, 'match(v:val, ''/\.\.\?$'') < 0')
+    call filter(hidden_paths, 'match(v:val, ''\(/\|\\\)\.\.\?$'') < 0')
 
     call extend(paths, hidden_paths)
   end

@@ -14,7 +14,7 @@ function! vaffle#util#normalize_path(path) abort
   let result = resolve(a:path)
 
   " Remove trailing path separator
-  return (match(result, '/$') >= 0)
+  return (match(result, '\(/\|\\\)$') >= 0)
         \ ? fnamemodify(result, ':h')
         \ : result
 endfunction

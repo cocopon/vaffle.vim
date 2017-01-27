@@ -36,7 +36,7 @@ endfunction
 
 call s:set_up_default_config()
 
-command! -nargs=? -complete=dir Vaffle call vaffle#init(<f-args>)
+command! -bar -nargs=? -complete=dir Vaffle call vaffle#init(<f-args>)
 
 
 " Toggle

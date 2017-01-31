@@ -111,7 +111,7 @@ function! s:clean_up_outdated_buffers() abort
         \ all_bufnrs,
         \ 's:should_wipe_out(v:val)')
   for bufnr in outdated_bufnrs
-    execute printf('bwipeout %d', bufnr)
+    execute printf('silent bwipeout %d', bufnr)
   endfor
 endfunction
 

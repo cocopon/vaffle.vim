@@ -107,6 +107,7 @@ function! vaffle#file#rename(env, items, new_basenames) abort
     let new_path = vaffle#util#normalize_path(printf('%s/%s',
           \ cwd,
           \ new_basename))
+    let index += 1
 
     if filereadable(new_path) || isdirectory(new_path)
       call vaffle#util#echo_error(
@@ -119,8 +120,6 @@ function! vaffle#file#rename(env, items, new_basenames) abort
     echo printf('Renamed file: ''%s'' -> ''%s''',
           \ item.basename,
           \ new_basename)
-
-    let index += 1
   endfor
 endfunction
 

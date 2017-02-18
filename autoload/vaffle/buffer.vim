@@ -183,6 +183,11 @@ function! vaffle#buffer#redraw() abort
   setlocal nomodifiable
   setlocal nomodified
 
+  call vaffle#buffer#restore_cursor()
+endfunction
+
+
+function! vaffle#buffer#restore_cursor() abort
   let initial_lnum = s:get_saved_cursor_lnum()
   call cursor([initial_lnum, 1, 0, 1])
 endfunction

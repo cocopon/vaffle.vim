@@ -1,7 +1,3 @@
-" Author:  cocopon <cocopon@me.com>
-" License: MIT License
-
-
 if exists('b:current_syntax')
   finish
 endif

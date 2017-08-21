@@ -1,6 +1,6 @@
 Vaffle
 ======
-Vaffle is a lightweight filer.
+Vaffle is a lightweight file manager for Vim.
 
 
 
@@ -9,7 +9,7 @@ Concept
 -------
 Vaffle is...
 
-- **a filer**
+- **a file manager**
 
   You can select, delete, move, rename files intuitively.
 

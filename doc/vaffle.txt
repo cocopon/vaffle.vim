@@ -1,4 +1,4 @@
-*vaffle.txt*  Lightweight filer for Vim.
+*vaffle.txt*  Lightweight file manager for Vim.
 
 
                       ______                   __________                    ~
@@ -39,7 +39,7 @@
 
 Vaffle is...
 
-  - a filer >
+  - a file manager >
     You can select, delete, move, rename files intuitively.
 <
   - simple >
@@ -51,22 +51,23 @@ Vaffle is...
 1.2. Story                                                      *vaffle-story*
 
 
-There are already awesome filers in the world: NERDTree, vimfiler, Dirvish,
-etc. So why did I decide to develop a new filer plugin from scratch?
+There are already awesome file managers in the world: NERDTree, vimfiler,
+Dirvish, etc. So why did I decide to develop a new file manager plugin from
+scratch?
 
-|NERDTree| is a popular filer plugin and seems to be designed for large
+|NERDTree| is a popular file manager plugin and seems to be designed for large
 window. But I uses Vim with heavy-split windows so I want to operate files
 in a small window...!
 
-|vimfiler| is full-featured filer, maybe it can do all things you want to do.
-But... it's too complex to customize and requires another plugin: |unite|. 
+|vimfiler| is full-featured file manager, maybe it can do all things you want to
+do. But... it's too complex to customize and requires another plugin: |unite|. 
 
-|dirvish| is also awesome filer. But it's a "minimalist directory viewer" and
-needs some effort to operate (select multiple, delete, move, rename, ...)
+|dirvish| is also awesome file manager. But it's a "minimalist directory viewer"
+and needs some effort to operate (select multiple, delete, move, rename, ...)
 files.
 
-I dreamed a filer - that is suitable for small window, and is as simple as
-Dirvish, and has intuitive user interface like vimfiler!
+I dreamed a file manager - that is suitable for small window, and is as simple
+as Dirvish, and has intuitive user interface like vimfiler!
 
 
 ------------------------------------------------------------------------------

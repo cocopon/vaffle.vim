@@ -17,6 +17,24 @@ Vaffle is...
 
   Written in pure Vim script. Doesn't require any other plugins and not
   have too complex features: coping files, lazy loading, etc.
+  
+  
+  
+
+Demo
+----
+
+
+### Simple user interface
+[![asciicast](https://asciinema.org/a/134279.png)](https://asciinema.org/a/134279)
+
+
+### Intuitive file operations
+[![asciicast](https://asciinema.org/a/134280.png)](https://asciinema.org/a/134280)
+
+
+### Supports buffer duplication
+[![asciicast](https://asciinema.org/a/134282.png)](https://asciinema.org/a/134282)
 
 
 

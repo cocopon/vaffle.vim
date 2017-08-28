@@ -162,8 +162,6 @@ version, but not supported.
   n     <CR>     |<Plug>(vaffle-open-selected)|
 
   n     q        |<Plug>(vaffle-quit)|
-  n     <C-[>    |<Plug>(vaffle-quit)|
-  n     <Esc>    |<Plug>(vaffle-quit)|
   n     R        |<Plug>(vaffle-refresh)|
   n     .        |<Plug>(vaffle-toggle-hidden)|
 

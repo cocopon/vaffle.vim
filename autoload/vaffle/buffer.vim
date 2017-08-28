@@ -20,9 +20,16 @@ function! s:set_up_default_mappings() abort
   nmap <buffer> <silent> i          <Plug>(vaffle-new-file)
   nmap <buffer> <silent> h          <Plug>(vaffle-open-parent)
   nmap <buffer> <silent> q          <Plug>(vaffle-quit)
-  nmap <buffer> <silent> <C-[>      <Plug>(vaffle-quit)
-  nmap <buffer> <silent> <Esc>      <Plug>(vaffle-quit)
   nmap <buffer> <silent> R          <Plug>(vaffle-refresh)
+
+  " Removed <Esc> mappings because they cause a conflict with arrow keys in terminal...
+  " In terminal, arrow keys are simulated as follows:
+  "   <Up>:    ^[OA
+  "   <Down>:  ^[OB
+  "   <Right>: ^[OC
+  "   <Left>:  ^[OD
+  " These keys contain ^[ (equivalent to <Esc>), so they cause quitting a Vaffle buffer.
+  " nmap <buffer> <silent> <Esc>      <Plug>(vaffle-quit)
 endfunction
 
 

@@ -163,7 +163,6 @@ version, but not supported.
 
   Mode  {lhs}     {rhs} ~
   ----  --------  -------------------------------- ~
-  n     <Bslash>  |<Plug>(vaffle-open-root)|
   n     h         |<Plug>(vaffle-open-parent)|
   n     l         |<Plug>(vaffle-open-current)|
   n     ~         |<Plug>(vaffle-open-home)|

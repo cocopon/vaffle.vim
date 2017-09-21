@@ -53,6 +53,8 @@ nnoremap <silent> <Plug>(vaffle-new-file)        :<C-u>call vaffle#new_file()<CR
 nnoremap <silent> <Plug>(vaffle-open-parent)     :<C-u>call vaffle#open_parent()<CR>
 nnoremap <silent> <Plug>(vaffle-quit)            :<C-u>call vaffle#quit()<CR>
 nnoremap <silent> <Plug>(vaffle-refresh)         :<C-u>call vaffle#refresh()<CR>
+nnoremap <silent> <Plug>(vaffle-open-home)       :<C-u>call vaffle#open_path("~")<CR>
+nnoremap <silent> <Plug>(vaffle-open-root)       :<C-u>call vaffle#open_path("/")<CR>
 
 
 let &cpoptions = s:save_cpo

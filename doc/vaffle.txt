@@ -141,6 +141,12 @@ version, but not supported.
 *<Plug>(vaffle-open-parent)*
                 Open parent directory.
 
+*<Plug>(vaffle-open-home)*
+                Open home directory.
+
+*<Plug>(vaffle-open-root)*
+                Open root directory.
+
 *<Plug>(vaffle-quit)*
                 Quit Vaffle and close the buffer.
 
@@ -159,6 +165,9 @@ version, but not supported.
   ----  -------  -------------------------------- ~
   n     h        |<Plug>(vaffle-open-parent)|
   n     l        |<Plug>(vaffle-open-current)|
+  n     ~        |<Plug>(vaffle-open-home)|
+  n     <Bslash> |<Plug>(vaffle-open-root)|
+
   n     <CR>     |<Plug>(vaffle-open-selected)|
 
   n     q        |<Plug>(vaffle-quit)|

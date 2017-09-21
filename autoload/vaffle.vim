@@ -127,8 +127,7 @@ function! vaffle#open_selected() abort
   call vaffle#file#open(items)
 endfunction
 
-
-function! vaffle#open_parent() abort
+function! vaffle#open_path(path) abort
   call s:keep_buffer_singularity()
 
   let env = vaffle#buffer#get_env()
@@ -139,9 +138,16 @@ function! vaffle#open_parent() abort
     call vaffle#buffer#save_cursor(cursor_items[0])
   endif
 
-  let parent_dir = fnamemodify(env.dir, ':h')
-  let parent_item = vaffle#item#create(parent_dir)
-  call vaffle#file#open([parent_item])
+  if a:path ==# '..'
+      let new_dir = fnamemodify(env.dir, ':h')
+  else
+      let new_dir = isdirectory(expand(a:path)) ?
+          \ expand(a:path) :
+          \ fnamemodify(expand(a:path), ':h')
+  endif
+
+  let new_item = vaffle#item#create(new_dir)
+  call vaffle#file#open([new_item])
 
   " Move cursor to previous current directory
   let prev_dir_item =vaffle#item#create(env_dir)
@@ -149,6 +155,9 @@ function! vaffle#open_parent() abort
   call vaffle#buffer#restore_cursor()
 endfunction
 
+function! vaffle#open_parent() abort
+    call vaffle#open_path('..')
+endfunction
 
 function! vaffle#toggle_current(mode) abort
   call s:keep_buffer_singularity()

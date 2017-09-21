@@ -139,9 +139,9 @@ function! vaffle#open_path(path) abort
   endif
 
   if a:path ==# '..'
-      let new_dir = fnamemodify(env.dir, ':h')
+    let new_dir = fnamemodify(env.dir, ':h')
   else
-      let new_dir = isdirectory(expand(a:path)) ?
+    let new_dir = isdirectory(expand(a:path)) ?
           \ expand(a:path) :
           \ fnamemodify(expand(a:path), ':h')
   endif
@@ -156,7 +156,7 @@ function! vaffle#open_path(path) abort
 endfunction
 
 function! vaffle#open_parent() abort
-    call vaffle#open_path('..')
+  call vaffle#open_path('..')
 endfunction
 
 function! vaffle#toggle_current(mode) abort

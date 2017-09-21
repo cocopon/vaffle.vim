@@ -18,6 +18,7 @@ function! s:set_up_default_mappings() abort
   " Misc
   nmap <buffer> <silent> o          <Plug>(vaffle-mkdir)
   nmap <buffer> <silent> i          <Plug>(vaffle-new-file)
+  nmap <buffer> <silent> ~          <Plug>(vaffle-open-home)
   nmap <buffer> <silent> h          <Plug>(vaffle-open-parent)
   nmap <buffer> <silent> q          <Plug>(vaffle-quit)
   nmap <buffer> <silent> R          <Plug>(vaffle-refresh)

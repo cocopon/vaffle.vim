@@ -138,14 +138,14 @@ version, but not supported.
 *<Plug>(vaffle-new-file)*
                 Create a new file in the current directory.
 
-*<Plug>(vaffle-open-parent)*
-                Open parent directory.
-
 *<Plug>(vaffle-open-home)*
                 Open home directory.
 
+*<Plug>(vaffle-open-parent)*
+                Open the parent directory.
+
 *<Plug>(vaffle-open-root)*
-                Open root directory.
+                Open the root directory.
 
 *<Plug>(vaffle-quit)*
                 Quit Vaffle and close the buffer.
@@ -161,27 +161,27 @@ version, but not supported.
 3.4. Default Key Mappings                        *vaffle-default-key-mappings*
 
 
-  Mode  {lhs}    {rhs} ~
-  ----  -------  -------------------------------- ~
-  n     h        |<Plug>(vaffle-open-parent)|
-  n     l        |<Plug>(vaffle-open-current)|
-  n     ~        |<Plug>(vaffle-open-home)|
-  n     <Bslash> |<Plug>(vaffle-open-root)|
+  Mode  {lhs}     {rhs} ~
+  ----  --------  -------------------------------- ~
+  n     <Bslash>  |<Plug>(vaffle-open-root)|
+  n     h         |<Plug>(vaffle-open-parent)|
+  n     l         |<Plug>(vaffle-open-current)|
+  n     ~         |<Plug>(vaffle-open-home)|
 
-  n     <CR>     |<Plug>(vaffle-open-selected)|
+  n     <CR>      |<Plug>(vaffle-open-selected)|
 
-  n     q        |<Plug>(vaffle-quit)|
-  n     R        |<Plug>(vaffle-refresh)|
-  n     .        |<Plug>(vaffle-toggle-hidden)|
+  n     q         |<Plug>(vaffle-quit)|
+  n     R         |<Plug>(vaffle-refresh)|
+  n     .         |<Plug>(vaffle-toggle-hidden)|
 
-  nv    <Space>  |<Plug>(vaffle-toggle-current)|
-  n     *        |<Plug>(vaffle-toggle-all)|
+  nv    <Space>   |<Plug>(vaffle-toggle-current)|
+  n     *         |<Plug>(vaffle-toggle-all)|
 
-  n     o        |<Plug>(vaffle-mkdir)|
-  n     i        |<Plug>(vaffle-new-file)|
-  n     d        |<Plug>(vaffle-delete-selected)|
-  n     m        |<Plug>(vaffle-move-selected)|
-  n     r        |<Plug>(vaffle-rename-selected)|
+  n     o         |<Plug>(vaffle-mkdir)|
+  n     i         |<Plug>(vaffle-new-file)|
+  n     d         |<Plug>(vaffle-delete-selected)|
+  n     m         |<Plug>(vaffle-move-selected)|
+  n     r         |<Plug>(vaffle-rename-selected)|
 
 
 ==============================================================================

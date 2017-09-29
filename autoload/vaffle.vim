@@ -362,4 +362,21 @@ function! vaffle#toggle_hidden() abort
 endfunction
 
 
+function! vaffle#fill_cmdline() abort
+  let env = vaffle#buffer#get_env()
+
+  let items = s:get_selected_items(env)
+  if empty(items)
+    return
+  endif
+
+  let paths = map(items, 'fnameescape(v:val.path)')
+
+  let cmdline =printf(
+        \ ": %s\<Home>",
+        \ join(paths, ' '))
+  call feedkeys(cmdline)
+endfunction
+
+
 let &cpoptions = s:save_cpo

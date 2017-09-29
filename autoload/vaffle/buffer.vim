@@ -10,6 +10,7 @@ function! s:set_up_default_mappings() abort
   vmap <buffer> <silent> <Space>    <Plug>(vaffle-toggle-current)
   " Operations for selected items
   nmap <buffer> <nowait> <silent> d <Plug>(vaffle-delete-selected)
+  nmap <buffer> <silent> x          <Plug>(vaffle-fill-cmdline)
   nmap <buffer> <silent> m          <Plug>(vaffle-move-selected)
   nmap <buffer> <silent> <CR>       <Plug>(vaffle-open-selected)
   nmap <buffer> <silent> r          <Plug>(vaffle-rename-selected)

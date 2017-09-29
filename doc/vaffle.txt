@@ -118,6 +118,10 @@ version, but not supported.
                 Note: Vaffle uses builtin function |delete()| to delete files,
                 so cannot undo the operation.
 
+*<Plug>(vaffle-fill-cmdline)*
+                Fill the command-line with a list of selected items. Useful 
+                for passing their paths to a shell command.
+
 *<Plug>(vaffle-move-selected)*
                 Move selected items to specified directory.
 
@@ -181,6 +185,7 @@ version, but not supported.
   n     d         |<Plug>(vaffle-delete-selected)|
   n     m         |<Plug>(vaffle-move-selected)|
   n     r         |<Plug>(vaffle-rename-selected)|
+  n     x         |<Plug>(vaffle-fill-cmdline)|
 
 
 ==============================================================================

@@ -42,6 +42,7 @@ nnoremap <silent> <Plug>(vaffle-toggle-current)  :<C-u>call vaffle#toggle_curren
 vnoremap <silent> <Plug>(vaffle-toggle-current)  :<C-u>call vaffle#toggle_current('v')<CR>
 " Operations for selected items
 nnoremap <silent> <Plug>(vaffle-delete-selected) :<C-u>call vaffle#delete_selected()<CR>
+nnoremap <silent> <Plug>(vaffle-fill-cmdline)    :<C-u>call vaffle#fill_cmdline()<CR>
 nnoremap <silent> <Plug>(vaffle-move-selected)   :<C-u>call vaffle#move_selected()<CR>
 nnoremap <silent> <Plug>(vaffle-open-selected)   :<C-u>call vaffle#open_selected()<CR>
 nnoremap <silent> <Plug>(vaffle-rename-selected) :<C-u>call vaffle#rename_selected()<CR>
@@ -50,11 +51,11 @@ nnoremap <silent> <Plug>(vaffle-open-current)    :<C-u>call vaffle#open_current(
 " Misc
 nnoremap <silent> <Plug>(vaffle-mkdir)           :<C-u>call vaffle#mkdir()<CR>
 nnoremap <silent> <Plug>(vaffle-new-file)        :<C-u>call vaffle#new_file()<CR>
+nnoremap <silent> <Plug>(vaffle-open-home)       :<C-u>call vaffle#open('~')<CR>
 nnoremap <silent> <Plug>(vaffle-open-parent)     :<C-u>call vaffle#open_parent()<CR>
+nnoremap <silent> <Plug>(vaffle-open-root)       :<C-u>call vaffle#open('/')<CR>
 nnoremap <silent> <Plug>(vaffle-quit)            :<C-u>call vaffle#quit()<CR>
 nnoremap <silent> <Plug>(vaffle-refresh)         :<C-u>call vaffle#refresh()<CR>
-nnoremap <silent> <Plug>(vaffle-open-home)       :<C-u>call vaffle#open('~')<CR>
-nnoremap <silent> <Plug>(vaffle-open-root)       :<C-u>call vaffle#open('/')<CR>
 
 
 let &cpoptions = s:save_cpo

@@ -54,6 +54,7 @@ nnoremap <silent> <Plug>(vaffle-rename-selected)      :<C-u>call vaffle#rename_s
 nnoremap <silent> <Plug>(vaffle-open-current)         :<C-u>call vaffle#open_current('')<CR>
 nnoremap <silent> <Plug>(vaffle-open-current-tab)     :<C-u>call vaffle#open_current('tab')<CR>
 " Misc
+nnoremap <silent> <Plug>(vaffle-chdir-here)           :<C-u>call vaffle#chdir_here()<CR>
 nnoremap <silent> <Plug>(vaffle-mkdir)                :<C-u>call vaffle#mkdir()<CR>
 nnoremap <silent> <Plug>(vaffle-new-file)             :<C-u>call vaffle#new_file()<CR>
 nnoremap <silent> <Plug>(vaffle-open-home)            :<C-u>call vaffle#open('~')<CR>

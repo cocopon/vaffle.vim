@@ -80,15 +80,7 @@ function! s:perform_auto_cd_if_needed(path) abort
     return
   endif
 
-  try
-    execute printf('lcd %s', fnameescape(a:path))
-  catch /:E472:/
-    " E472: Command failed
-    " Permission denied, etc.
-    call vaffle#util#echo_error(
-          \ printf('Changing directory failed: ''%s''', a:path))
-    return
-  endtry
+  call vaffle#chdir(a:path)
 endfunction
 
 

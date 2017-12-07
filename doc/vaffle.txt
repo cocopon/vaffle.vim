@@ -157,6 +157,10 @@ version, but not supported.
 3.4. Other operations                             *vaffle-key-mappings-others*
 
 
+*<Plug>(vaffle-chdir-here)*
+                Change the current working directory to one the current buffer
+                has opened.
+
 *<Plug>(vaffle-mkdir)*
                 Create a new directory in the current directory.
 

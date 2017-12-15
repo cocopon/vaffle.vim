@@ -2,13 +2,14 @@ let s:save_cpo = &cpoptions
 set cpoptions&vim
 
 
-function! vaffle#file#open(items) abort
+function! vaffle#file#open(items, ...) abort
   if len(a:items) == 1
     let path = a:items[0].path
     if isdirectory(path)
       call vaffle#init(path)
     else
-      execute printf('edit %s', fnameescape(a:items[0].path))
+      let open_cmd = get(a:000, 0, 'edit')
+      execute printf('%s %s', open_cmd, fnameescape(a:items[0].path))
     endif
     return
   endif

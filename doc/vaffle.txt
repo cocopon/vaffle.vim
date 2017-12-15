@@ -60,7 +60,7 @@ window. But I uses Vim with heavy-split windows so I want to operate files
 in a small window...!
 
 |vimfiler| is full-featured file manager, maybe it can do all things you want to
-do. But... it's too complex to customize and requires another plugin: |unite|. 
+do. But... it's too complex to customize and requires another plugin: |unite|.
 
 |dirvish| is also awesome file manager. But it's a "minimalist directory viewer"
 and needs some effort to operate (select multiple, delete, move, rename, ...)
@@ -119,7 +119,7 @@ version, but not supported.
                 so cannot undo the operation.
 
 *<Plug>(vaffle-fill-cmdline)*
-                Fill the command-line with a list of selected items. Useful 
+                Fill the command-line with a list of selected items. Useful
                 for passing their paths to a shell command.
 
 *<Plug>(vaffle-move-selected)*
@@ -172,6 +172,7 @@ version, but not supported.
   n     ~         |<Plug>(vaffle-open-home)|
 
   n     <CR>      |<Plug>(vaffle-open-selected)|
+  n     t         |<Plug>(vaffle-open-selected-tab)|
 
   n     q         |<Plug>(vaffle-quit)|
   n     R         |<Plug>(vaffle-refresh)|

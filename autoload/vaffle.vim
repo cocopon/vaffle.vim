@@ -95,7 +95,7 @@ function! vaffle#refresh() abort
 endfunction
 
 
-function! vaffle#open_current() abort
+function! vaffle#open_current(...) abort
   call s:keep_buffer_singularity()
 
   let env = vaffle#buffer#get_env()
@@ -109,7 +109,11 @@ function! vaffle#open_current() abort
 
   call vaffle#buffer#save_cursor(item)
 
-  call vaffle#file#open([item])
+  if a:0 == 0
+      call vaffle#file#open([item])
+  else
+      call vaffle#file#open([item], a:1)
+  endif
 endfunction
 
 

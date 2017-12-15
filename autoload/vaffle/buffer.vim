@@ -16,6 +16,7 @@ function! s:set_up_default_mappings() abort
   nmap <buffer> <silent> r          <Plug>(vaffle-rename-selected)
   " Operations for a item on cursor
   nmap <buffer> <silent> l          <Plug>(vaffle-open-current)
+  nmap <buffer> <nowait> <silent> t <Plug>(vaffle-open-current-tab)
   " Misc
   nmap <buffer> <silent> o          <Plug>(vaffle-mkdir)
   nmap <buffer> <silent> i          <Plug>(vaffle-new-file)

@@ -1,28 +1,32 @@
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
+function! s:exist_map(lhs, ...) abort
+    let mode = 0 < a:0 ? a:1 : 'n'
+    return empty(maparg(a:lhs, mode))
+endfunction
 
 function! s:set_up_default_mappings() abort
   " Toggle
-  nmap <buffer> <silent> <Space>    <Plug>(vaffle-toggle-current)
-  nmap <buffer> <silent> .          <Plug>(vaffle-toggle-hidden)
-  nmap <buffer> <silent> *          <Plug>(vaffle-toggle-all)
-  vmap <buffer> <silent> <Space>    <Plug>(vaffle-toggle-current)
+  if s:exist_map('<Space>')      | nmap <buffer> <silent> <Space>    <Plug>(vaffle-toggle-current)  | endif
+  if s:exist_map('.')            | nmap <buffer> <silent> .          <Plug>(vaffle-toggle-hidden)   | endif
+  if s:exist_map('*')            | nmap <buffer> <silent> *          <Plug>(vaffle-toggle-all)      | endif
+  if s:exist_map('<Space>', 'v') | nmap <buffer> <silent> <Space>    <Plug>(vaffle-toggle-current)  | endif
   " Operations for selected items
-  nmap <buffer> <nowait> <silent> d <Plug>(vaffle-delete-selected)
-  nmap <buffer> <silent> x          <Plug>(vaffle-fill-cmdline)
-  nmap <buffer> <silent> m          <Plug>(vaffle-move-selected)
-  nmap <buffer> <silent> <CR>       <Plug>(vaffle-open-selected)
-  nmap <buffer> <silent> r          <Plug>(vaffle-rename-selected)
+  if s:exist_map('d')            | nmap <buffer> <nowait> <silent> d <Plug>(vaffle-delete-selected) | endif
+  if s:exist_map('x')            | nmap <buffer> <silent> x          <Plug>(vaffle-fill-cmdline)    | endif
+  if s:exist_map('m')            | nmap <buffer> <silent> m          <Plug>(vaffle-move-selected)   | endif
+  if s:exist_map('<CR>')         | nmap <buffer> <silent> <CR>       <Plug>(vaffle-open-selected)   | endif
+  if s:exist_map('r')            | nmap <buffer> <silent> r          <Plug>(vaffle-rename-selected) | endif
   " Operations for a item on cursor
-  nmap <buffer> <silent> l          <Plug>(vaffle-open-current)
+  if s:exist_map('l')            | nmap <buffer> <silent> l          <Plug>(vaffle-open-current)    | endif
   " Misc
-  nmap <buffer> <silent> o          <Plug>(vaffle-mkdir)
-  nmap <buffer> <silent> i          <Plug>(vaffle-new-file)
-  nmap <buffer> <silent> ~          <Plug>(vaffle-open-home)
-  nmap <buffer> <silent> h          <Plug>(vaffle-open-parent)
-  nmap <buffer> <silent> q          <Plug>(vaffle-quit)
-  nmap <buffer> <silent> R          <Plug>(vaffle-refresh)
+  if s:exist_map('o')            | nmap <buffer> <silent> o          <Plug>(vaffle-mkdir)           | endif
+  if s:exist_map('i')            | nmap <buffer> <silent> i          <Plug>(vaffle-new-file)        | endif
+  if s:exist_map('~')            | nmap <buffer> <silent> ~          <Plug>(vaffle-open-home)       | endif
+  if s:exist_map('h')            | nmap <buffer> <silent> h          <Plug>(vaffle-open-parent)     | endif
+  if s:exist_map('q')            | nmap <buffer> <silent> q          <Plug>(vaffle-quit)            | endif
+  if s:exist_map('R')            | nmap <buffer> <silent> R          <Plug>(vaffle-refresh)         | endif
 
   " Removed <Esc> mappings because they cause a conflict with arrow keys in terminal...
   " In terminal, arrow keys are simulated as follows:

@@ -4,11 +4,13 @@ set cpoptions&vim
 
 function! vaffle#file#open(items, ...) abort
   if len(a:items) == 1
+    let open_cmd = get(a:000, 0, 'edit')
+
     let path = a:items[0].path
     if isdirectory(path)
+      execute open_cmd
       call vaffle#init(path)
     else
-      let open_cmd = get(a:000, 0, 'edit')
       execute printf('%s %s', open_cmd, fnameescape(a:items[0].path))
     endif
     return

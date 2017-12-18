@@ -1,14 +1,16 @@
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
+let s:open_mode_map = {
+      \ 'tab': 'tabnew'
+      \ }
 
-function! vaffle#file#open(items, ...) abort
+function! vaffle#file#open(items, open_mode) abort
   if len(a:items) == 1
-    let open_cmd = get(a:000, 0, 'edit')
-
+    let open_cmd = get(s:open_mode_map, a:open_mode, 'edit')
     let path = a:items[0].path
     if isdirectory(path)
-      execute open_cmd
+      silent execute open_cmd
       call vaffle#init(path)
     else
       execute printf('%s %s', open_cmd, fnameescape(a:items[0].path))

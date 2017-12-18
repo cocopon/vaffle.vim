@@ -1,29 +1,41 @@
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
+function! s:map_default(mode, lhs, vaffle_command, sp_args) abort
+  let rhs = maparg(a:lhs, a:mode)
+  if !empty(rhs)
+    return
+  endif
+
+  execute printf('%smap %s %s <Plug>(vaffle-%s)',
+        \ a:mode,
+        \ a:sp_args,
+        \ a:lhs,
+        \ a:vaffle_command)
+endfunction
 
 function! s:set_up_default_mappings() abort
   " Toggle
-  nmap <buffer> <silent> <Space>    <Plug>(vaffle-toggle-current)
-  nmap <buffer> <silent> .          <Plug>(vaffle-toggle-hidden)
-  nmap <buffer> <silent> *          <Plug>(vaffle-toggle-all)
-  vmap <buffer> <silent> <Space>    <Plug>(vaffle-toggle-current)
+  call s:map_default('n', '<Space>', 'toggle-current',   '<buffer> <silent>')
+  call s:map_default('n', '.',       'toggle-hidden',    '<buffer> <silent>')
+  call s:map_default('n', '*',       'toggle-all',       '<buffer> <silent>')
+  call s:map_default('v', '<Space>', 'toggle-current',   '<buffer> <silent>')
   " Operations for selected items
-  nmap <buffer> <nowait> <silent> d <Plug>(vaffle-delete-selected)
-  nmap <buffer> <silent> x          <Plug>(vaffle-fill-cmdline)
-  nmap <buffer> <silent> m          <Plug>(vaffle-move-selected)
-  nmap <buffer> <silent> <CR>       <Plug>(vaffle-open-selected)
-  nmap <buffer> <silent> r          <Plug>(vaffle-rename-selected)
+  call s:map_default('n', 'd',       'delete-selected',  '<buffer> <nowait> <silent>')
+  call s:map_default('n', 'x',       'fill-cmdline',     '<buffer> <silent>')
+  call s:map_default('n', 'm',       'move-selected',    '<buffer> <silent>')
+  call s:map_default('n', '<CR>',    'open-selected',    '<buffer> <silent>')
+  call s:map_default('n', 'r',       'rename-selected',  '<buffer> <silent>')
   " Operations for a item on cursor
-  nmap <buffer> <silent> l          <Plug>(vaffle-open-current)
-  nmap <buffer> <nowait> <silent> t <Plug>(vaffle-open-current-tab)
+  call s:map_default('n', 'l',       'open-current',     '<buffer> <silent>')
+  call s:map_default('n', 't',       'open-current-tab', '<buffer> <nowait> <silent>')
   " Misc
-  nmap <buffer> <silent> o          <Plug>(vaffle-mkdir)
-  nmap <buffer> <silent> i          <Plug>(vaffle-new-file)
-  nmap <buffer> <silent> ~          <Plug>(vaffle-open-home)
-  nmap <buffer> <silent> h          <Plug>(vaffle-open-parent)
-  nmap <buffer> <silent> q          <Plug>(vaffle-quit)
-  nmap <buffer> <silent> R          <Plug>(vaffle-refresh)
+  call s:map_default('n', 'o',       'mkdir',            '<buffer> <silent>')
+  call s:map_default('n', 'i',       'new-file',         '<buffer> <silent>')
+  call s:map_default('n', '~',       'open-home',        '<buffer> <silent>')
+  call s:map_default('n', 'h',       'open-parent',      '<buffer> <silent>')
+  call s:map_default('n', 'q',       'quit',             '<buffer> <silent>')
+  call s:map_default('n', 'R',       'refresh',          '<buffer> <silent>')
 
   " Removed <Esc> mappings because they cause a conflict with arrow keys in terminal...
   " In terminal, arrow keys are simulated as follows:

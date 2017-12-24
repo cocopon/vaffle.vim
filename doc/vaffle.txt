@@ -133,7 +133,23 @@ version, but not supported.
 
 
 ------------------------------------------------------------------------------
-3.3. Other Operations                             *vaffle-key-mappings-others*
+3.3. Operations for an item on cursor           *vaffle-key-mappings-currents*
+
+*<Plug>(vaffle-open-current)*
+                Open an item on the cursor.
+*<Plug>(vaffle-open-current-tab)*
+                Open an item on the cursor at a new tab.
+*<Plug>(vaffle-open-current-split)*
+                Open an item on the cursor at a splitten window.
+                If you would like to change the buffer position, refer
+                |vaffle-example-custom-window-position|.
+*<Plug>(vaffle-open-current-vsplit)*
+                Vertical split version of
+                the |<Plug>(vaffle-open-current-split)|.
+
+
+------------------------------------------------------------------------------
+3.4. Other Operations                             *vaffle-key-mappings-others*
 
 
 *<Plug>(vaffle-mkdir)*
@@ -167,25 +183,26 @@ version, but not supported.
 
   Mode  {lhs}     {rhs} ~
   ----  --------  -------------------------------- ~
+  n     ~         |<Plug>(vaffle-open-home)|
   n     h         |<Plug>(vaffle-open-parent)|
   n     l         |<Plug>(vaffle-open-current)|
-  n     ~         |<Plug>(vaffle-open-home)|
+  n     t         |<Plug>(vaffle-open-current-tab)|
+  n     s         |<Plug>(vaffle-open-current-split)|
+  n     v         |<Plug>(vaffle-open-current-vsplit)|
+
+  n     *         |<Plug>(vaffle-toggle-all)|
+  n     .         |<Plug>(vaffle-toggle-hidden)|
+  nv    <Space>   |<Plug>(vaffle-toggle-current)|
 
   n     <CR>      |<Plug>(vaffle-open-selected)|
-  n     t         |<Plug>(vaffle-open-selected-tab)|
+  n     m         |<Plug>(vaffle-move-selected)|
+  n     d         |<Plug>(vaffle-delete-selected)|
+  n     r         |<Plug>(vaffle-rename-selected)|
 
   n     q         |<Plug>(vaffle-quit)|
-  n     R         |<Plug>(vaffle-refresh)|
-  n     .         |<Plug>(vaffle-toggle-hidden)|
-
-  nv    <Space>   |<Plug>(vaffle-toggle-current)|
-  n     *         |<Plug>(vaffle-toggle-all)|
-
   n     o         |<Plug>(vaffle-mkdir)|
+  n     R         |<Plug>(vaffle-refresh)|
   n     i         |<Plug>(vaffle-new-file)|
-  n     d         |<Plug>(vaffle-delete-selected)|
-  n     m         |<Plug>(vaffle-move-selected)|
-  n     r         |<Plug>(vaffle-rename-selected)|
   n     x         |<Plug>(vaffle-fill-cmdline)|
 
 
@@ -232,6 +249,20 @@ Customizing key mappings:                 *vaffle-example-custom-key-mappings*
   augroup vimrc_vaffle
     autocmd!
     autocmd FileType vaffle call s:customize_vaffle_mappings()
+  augroup END
+<
+
+Customizing position of splitten window:
+                                        *vaffle-example-custom-window-position*
+>
+  function! s:customize_vaffle_splitten_window() abort
+    setlocal splitbelow
+    setlocal splitright
+  endfunction
+
+  augroup vimrc_vaffle
+    autocmd!
+    autocmd FileType vaffle call s:customize_vaffle_splitten_window()
   augroup END
 <
 

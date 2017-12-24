@@ -3,12 +3,16 @@ set cpoptions&vim
 
 
 let s:open_mode_to_cmd_single_map = {
-      \   '':    'edit',
-      \   'tab': 'tabedit',
+      \   '':       'edit',
+      \   'tab':    'tabedit',
+      \   'split':  'split',
+      \   'vsplit': 'vsplit',
       \ }
 let s:open_mode_to_cmd_multiple_map = {
-      \   '':    'split',
-      \   'tab': 'tabedit',
+      \   '':       'split',
+      \   'tab':    'tabedit',
+      \   'split':  'split',
+      \   'vsplit': 'vsplit',
       \ }
 
 

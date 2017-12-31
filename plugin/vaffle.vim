@@ -19,6 +19,8 @@ function! s:set_up_default_config()
         \   'vaffle_auto_cd': 0,
         \   'vaffle_force_delete': 0,
         \   'vaffle_show_hidden_files': 0,
+        \   'vaffle_fixed_window_width': 35,
+        \   'vaffle_fixed_window_height': 12,
         \   'vaffle_use_default_mappings': 1,
         \ }
 
@@ -32,7 +34,12 @@ endfunction
 
 call s:set_up_default_config()
 
-command! -bar -nargs=? -complete=dir Vaffle call vaffle#init(<f-args>)
+command! -bar -nargs=? -complete=dir Vaffle            call vaffle#init(<f-args>)
+command! -bar -nargs=? -complete=dir VaffleTab         call vaffle#init_on_new_window(['tab'], <f-args>)
+command! -bar -nargs=? -complete=dir VaffleSplit       call vaffle#init_on_new_window(['split'], <f-args>)
+command! -bar -nargs=? -complete=dir VaffleSplitFixed  call vaffle#init_on_new_window(['split', 'fixed'], <f-args>)
+command! -bar -nargs=? -complete=dir VaffleVsplit      call vaffle#init_on_new_window(['vsplit'], <f-args>)
+command! -bar -nargs=? -complete=dir VaffleVsplitFixed call vaffle#init_on_new_window(['vsplit', 'fixed'], <f-args>)
 
 
 " Toggle

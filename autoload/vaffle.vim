@@ -45,6 +45,43 @@ function! s:get_selected_items(env) abort
 endfunction
 
 
+function! s:has_option(key, options) abort
+  return index(a:options, a:key) != -1
+endfunction
+
+
+function! vaffle#init_on_new_window(options, ...) abort
+  " Open new windows based on the given options.
+  " This window will be closed at `vaffle#quit`
+  if s:has_option('vsplit', a:options)
+    vsplit
+
+    if s:has_option('fixed', a:options)
+      execute printf('vertical resize %d', g:vaffle_fixed_window_width)
+      setlocal winfixwidth
+    endif
+  elseif s:has_option('split', a:options)
+    split
+
+    if s:has_option('fixed', a:options)
+      execute printf('resize %d', g:vaffle_fixed_window_height)
+      setlocal winfixheight
+    endif
+  elseif s:has_option('tab', a:options)
+    tabnew
+  endif
+
+  call vaffle#window#init()
+
+  " Store the options.
+  let win_env = vaffle#window#get_env()
+  let win_env.window_open_options = a:options
+  call vaffle#window#set_env(win_env)
+
+  call call('vaffle#init', a:000)
+endfunction
+
+
 function! vaffle#init(...) abort
   let bufnr = bufnr('%')
   let is_vaffle_buffer = vaffle#buffer#is_for_vaffle(bufnr)
@@ -215,8 +252,20 @@ endfunction
 function! vaffle#quit() abort
   call s:keep_buffer_singularity()
 
+  let win_env = vaffle#window#get_env()
+
+  " Close the window if the window was created when opening vaffle.
+  let open_opts = get(win_env, 'window_open_options', [])
+  let is_quit = s:has_option('vsplit', open_opts) ||
+              \ s:has_option('split', open_opts) ||
+              \ s:has_option('tab', open_opts)
+  if is_quit
+    quit
+    return
+  endif
+
   " Try restoring previous buffer
-  let bufnr = vaffle#window#get_env().non_vaffle_bufnr
+  let bufnr = win_env.non_vaffle_bufnr
   if bufexists(bufnr)
     execute printf('buffer! %d', bufnr)
     return

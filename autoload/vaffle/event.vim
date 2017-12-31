@@ -29,4 +29,11 @@ function! vaffle#event#on_bufenter() abort
 endfunction
 
 
+function! vaffle#event#on_bufleave() abort
+  if vaffle#buffer#is_for_vaffle(bufnr('%'))
+    call vaffle#buffer#save_cursor_at_current_item()
+  endif
+endfunction
+
+
 let &cpoptions = s:save_cpo

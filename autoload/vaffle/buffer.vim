@@ -247,4 +247,13 @@ function! vaffle#buffer#save_cursor(item) abort
 endfunction
 
 
+function! vaffle#buffer#save_cursor_at_current_item() abort
+  let env = vaffle#buffer#get_env()
+  let cursor_items = vaffle#item#get_cursor_items(env, 'n')
+  if !empty(cursor_items)
+    call vaffle#buffer#save_cursor(cursor_items[0])
+  endif
+endfunction
+
+
 let &cpoptions = s:save_cpo

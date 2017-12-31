@@ -16,22 +16,6 @@ function! s:keep_buffer_singularity() abort
 endfunction
 
 
-function! s:get_cursor_items(env, mode) abort
-  let items = a:env.items
-  if empty(items)
-    return []
-  endif
-
-  let in_visual_mode = (a:mode ==? 'v')
-  let indexes = in_visual_mode
-        \ ? range(line('''<') - 1, line('''>') - 1)
-        \ : [line('.') - 1]
-  return map(
-        \ copy(indexes),
-        \ 'items[v:val]')
-endfunction
-
-
 function! s:get_selected_items(env) abort
   let items = a:env.items
   let selected_items = filter(
@@ -41,7 +25,7 @@ function! s:get_selected_items(env) abort
     return selected_items
   endif
 
-  return s:get_cursor_items(a:env, 'n')
+  return vaffle#item#get_cursor_items(a:env, 'n')
 endfunction
 
 
@@ -117,12 +101,9 @@ endfunction
 function! vaffle#refresh() abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let cursor_items = s:get_cursor_items(env, 'n')
-  if !empty(cursor_items)
-    call vaffle#buffer#save_cursor(cursor_items[0])
-  endif
+  call vaffle#buffer#save_cursor_at_current_item()
 
+  let env = vaffle#buffer#get_env()
   let new_env = vaffle#env#create(env.dir)
   call vaffle#env#inherit(new_env, env)
   let new_env.items = vaffle#env#create_items(new_env)
@@ -137,7 +118,7 @@ function! vaffle#open_current(open_mode) abort
 
   let env = vaffle#buffer#get_env()
   let item = get(
-        \ s:get_cursor_items(env, 'n'),
+        \ vaffle#item#get_cursor_items(env, 'n'),
         \ 0,
         \ {})
   if empty(item)
@@ -168,14 +149,10 @@ endfunction
 function! vaffle#open(path) abort
   call s:keep_buffer_singularity()
 
+  call vaffle#buffer#save_cursor_at_current_item()
+
   let env = vaffle#buffer#get_env()
   let env_dir = env.dir
-
-  let cursor_items = s:get_cursor_items(env, 'n')
-  if !empty(cursor_items)
-    call vaffle#buffer#save_cursor(cursor_items[0])
-  endif
-
   let new_dir = isdirectory(expand(a:path)) ?
         \ expand(a:path) :
         \ fnamemodify(expand(a:path), ':h')
@@ -200,7 +177,7 @@ function! vaffle#toggle_current(mode) abort
   call s:keep_buffer_singularity()
 
   let env = vaffle#buffer#get_env()
-  let items = s:get_cursor_items(env, a:mode)
+  let items = vaffle#item#get_cursor_items(env, a:mode)
   if empty(items)
     return
   endif
@@ -396,7 +373,7 @@ function! vaffle#toggle_hidden() abort
   call vaffle#buffer#set_env(env)
 
   let item = get(
-        \ s:get_cursor_items(env, 'n'),
+        \ vaffle#item#get_cursor_items(env, 'n'),
         \ 0,
         \ {})
   if !empty(item)

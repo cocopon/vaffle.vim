@@ -20,6 +20,8 @@ function! s:set_up_default_config()
         \   'vaffle_force_delete': 0,
         \   'vaffle_show_hidden_files': 0,
         \   'vaffle_use_default_mappings': 1,
+        \   'vaffle_open_current_split_location': 'topleft',
+        \   'vaffle_open_current_vsplit_location': 'rightbelow',
         \ }
 
   for var_name in keys(config_dict)

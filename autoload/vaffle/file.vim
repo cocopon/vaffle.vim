@@ -5,14 +5,14 @@ set cpoptions&vim
 let s:open_mode_to_cmd_single_map = {
       \   '':       'edit',
       \   'tab':    'tabedit',
-      \   'split':  'split',
-      \   'vsplit': 'vsplit',
+      \   'split':  get(g:, 'vaffle_open_current_split_location', 'topleft') . ' split',
+      \   'vsplit': get(g:, 'vaffle_open_current_vsplit_location', 'rightbelow') . ' vsplit',
       \ }
 let s:open_mode_to_cmd_multiple_map = {
       \   '':       'split',
       \   'tab':    'tabedit',
-      \   'split':  'split',
-      \   'vsplit': 'vsplit',
+      \   'split':  get(g:, 'vaffle_open_current_split_location', 'topleft') . ' split',
+      \   'vsplit': get(g:, 'vaffle_open_current_vsplit_location', 'rightbelow') . ' vsplit',
       \ }
 
 

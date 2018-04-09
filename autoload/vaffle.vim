@@ -154,7 +154,7 @@ endfunction
 
 function! vaffle#open_parent() abort
   let env = vaffle#buffer#get_env()
-  let parent_dir = fnamemodify(env.dir, ':h')
+  let parent_dir = fnameescape(fnamemodify(env.dir, ':h'))
   call vaffle#open(parent_dir)
 endfunction
 

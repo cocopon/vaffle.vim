@@ -29,9 +29,10 @@ endfunction
 
 
 function! vaffle#env#create_items(env) abort
-  let paths = vaffle#compat#glob_list(fnamemodify(a:env.dir, ':p') . '*')
+  let env_dir = fnameescape(fnamemodify(a:env.dir, ':p'))
+  let paths = vaffle#compat#glob_list(env_dir . '*')
   if a:env.shows_hidden_files
-    let hidden_paths = vaffle#compat#glob_list(fnamemodify(a:env.dir, ':p') . '.*')
+    let hidden_paths = vaffle#compat#glob_list(env_dir . '.*')
     " Exclude '.' & '..'
     call filter(hidden_paths, 'match(v:val, ''\(/\|\\\)\.\.\?$'') < 0')
 

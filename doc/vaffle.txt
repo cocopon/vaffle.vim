@@ -26,7 +26,8 @@
     3.4. Default Key Mappings ................. |vaffle-default-key-mappings|
   4. Global Options ......................... |vaffle-options|
   5. Examples ............................... |vaffle-examples|
-  6. About .................................. |vaffle-about|
+  6. FAQ .................................... |vaffle-faq|
+  7. About .................................. |vaffle-about|
 
 
 ==============================================================================
@@ -236,7 +237,19 @@ Customizing key mappings:                 *vaffle-example-custom-key-mappings*
 <
 
 ==============================================================================
-6. About                                                        *vaffle-about*
+6. FAQ                                                            *vaffle-faq*
+
+
+Q:              I want to use Vaffle with NERDTree, but |:Vaffle| opens
+                NERDTree buffer...
+
+A:              Try adding the following command to your vimrc:
+>
+                  let NERDTreeHijackNetrw = 0
+<
+
+==============================================================================
+7. About                                                        *vaffle-about*
 
 
 Vaffle is developed by cocopon and licensed under the MIT License.

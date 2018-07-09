@@ -19,12 +19,13 @@
     1.2. Story ................................ |vaffle-story|
     1.3. Requirements ......................... |vaffle-requirements|
   2. Commands ............................... |vaffle-commands|
-  3. Key Mappings ........................... |vaffle-key-mappings|
-    3.1. Toggle Selection ..................... |vaffle-key-mappings-toggle|
-    3.2. Operations for Selections ............ |vaffle-key-mappings-selected|
-    3.3. Other Operations ..................... |vaffle-key-mappings-others|
-    3.4. Default Key Mappings ................. |vaffle-default-key-mappings|
-  4. Global Options ......................... |vaffle-options|
+  3. Key mappings ........................... |vaffle-key-mappings|
+    3.1. Toggle selection ..................... |vaffle-key-mappings-toggle|
+    3.2. Operations for the current item ...... |vaffle-key-mappings-current|
+    3.3. Operations for selections ............ |vaffle-key-mappings-selected|
+    3.4. Other operations ..................... |vaffle-key-mappings-others|
+    3.5. Default key mappings ................. |vaffle-default-key-mappings|
+  4. Global options ......................... |vaffle-options|
   5. Examples ............................... |vaffle-examples|
   6. FAQ .................................... |vaffle-faq|
   7. About .................................. |vaffle-about|
@@ -96,22 +97,32 @@ version, but not supported.
 
 
 ==============================================================================
-3. Key Mappings                                          *vaffle-key-mappings*
+3. Key mappings                                          *vaffle-key-mappings*
 
 
 ------------------------------------------------------------------------------
-3.1. Toggle Selection                             *vaffle-key-mappings-toggle*
+3.1. Toggle selection                             *vaffle-key-mappings-toggle*
 
 
 *<Plug>(vaffle-toggle-all)*
                 Toggle selections of all items.
 
 *<Plug>(vaffle-toggle-current)*
-                Toggle selection of an item on the cursor.
+                Toggle selection of the item under the cursor.
 
 
 ------------------------------------------------------------------------------
-3.2. Operations for Selections                *vaffle-key-mappings-selections*
+3.2. Operations for the current item             *vaffle-key-mappings-current*
+
+*<Plug>(vaffle-open-current)*
+                Open the item under the cursor.
+
+*<Plug>(vaffle-open-current-tab)*
+                Open the item under the cursor in a new tab.
+
+
+------------------------------------------------------------------------------
+3.3. Operations for selections                *vaffle-key-mappings-selections*
 
 
 *<Plug>(vaffle-delete-selected)*
@@ -129,12 +140,19 @@ version, but not supported.
 *<Plug>(vaffle-open-selected)*
                 Open selected items.
 
+*<Plug>(vaffle-open-selected-split)*
+                Open selected items unser the cursor with a split window.
+
+*<Plug>(vaffle-open-selected-vsplit)*
+                Open selected items unser the cursor with a split window,
+                it will be split vertically.
+
 *<Plug>(vaffle-rename-selected)*
                 Rename selected items.
 
 
 ------------------------------------------------------------------------------
-3.3. Other Operations                             *vaffle-key-mappings-others*
+3.4. Other operations                             *vaffle-key-mappings-others*
 
 
 *<Plug>(vaffle-mkdir)*
@@ -163,35 +181,34 @@ version, but not supported.
 
 
 ------------------------------------------------------------------------------
-3.4. Default Key Mappings                        *vaffle-default-key-mappings*
+3.5. Default key mappings                        *vaffle-default-key-mappings*
 
 
   Mode  {lhs}     {rhs} ~
   ----  --------  -------------------------------- ~
+  n     ~         |<Plug>(vaffle-open-home)|
   n     h         |<Plug>(vaffle-open-parent)|
   n     l         |<Plug>(vaffle-open-current)|
-  n     ~         |<Plug>(vaffle-open-home)|
+  n     t         |<Plug>(vaffle-open-current-tab)|
+
+  n     *         |<Plug>(vaffle-toggle-all)|
+  n     .         |<Plug>(vaffle-toggle-hidden)|
+  nv    <Space>   |<Plug>(vaffle-toggle-current)|
 
   n     <CR>      |<Plug>(vaffle-open-selected)|
-  n     t         |<Plug>(vaffle-open-selected-tab)|
+  n     m         |<Plug>(vaffle-move-selected)|
+  n     d         |<Plug>(vaffle-delete-selected)|
+  n     r         |<Plug>(vaffle-rename-selected)|
 
   n     q         |<Plug>(vaffle-quit)|
-  n     R         |<Plug>(vaffle-refresh)|
-  n     .         |<Plug>(vaffle-toggle-hidden)|
-
-  nv    <Space>   |<Plug>(vaffle-toggle-current)|
-  n     *         |<Plug>(vaffle-toggle-all)|
-
   n     o         |<Plug>(vaffle-mkdir)|
+  n     R         |<Plug>(vaffle-refresh)|
   n     i         |<Plug>(vaffle-new-file)|
-  n     d         |<Plug>(vaffle-delete-selected)|
-  n     m         |<Plug>(vaffle-move-selected)|
-  n     r         |<Plug>(vaffle-rename-selected)|
   n     x         |<Plug>(vaffle-fill-cmdline)|
 
 
 ==============================================================================
-4. Global Options                                             *vaffle-options*
+4. Global options                                             *vaffle-options*
 
 
 *g:vaffle_auto_cd*
@@ -213,8 +230,20 @@ version, but not supported.
 *g:vaffle_use_default_mappings*
                 (Default: 1)
                 If disabled, Vaffle doesn't set up the default mappings. To
-		customize key mappings, see
-		|vaffle-example-custom-key-mappings|.
+                customize key mappings, see
+                |vaffle-example-custom-key-mappings|.
+
+*g:vaffle_open_current_split_position*
+                (Default: 'topleft')
+                Possible values: 'topleft' or 'rightbelow'
+                Set the position of the new window of
+                |<Plug>(vaffle-open-current-split)|.
+
+*g:vaffle_open_current_vsplit_position*
+                (Default: 'rightbelow')
+                Possible values: 'topleft' or 'rightbelow'
+                Set the position of the new window of
+                |<Plug>(vaffle-open-current-vsplit)|.
 
 
 ==============================================================================

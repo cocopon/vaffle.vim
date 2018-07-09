@@ -3,12 +3,16 @@ set cpoptions&vim
 
 
 let s:open_mode_to_cmd_single_map = {
-      \   '':    'edit',
-      \   'tab': 'tabedit',
+      \   '':       'edit',
+      \   'tab':    'tabedit',
+      \   'split':  get(g:, 'vaffle_open_current_split_position', 'topleft') . ' split',
+      \   'vsplit': get(g:, 'vaffle_open_current_vsplit_position', 'rightbelow') . ' vsplit',
       \ }
 let s:open_mode_to_cmd_multiple_map = {
-      \   '':    'split',
-      \   'tab': 'tabedit',
+      \   '':       'split',
+      \   'tab':    'tabedit',
+      \   'split':  get(g:, 'vaffle_open_current_split_position', 'topleft') . ' split',
+      \   'vsplit': get(g:, 'vaffle_open_current_vsplit_position', 'rightbelow') . ' vsplit',
       \ }
 
 

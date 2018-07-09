@@ -140,7 +140,7 @@ version, but not supported.
 *<Plug>(vaffle-open-current-tab)*
                 Open an item on the cursor at a new tab.
 *<Plug>(vaffle-open-current-split)*
-                Open an item on the cursor at a splitten window.
+                Open an item on the cursor at a split window.
                 If you would like to change the buffer position, refer
                 |vaffle-example-custom-window-position|.
 *<Plug>(vaffle-open-current-vsplit)*
@@ -261,17 +261,17 @@ Customizing key mappings:                 *vaffle-example-custom-key-mappings*
   augroup END
 <
 
-Customizing position of splitten window:
+Customizing position of split window:
                                         *vaffle-example-custom-window-position*
 >
-  function! s:customize_vaffle_splitten_window() abort
+  function! s:customize_vaffle_split_window() abort
     setlocal splitbelow
     setlocal splitright
   endfunction
 
   augroup vimrc_vaffle
     autocmd!
-    autocmd FileType vaffle call s:customize_vaffle_splitten_window()
+    autocmd FileType vaffle call s:customize_vaffle_split_window()
   augroup END
 <
 

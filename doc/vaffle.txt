@@ -232,13 +232,13 @@ version, but not supported.
 		customize key mappings, see
 		|vaffle-example-custom-key-mappings|.
 
-*g:vaffle_open_current_split_location*
+*g:vaffle_open_current_split_position*
                 (Default: 'topleft')
                 This option accepts 'topleft' or 'rightbelow'.
                 It changes the behavior of
                 |<Plug>(vaffle-open-current-split)|.
 
-*g:vaffle_open_current_vsplit_location*
+*g:vaffle_open_current_vsplit_position*
                 (Default: 'rightbelow')
                 This option accepts 'topleft' or 'rightbelow'.
                 It changes the behavior of |<Plug>(vaffle-open-current-vsplit)|.

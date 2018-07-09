@@ -141,10 +141,10 @@ version, but not supported.
                 Open selected items.
 
 *<Plug>(vaffle-open-selected-split)*
-                Open selected items unser the cursor with a split window.
+                Open selected items under the cursor with a split window.
 
 *<Plug>(vaffle-open-selected-vsplit)*
-                Open selected items unser the cursor with a split window,
+                Open selected items under the cursor with a split window,
                 it will be split vertically.
 
 *<Plug>(vaffle-rename-selected)*

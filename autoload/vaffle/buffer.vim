@@ -16,28 +16,26 @@ endfunction
 
 function! s:set_up_default_mappings() abort
   " Toggle
-  call s:map_default('n', '<Space>', 'toggle-current',      '<buffer> <silent>')
-  call s:map_default('n', '.',       'toggle-hidden',       '<buffer> <silent>')
-  call s:map_default('n', '*',       'toggle-all',          '<buffer> <silent>')
-  call s:map_default('v', '<Space>', 'toggle-current',      '<buffer> <silent>')
+  call s:map_default('n', '<Space>', 'toggle-current',   '<buffer> <silent>')
+  call s:map_default('n', '.',       'toggle-hidden',    '<buffer> <silent>')
+  call s:map_default('n', '*',       'toggle-all',       '<buffer> <silent>')
+  call s:map_default('v', '<Space>', 'toggle-current',   '<buffer> <silent>')
   " Operations for selected items
-  call s:map_default('n', 'd',       'delete-selected',     '<buffer> <nowait> <silent>')
-  call s:map_default('n', 'x',       'fill-cmdline',        '<buffer> <silent>')
-  call s:map_default('n', 'm',       'move-selected',       '<buffer> <silent>')
-  call s:map_default('n', '<CR>',    'open-selected',       '<buffer> <silent>')
-  call s:map_default('n', 'r',       'rename-selected',     '<buffer> <silent>')
+  call s:map_default('n', 'd',       'delete-selected',  '<buffer> <nowait> <silent>')
+  call s:map_default('n', 'x',       'fill-cmdline',     '<buffer> <silent>')
+  call s:map_default('n', 'm',       'move-selected',    '<buffer> <silent>')
+  call s:map_default('n', '<CR>',    'open-selected',    '<buffer> <silent>')
+  call s:map_default('n', 'r',       'rename-selected',  '<buffer> <silent>')
   " Operations for a item on cursor
-  call s:map_default('n', 'l',       'open-current',        '<buffer> <silent>')
-  call s:map_default('n', 't',       'open-current-tab',    '<buffer> <nowait> <silent>')
-  call s:map_default('n', 's',       'open-current-split',  '<buffer> <nowait> <silent>')
-  call s:map_default('n', 'v',       'open-current-vsplit', '<buffer> <nowait> <silent>')
+  call s:map_default('n', 'l',       'open-current',     '<buffer> <silent>')
+  call s:map_default('n', 't',       'open-current-tab', '<buffer> <nowait> <silent>')
   " Misc
-  call s:map_default('n', 'o',       'mkdir',               '<buffer> <silent>')
-  call s:map_default('n', 'i',       'new-file',            '<buffer> <silent>')
-  call s:map_default('n', '~',       'open-home',           '<buffer> <silent>')
-  call s:map_default('n', 'h',       'open-parent',         '<buffer> <silent>')
-  call s:map_default('n', 'q',       'quit',                '<buffer> <silent>')
-  call s:map_default('n', 'R',       'refresh',             '<buffer> <silent>')
+  call s:map_default('n', 'o',       'mkdir',            '<buffer> <silent>')
+  call s:map_default('n', 'i',       'new-file',         '<buffer> <silent>')
+  call s:map_default('n', '~',       'open-home',        '<buffer> <silent>')
+  call s:map_default('n', 'h',       'open-parent',      '<buffer> <silent>')
+  call s:map_default('n', 'q',       'quit',             '<buffer> <silent>')
+  call s:map_default('n', 'R',       'refresh',          '<buffer> <silent>')
 
   " Removed <Esc> mappings because they cause a conflict with arrow keys in terminal...
   " In terminal, arrow keys are simulated as follows:

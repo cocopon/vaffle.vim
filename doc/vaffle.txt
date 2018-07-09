@@ -187,8 +187,6 @@ version, but not supported.
   n     h         |<Plug>(vaffle-open-parent)|
   n     l         |<Plug>(vaffle-open-current)|
   n     t         |<Plug>(vaffle-open-current-tab)|
-  n     s         |<Plug>(vaffle-open-current-split)|
-  n     v         |<Plug>(vaffle-open-current-vsplit)|
 
   n     *         |<Plug>(vaffle-toggle-all)|
   n     .         |<Plug>(vaffle-toggle-hidden)|

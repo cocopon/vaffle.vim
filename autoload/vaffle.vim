@@ -113,7 +113,7 @@ function! vaffle#open_current(open_mode) abort
 endfunction
 
 
-function! vaffle#open_selected() abort
+function! vaffle#open_selected(open_mode) abort
   call s:keep_buffer_singularity()
 
   let env = vaffle#buffer#get_env()
@@ -124,7 +124,7 @@ function! vaffle#open_selected() abort
 
   call vaffle#buffer#save_cursor(items[0])
 
-  call vaffle#file#open(items, '')
+  call vaffle#file#open(items, a:open_mode)
 endfunction
 
 

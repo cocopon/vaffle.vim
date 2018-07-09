@@ -138,14 +138,14 @@ version, but not supported.
 *<Plug>(vaffle-open-current)*
                 Open an item on the cursor.
 *<Plug>(vaffle-open-current-tab)*
-                Open an item on the cursor at a new tab.
+                Open an item on the cursor with a new tab.
 *<Plug>(vaffle-open-current-split)*
-                Open an item on the cursor at a split window.
+                Open an item on the cursor with a split window.
                 If you would like to change the buffer position, refer
                 |vaffle-example-custom-window-position|.
 *<Plug>(vaffle-open-current-vsplit)*
-                Vertical split version of
-                the |<Plug>(vaffle-open-current-split)|.
+                Open an item on the cursor with a split window, it will be
+                split vertically.
 
 
 ------------------------------------------------------------------------------
@@ -227,19 +227,20 @@ version, but not supported.
 *g:vaffle_use_default_mappings*
                 (Default: 1)
                 If disabled, Vaffle doesn't set up the default mappings. To
-		customize key mappings, see
-		|vaffle-example-custom-key-mappings|.
+                customize key mappings, see
+                |vaffle-example-custom-key-mappings|.
 
 *g:vaffle_open_current_split_position*
                 (Default: 'topleft')
-                This option accepts 'topleft' or 'rightbelow'.
-                It changes the behavior of
+                Possible values: 'topleft' or 'rightbelow'
+                Set the position of the new window of
                 |<Plug>(vaffle-open-current-split)|.
 
 *g:vaffle_open_current_vsplit_position*
                 (Default: 'rightbelow')
-                This option accepts 'topleft' or 'rightbelow'.
-                It changes the behavior of |<Plug>(vaffle-open-current-vsplit)|.
+                Possible values: 'topleft' or 'rightbelow'
+                Set the position of the new window of
+                |<Plug>(vaffle-open-current-vsplit)|.
 
 
 ==============================================================================

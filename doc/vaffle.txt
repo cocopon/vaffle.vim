@@ -89,6 +89,7 @@ version, but not supported.
 ==============================================================================
 2. Commands                                                  *vaffle-commands*
 
+
 :Vaffle                                                              *:Vaffle*
                 Open the current working directory with Vaffle.
 
@@ -113,6 +114,7 @@ version, but not supported.
 
 ------------------------------------------------------------------------------
 3.2. Operations for the current item             *vaffle-key-mappings-current*
+
 
 *<Plug>(vaffle-open-current)*
                 Open the item under the cursor.

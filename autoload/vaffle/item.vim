@@ -16,4 +16,20 @@ function! vaffle#item#create(path) abort
 endfunction
 
 
+function! vaffle#item#get_cursor_items(env, mode) abort
+  let items = a:env.items
+  if empty(items)
+    return []
+  endif
+
+  let in_visual_mode = (a:mode ==? 'v')
+  let indexes = in_visual_mode
+        \ ? range(line('''<') - 1, line('''>') - 1)
+        \ : [line('.') - 1]
+  return map(
+        \ copy(indexes),
+        \ 'items[v:val]')
+endfunction
+
+
 let &cpoptions = s:save_cpo

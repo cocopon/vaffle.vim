@@ -379,4 +379,24 @@ function! vaffle#fill_cmdline() abort
 endfunction
 
 
+function! vaffle#chdir(path) abort
+  call s:keep_buffer_singularity()
+
+  try
+    execute printf('lcd %s', fnameescape(a:path))
+  catch /:E472:/
+    " E472: Command failed
+    " Permission denied, etc.
+    call vaffle#util#echo_error(
+          \ printf('Changing directory failed: ''%s''', a:path))
+  endtry
+endfunction
+
+
+function! vaffle#chdir_here() abort
+  let env = vaffle#buffer#get_env()
+  call vaffle#chdir(env.dir)
+endfunction
+
+
 let &cpoptions = s:save_cpo

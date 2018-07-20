@@ -256,9 +256,9 @@ Customizing key mappings:                 *vaffle-example-custom-key-mappings*
 >
   function! s:customize_vaffle_mappings() abort
     " Customize key mappings here
-    nmap <Bslash> <Plug>(vaffle-open-root)
-    nmap K        <Plug>(vaffle-mkdir)
-    nmap N        <Plug>(vaffle-new-file)
+    nmap <buffer> <Bslash> <Plug>(vaffle-open-root)
+    nmap <buffer> K        <Plug>(vaffle-mkdir)
+    nmap <buffer> N        <Plug>(vaffle-new-file)
   endfunction
 
   augroup vimrc_vaffle

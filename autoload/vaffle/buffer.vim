@@ -2,11 +2,6 @@ let s:save_cpo = &cpoptions
 set cpoptions&vim
 
 function! s:map_default(mode, lhs, vaffle_command, sp_args) abort
-  let rhs = maparg(a:lhs, a:mode)
-  if !empty(rhs)
-    return
-  endif
-
   execute printf('%smap %s %s <Plug>(vaffle-%s)',
         \ a:mode,
         \ a:sp_args,
@@ -144,6 +139,10 @@ function! vaffle#buffer#init(path) abort
   execute printf('silent file %s',
         \ s:generate_unique_bufname(path))
 
+  if g:vaffle_use_default_mappings
+    call s:set_up_default_mappings()
+  endif
+
   setlocal bufhidden=delete
   setlocal buftype=nowrite
   setlocal filetype=vaffle
@@ -151,10 +150,6 @@ function! vaffle#buffer#init(path) abort
   setlocal nobuflisted
   setlocal noswapfile
   setlocal nowrap
-
-  if g:vaffle_use_default_mappings
-    call s:set_up_default_mappings()
-  endif
 
   let env = vaffle#env#create(path)
   call vaffle#env#inherit(env, vaffle#buffer#get_env())

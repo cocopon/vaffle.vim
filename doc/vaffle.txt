@@ -234,14 +234,14 @@ version, but not supported.
                 time.
 
 *g:vaffle_open_selected_split_position*
-                (Default: 'topleft')
-                Possible values: 'topleft' or 'rightbelow'
+                (Default: '')
+                Possible values: '', 'topleft' or 'rightbelow'
                 Set the position of the new window of
                 |<Plug>(vaffle-open-selected-split)|.
 
 *g:vaffle_open_selected_vsplit_position*
-                (Default: 'rightbelow')
-                Possible values: 'topleft' or 'rightbelow'
+                (Default: '')
+                Possible values: '', 'topleft' or 'rightbelow'
                 Set the position of the new window of
                 |<Plug>(vaffle-open-selected-vsplit)|.
 

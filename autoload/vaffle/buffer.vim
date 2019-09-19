@@ -96,11 +96,6 @@ function! s:find_lnum_for_path(filer, path) abort
 endfunction
 
 
-function! s:move_cursor(lnum) abort
-  call cursor([a:lnum, 1, 0, 1])
-endfunction
-
-
 function! s:should_wipe_out(bufnr) abort
   if !bufexists(a:bufnr)
     return 0
@@ -194,18 +189,23 @@ function! vaffle#buffer#redraw() abort
 endfunction
 
 
+function! vaffle#buffer#move_cursor_to_lnum(lnum) abort
+  call cursor([a:lnum, 1, 0, 1])
+endfunction
+
+
 function! vaffle#buffer#restore_cursor() abort
   let filer = vaffle#buffer#get_filer()
   let cursor_path = get(filer.cursor_paths, filer.dir, '')
   let lnum = s:find_lnum_for_path(filer, cursor_path)
-  call s:move_cursor(lnum)
+  call vaffle#buffer#move_cursor_to_lnum(lnum)
 endfunction
 
 
 function! vaffle#buffer#move_cursor_to_path(path) abort
   let filer = vaffle#buffer#get_filer()
   let lnum = s:find_lnum_for_path(filer, a:path)
-  call s:move_cursor(lnum)
+  call vaffle#buffer#move_cursor_to_lnum(lnum)
 endfunction
 
 

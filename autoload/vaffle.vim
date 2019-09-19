@@ -16,6 +16,11 @@ function! s:keep_buffer_singularity() abort
 endfunction
 
 
+function! s:lnum_to_item_index(lnum) abort
+  return a:lnum - 1
+endfunction
+
+
 function! s:get_cursor_items(filer, mode) abort
   let items = a:filer.items
   if empty(items)
@@ -23,12 +28,12 @@ function! s:get_cursor_items(filer, mode) abort
   endif
 
   let in_visual_mode = (a:mode ==? 'v')
-  let indexes = in_visual_mode
-        \ ? range(line('''<') - 1, line('''>') - 1)
-        \ : [line('.') - 1]
+  let lnums = in_visual_mode
+        \ ? range(line('''<'), line('''>'))
+        \ : [line('.')]
   return map(
-        \ copy(indexes),
-        \ 'items[v:val]')
+        \ copy(lnums),
+        \ 'items[s:lnum_to_item_index(v:val)]')
 endfunction
 
 
@@ -229,8 +234,8 @@ endfunction
 function! vaffle#delete_selected() abort
   call s:keep_buffer_singularity()
 
-  let filer = vaffle#buffer#get_filer()
-  let items = s:get_selected_items(filer)
+  let items = s:get_selected_items(
+        \ vaffle#buffer#get_filer())
   if empty(items)
     return
   endif
@@ -245,8 +250,13 @@ function! vaffle#delete_selected() abort
     return
   endif
 
+  let lnum = line('.')
+
   call vaffle#file#delete(items)
   call vaffle#refresh()
+
+  " Restore cursor position
+  call vaffle#buffer#move_cursor_to_lnum(lnum)
 endfunction
 
 
@@ -333,6 +343,7 @@ function! vaffle#rename_selected() abort
           \ items, [new_basename])
 
     call vaffle#refresh()
+
     if !empty(renamed_paths[0])
       call vaffle#buffer#move_cursor_to_path(renamed_paths[0])
     endif

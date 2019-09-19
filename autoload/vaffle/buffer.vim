@@ -80,22 +80,22 @@ endfunction
 
 
 function! s:get_saved_cursor_lnum() abort
-  let env = vaffle#buffer#get_env()
-  let cursor_paths = env.cursor_paths
-  let cursor_path = get(cursor_paths, env.dir, '')
+  let filer = vaffle#buffer#get_filer()
+  let cursor_paths = filer.cursor_paths
+  let cursor_path = get(cursor_paths, filer.dir, '')
   if empty(cursor_path)
     return 1
   endif
 
   let items = filter(
-        \ copy(env.items),
+        \ copy(filer.items),
         \ 'v:val.path ==# cursor_path')
   if empty(items)
     return 1
   endif
 
   let cursor_item = items[0]
-  return index(env.items, cursor_item) + 1
+  return index(filer.items, cursor_item) + 1
 endfunction
 
 
@@ -143,10 +143,10 @@ function! vaffle#buffer#init(path) abort
   setlocal noswapfile
   setlocal nowrap
 
-  let env = vaffle#env#create(path)
-  call vaffle#env#inherit(env, vaffle#buffer#get_env())
-  let env.items = vaffle#env#create_items(env)
-  call vaffle#buffer#set_env(env)
+  let filer = vaffle#filer#create(path)
+  call vaffle#filer#inherit(filer, vaffle#buffer#get_filer())
+  let filer.items = vaffle#filer#create_items(filer)
+  call vaffle#buffer#set_filer(filer)
 
   call vaffle#buffer#redraw()
 
@@ -172,8 +172,8 @@ function! vaffle#buffer#redraw() abort
   " Clear buffer before drawing items
   silent keepjumps %delete _
 
-  let env = vaffle#buffer#get_env()
-  let items = env.items
+  let filer = vaffle#buffer#get_filer()
+  let items = filer.items
   if !empty(items)
     let lnum = 1
     for item in items
@@ -211,26 +211,26 @@ endfunction
 
 function! vaffle#buffer#duplicate() abort
   call vaffle#file#edit(
-        \ vaffle#buffer#get_env(),
+        \ vaffle#buffer#get_filer(),
         \ '')
 endfunction
 
 
-function! vaffle#buffer#get_env() abort
+function! vaffle#buffer#get_filer() abort
   let b:vaffle = get(b:, 'vaffle', {})
   return b:vaffle
 endfunction
 
 
-function! vaffle#buffer#set_env(env) abort
-  let b:vaffle = a:env
+function! vaffle#buffer#set_filer(filer) abort
+  let b:vaffle = a:filer
 endfunction
 
 
 function! vaffle#buffer#save_cursor(item) abort
-  let env = vaffle#buffer#get_env()
-  let env.cursor_paths[env.dir] = a:item.path
-  call vaffle#buffer#set_env(env)
+  let filer = vaffle#buffer#get_filer()
+  let filer.cursor_paths[filer.dir] = a:item.path
+  call vaffle#buffer#set_filer(filer)
 endfunction
 
 

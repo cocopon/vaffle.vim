@@ -28,7 +28,7 @@ function! s:on_bufwrite() abort
   let new_basenames = getline(1, line('$'))
 
   call vaffle#file#rename(
-        \ b:vaffle.parent_env,
+        \ b:vaffle.parent_filer,
         \ b:vaffle.items,
         \ new_basenames)
   set nomodified
@@ -62,7 +62,7 @@ function! vaffle#rename_buffer#new(items) abort
     execute printf('bwipeout %d', bufnr)
   endif
 
-  let parent_env = vaffle#buffer#get_env()
+  let parent_filer = vaffle#buffer#get_filer()
   let parent_bufnr = bufnr('%')
 
   vnew
@@ -81,7 +81,7 @@ function! vaffle#rename_buffer#new(items) abort
   setlocal nowrap
 
   let b:vaffle = {}
-  let b:vaffle.parent_env = parent_env
+  let b:vaffle.parent_filer = parent_filer
   let b:vaffle.parent_bufnr = parent_bufnr
   let b:vaffle.items = a:items
 

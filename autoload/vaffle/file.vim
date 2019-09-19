@@ -75,9 +75,9 @@ function! vaffle#file#delete(items) abort
 endfunction
 
 
-function! vaffle#file#mkdir(env, name) abort
+function! vaffle#file#mkdir(filer, name) abort
   let path = vaffle#util#normalize_path(printf('%s/%s',
-        \ a:env.dir,
+        \ a:filer.dir,
         \ a:name))
 
   if filereadable(path) || isdirectory(path)
@@ -93,17 +93,17 @@ function! vaffle#file#mkdir(env, name) abort
 endfunction
 
 
-function! vaffle#file#edit(env, name) abort
+function! vaffle#file#edit(filer, name) abort
   let path = vaffle#util#normalize_path(printf('%s/%s',
-        \ a:env.dir,
+        \ a:filer.dir,
         \ a:name))
   execute printf('edit %s', fnameescape(path))
 endfunction
 
 
-function! vaffle#file#move(env, items, dst_name) abort
+function! vaffle#file#move(filer, items, dst_name) abort
   let dst_dir = vaffle#util#normalize_path(printf('%s/%s',
-        \ a:env.dir,
+        \ a:filer.dir,
         \ a:dst_name))
 
   if !isdirectory(dst_dir)
@@ -135,8 +135,8 @@ function! vaffle#file#move(env, items, dst_name) abort
 endfunction
 
 
-function! vaffle#file#rename(env, items, new_basenames) abort
-  let cwd = a:env.dir
+function! vaffle#file#rename(filer, items, new_basenames) abort
+  let cwd = a:filer.dir
   let index = 0
   for item in a:items
     let new_basename = a:new_basenames[index]

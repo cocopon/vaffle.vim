@@ -16,8 +16,8 @@ function! s:keep_buffer_singularity() abort
 endfunction
 
 
-function! s:get_cursor_items(env, mode) abort
-  let items = a:env.items
+function! s:get_cursor_items(filer, mode) abort
+  let items = a:filer.items
   if empty(items)
     return []
   endif
@@ -32,8 +32,8 @@ function! s:get_cursor_items(env, mode) abort
 endfunction
 
 
-function! s:get_selected_items(env) abort
-  let items = a:env.items
+function! s:get_selected_items(filer) abort
+  let items = a:filer.items
   let selected_items = filter(
         \ copy(items),
         \ 'v:val.selected')
@@ -41,7 +41,7 @@ function! s:get_selected_items(env) abort
     return selected_items
   endif
 
-  return s:get_cursor_items(a:env, 'n')
+  return s:get_cursor_items(a:filer, 'n')
 endfunction
 
 
@@ -80,16 +80,16 @@ endfunction
 function! vaffle#refresh() abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let cursor_items = s:get_cursor_items(env, 'n')
+  let filer = vaffle#buffer#get_filer()
+  let cursor_items = s:get_cursor_items(filer, 'n')
   if !empty(cursor_items)
     call vaffle#buffer#save_cursor(cursor_items[0])
   endif
 
-  let new_env = vaffle#env#create(env.dir)
-  call vaffle#env#inherit(new_env, env)
-  let new_env.items = vaffle#env#create_items(new_env)
-  call vaffle#buffer#set_env(new_env)
+  let new_filer = vaffle#filer#create(filer.dir)
+  call vaffle#filer#inherit(new_filer, filer)
+  let new_filer.items = vaffle#filer#create_items(new_filer)
+  call vaffle#buffer#set_filer(new_filer)
 
   call vaffle#buffer#redraw()
 endfunction
@@ -98,9 +98,9 @@ endfunction
 function! vaffle#open_current(open_mode) abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
+  let filer = vaffle#buffer#get_filer()
   let item = get(
-        \ s:get_cursor_items(env, 'n'),
+        \ s:get_cursor_items(filer, 'n'),
         \ 0,
         \ {})
   if empty(item)
@@ -116,8 +116,8 @@ endfunction
 function! vaffle#open_selected(open_mode) abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let items = s:get_selected_items(env)
+  let filer = vaffle#buffer#get_filer()
+  let items = s:get_selected_items(filer)
   if empty(items)
     return
   endif
@@ -131,10 +131,10 @@ endfunction
 function! vaffle#open(path) abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let env_dir = env.dir
+  let filer = vaffle#buffer#get_filer()
+  let filer_dir = filer.dir
 
-  let cursor_items = s:get_cursor_items(env, 'n')
+  let cursor_items = s:get_cursor_items(filer, 'n')
   if !empty(cursor_items)
     call vaffle#buffer#save_cursor(cursor_items[0])
   endif
@@ -146,15 +146,15 @@ function! vaffle#open(path) abort
   call vaffle#file#open([new_item], '')
 
   " Move cursor to previous current directory
-  let prev_dir_item =vaffle#item#from_path(env_dir)
+  let prev_dir_item =vaffle#item#from_path(filer_dir)
   call vaffle#buffer#save_cursor(prev_dir_item)
   call vaffle#buffer#restore_cursor()
 endfunction
 
 
 function! vaffle#open_parent() abort
-  let env = vaffle#buffer#get_env()
-  let parent_dir = fnameescape(fnamemodify(env.dir, ':h'))
+  let filer = vaffle#buffer#get_filer()
+  let parent_dir = fnameescape(fnamemodify(filer.dir, ':h'))
   call vaffle#open(parent_dir)
 endfunction
 
@@ -162,8 +162,8 @@ endfunction
 function! vaffle#toggle_current(mode) abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let items = s:get_cursor_items(env, a:mode)
+  let filer = vaffle#buffer#get_filer()
+  let items = s:get_cursor_items(filer, a:mode)
   if empty(items)
     return
   endif
@@ -191,7 +191,7 @@ endfunction
 function! vaffle#toggle_all() abort
   call s:keep_buffer_singularity()
 
-  let items = vaffle#buffer#get_env().items
+  let items = vaffle#buffer#get_filer().items
   if empty(items)
     return
   endif
@@ -204,7 +204,7 @@ endfunction
 function! vaffle#set_selected_all(selected) abort
   call s:keep_buffer_singularity()
 
-  for item in vaffle#buffer#get_env().items
+  for item in vaffle#buffer#get_filer().items
     let item.selected = a:selected
   endfor
 
@@ -229,8 +229,8 @@ endfunction
 function! vaffle#delete_selected() abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let items = s:get_selected_items(env)
+  let filer = vaffle#buffer#get_filer()
+  let items = s:get_selected_items(filer)
   if empty(items)
     return
   endif
@@ -253,8 +253,8 @@ endfunction
 function! vaffle#move_selected() abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let items = s:get_selected_items(env)
+  let filer = vaffle#buffer#get_filer()
+  let items = s:get_selected_items(filer)
   if empty(items)
     return
   endif
@@ -270,7 +270,7 @@ function! vaffle#move_selected() abort
   endif
 
   call vaffle#file#move(
-        \ vaffle#buffer#get_env(),
+        \ vaffle#buffer#get_filer(),
         \ items, dst_name)
   call vaffle#refresh()
 endfunction
@@ -287,7 +287,7 @@ function! vaffle#mkdir() abort
   endif
 
   call vaffle#file#mkdir(
-        \ vaffle#buffer#get_env(),
+        \ vaffle#buffer#get_filer(),
         \ name)
   call vaffle#refresh()
 endfunction
@@ -304,7 +304,7 @@ function! vaffle#new_file() abort
   endif
 
   call vaffle#file#edit(
-        \ vaffle#buffer#get_env(),
+        \ vaffle#buffer#get_filer(),
         \ name)
 endfunction
 
@@ -312,8 +312,8 @@ endfunction
 function! vaffle#rename_selected() abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let items = s:get_selected_items(env)
+  let filer = vaffle#buffer#get_filer()
+  let items = s:get_selected_items(filer)
   if empty(items)
     return
   endif
@@ -329,7 +329,7 @@ function! vaffle#rename_selected() abort
     endif
 
     call vaffle#file#rename(
-          \ vaffle#buffer#get_env(),
+          \ vaffle#buffer#get_filer(),
           \ items, [new_basename])
     call vaffle#refresh()
     return
@@ -342,30 +342,30 @@ endfunction
 function! vaffle#toggle_hidden() abort
   call s:keep_buffer_singularity()
 
-  let env = vaffle#buffer#get_env()
-  let env.shows_hidden_files = !env.shows_hidden_files
-  call vaffle#buffer#set_env(env)
+  let filer = vaffle#buffer#get_filer()
+  let filer.shows_hidden_files = !filer.shows_hidden_files
+  call vaffle#buffer#set_filer(filer)
 
   let item = get(
-        \ s:get_cursor_items(env, 'n'),
+        \ s:get_cursor_items(filer, 'n'),
         \ 0,
         \ {})
   if !empty(item)
     call vaffle#buffer#save_cursor(item)
   endif
 
-  let env = vaffle#buffer#get_env()
-  let env.items = vaffle#env#create_items(env)
-  call vaffle#buffer#set_env(env)
+  let filer = vaffle#buffer#get_filer()
+  let filer.items = vaffle#filer#create_items(filer)
+  call vaffle#buffer#set_filer(filer)
 
   call vaffle#buffer#redraw()
 endfunction
 
 
 function! vaffle#fill_cmdline() abort
-  let env = vaffle#buffer#get_env()
+  let filer = vaffle#buffer#get_filer()
 
-  let items = s:get_selected_items(env)
+  let items = s:get_selected_items(filer)
   if empty(items)
     return
   endif
@@ -394,8 +394,8 @@ endfunction
 
 
 function! vaffle#chdir_here() abort
-  let env = vaffle#buffer#get_env()
-  call vaffle#chdir(env.dir)
+  let filer = vaffle#buffer#get_filer()
+  call vaffle#chdir(filer.dir)
 endfunction
 
 

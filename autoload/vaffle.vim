@@ -142,11 +142,11 @@ function! vaffle#open(path) abort
   let new_dir = isdirectory(expand(a:path)) ?
         \ expand(a:path) :
         \ fnamemodify(expand(a:path), ':h')
-  let new_item = vaffle#item#create(new_dir)
+  let new_item = vaffle#item#from_path(new_dir)
   call vaffle#file#open([new_item], '')
 
   " Move cursor to previous current directory
-  let prev_dir_item =vaffle#item#create(env_dir)
+  let prev_dir_item =vaffle#item#from_path(env_dir)
   call vaffle#buffer#save_cursor(prev_dir_item)
   call vaffle#buffer#restore_cursor()
 endfunction

@@ -41,7 +41,7 @@ function! vaffle#env#create_items(env) abort
 
   let items =  map(
         \ copy(paths),
-        \ 'vaffle#item#create(v:val)')
+        \ 'vaffle#item#from_path(v:val)')
   call sort(items, 'vaffle#sorter#default#compare')
 
   let index = 0

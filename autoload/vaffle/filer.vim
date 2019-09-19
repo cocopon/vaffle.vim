@@ -3,12 +3,12 @@ set cpoptions&vim
 
 
 function! vaffle#filer#create(path) abort
-  let filer = {}
-  let filer.dir = vaffle#util#normalize_path(a:path)
-  let filer.cursor_paths = {}
-  let filer.shows_hidden_files = g:vaffle_show_hidden_files
-  let filer.items = []
-  return filer
+  return {
+        \   'cursor_paths': {},
+        \   'dir': vaffle#util#normalize_path(a:path),
+        \   'items': [],
+        \   'shows_hidden_files': g:vaffle_show_hidden_files,
+        \ }
 endfunction
 
 

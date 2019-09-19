@@ -93,7 +93,9 @@ function! vaffle#refresh() abort
 
   let new_filer = vaffle#filer#create(filer.dir)
   call vaffle#filer#inherit(new_filer, filer)
-  let new_filer.items = vaffle#filer#create_items(new_filer)
+  let new_filer.items = vaffle#file#create_items_from_dir(
+        \ new_filer.dir,
+        \ new_filer.shows_hidden_files)
   call vaffle#buffer#set_filer(new_filer)
 
   call vaffle#buffer#redraw()
@@ -370,7 +372,9 @@ function! vaffle#toggle_hidden() abort
   endif
 
   let filer = vaffle#buffer#get_filer()
-  let filer.items = vaffle#filer#create_items(filer)
+  let filer.items = vaffle#file#create_items_from_dir(
+        \ filer.dir,
+        \ filer.shows_hidden_files)
   call vaffle#buffer#set_filer(filer)
 
   call vaffle#buffer#redraw()

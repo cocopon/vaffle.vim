@@ -50,6 +50,32 @@ function! s:open_multiple(items, open_mode) abort
 endfunction
 
 
+function! vaffle#file#create_items_from_dir(dir, includes_hidden_files) abort
+  let escaped_dir = fnameescape(fnamemodify(a:dir, ':p'))
+  let paths = vaffle#compat#glob_list(escaped_dir . '*')
+  if a:includes_hidden_files
+    let hidden_paths = vaffle#compat#glob_list(escaped_dir . '.*')
+    " Exclude '.' & '..'
+    call filter(hidden_paths, 'match(v:val, ''\(/\|\\\)\.\.\?$'') < 0')
+
+    call extend(paths, hidden_paths)
+  end
+
+  let items =  map(
+        \ copy(paths),
+        \ 'vaffle#item#from_path(v:val)')
+  call sort(items, 'vaffle#sorter#default#compare')
+
+  let index = 0
+  for item in items
+    let item.index = index
+    let index += 1
+  endfor
+
+  return items
+endfunction
+
+
 function! vaffle#file#open(items, open_mode) abort
   if len(a:items) == 1
     call s:open_single(a:items[0], a:open_mode)

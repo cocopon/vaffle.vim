@@ -282,6 +282,13 @@ A:              Try adding the following command to your vimrc:
 >
                   let NERDTreeHijackNetrw = 0
 <
+Q:              How to prevent "Press ENTER or ..." message after every
+                action?
+
+A:              Try adding the following command to your vimrc:
+>
+                  set cmdheight=2
+<
 
 ==============================================================================
 7. About                                                        *vaffle-about*

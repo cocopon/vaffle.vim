@@ -312,8 +312,8 @@ endfunction
 function! vaffle#rename_selected() abort
   call s:keep_buffer_singularity()
 
-  let filer = vaffle#buffer#get_filer()
-  let items = s:get_selected_items(filer)
+  let items = s:get_selected_items(
+        \ vaffle#buffer#get_filer())
   if empty(items)
     return
   endif
@@ -328,10 +328,14 @@ function! vaffle#rename_selected() abort
       return
     endif
 
-    call vaffle#file#rename(
+    let renamed_paths = vaffle#file#rename(
           \ vaffle#buffer#get_filer(),
           \ items, [new_basename])
+
     call vaffle#refresh()
+    if !empty(renamed_paths[0])
+      call vaffle#buffer#move_cursor_to_path(renamed_paths[0])
+    endif
     return
   endif
 

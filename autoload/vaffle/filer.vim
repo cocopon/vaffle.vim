@@ -12,6 +12,11 @@ function! vaffle#filer#create(path) abort
 endfunction
 
 
+function! vaffle#filer#save_cursor(filer, path) abort
+  let a:filer.cursor_paths[a:filer.dir] = a:path
+endfunction
+
+
 function! vaffle#filer#inherit(filer, old_filer) abort
   let a:filer.cursor_paths = get(
         \ a:old_filer,

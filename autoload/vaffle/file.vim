@@ -138,6 +138,8 @@ endfunction
 function! vaffle#file#rename(filer, items, new_basenames) abort
   let cwd = a:filer.dir
   let index = 0
+  let renamed_paths = []
+
   for item in a:items
     let new_basename = a:new_basenames[index]
     let new_path = vaffle#util#normalize_path(printf('%s/%s',
@@ -146,17 +148,20 @@ function! vaffle#file#rename(filer, items, new_basenames) abort
     let index += 1
 
     if filereadable(new_path) || isdirectory(new_path)
+      call add(renamed_paths, '')
       call vaffle#util#echo_error(
             \ printf('File already exists, skipped: ''%s''', new_path))
       continue
     endif
 
     call rename(item.path, new_path)
-
+    call add(renamed_paths, new_path)
     echo printf('Renamed file: ''%s'' -> ''%s''',
           \ item.basename,
           \ new_basename)
   endfor
+
+  return renamed_paths
 endfunction
 
 

@@ -79,23 +79,25 @@ function! s:perform_auto_cd_if_needed(path) abort
 endfunction
 
 
-function! s:get_saved_cursor_lnum() abort
-  let filer = vaffle#buffer#get_filer()
-  let cursor_paths = filer.cursor_paths
-  let cursor_path = get(cursor_paths, filer.dir, '')
-  if empty(cursor_path)
+function! s:find_lnum_for_path(filer, path) abort
+  if empty(a:path)
     return 1
   endif
 
   let items = filter(
-        \ copy(filer.items),
-        \ 'v:val.path ==# cursor_path')
+        \ copy(a:filer.items),
+        \ 'v:val.path ==# a:path')
   if empty(items)
     return 1
   endif
 
   let cursor_item = items[0]
-  return index(filer.items, cursor_item) + 1
+  return index(a:filer.items, cursor_item) + 1
+endfunction
+
+
+function! s:move_cursor(lnum) abort
+  call cursor([a:lnum, 1, 0, 1])
 endfunction
 
 
@@ -193,8 +195,17 @@ endfunction
 
 
 function! vaffle#buffer#restore_cursor() abort
-  let initial_lnum = s:get_saved_cursor_lnum()
-  call cursor([initial_lnum, 1, 0, 1])
+  let filer = vaffle#buffer#get_filer()
+  let cursor_path = get(filer.cursor_paths, filer.dir, '')
+  let lnum = s:find_lnum_for_path(filer, cursor_path)
+  call s:move_cursor(lnum)
+endfunction
+
+
+function! vaffle#buffer#move_cursor_to_path(path) abort
+  let filer = vaffle#buffer#get_filer()
+  let lnum = s:find_lnum_for_path(filer, a:path)
+  call s:move_cursor(lnum)
 endfunction
 
 
@@ -229,7 +240,7 @@ endfunction
 
 function! vaffle#buffer#save_cursor(item) abort
   let filer = vaffle#buffer#get_filer()
-  let filer.cursor_paths[filer.dir] = a:item.path
+  call vaffle#filer#save_cursor(filer, a:item.path)
   call vaffle#buffer#set_filer(filer)
 endfunction
 

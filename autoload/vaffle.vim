@@ -56,13 +56,16 @@ function! vaffle#init(...) abort
     let path = getcwd()
   endif
 
-  let is_vaffle_buffer = vaffle#buffer#is_for_vaffle(
-        \ bufnr('%'))
-  let bufname = bufname('%')
-  if !is_vaffle_buffer && !isdirectory(bufname)
+  let path = fnamemodify(path, ':p')
+
+  if !isdirectory(path)
     " Open new directory buffer and overwrite it
     " (will be initialized by vaffle#event#on_bufenter)
-    execute printf('edit %s', fnameescape(path))
+    let dir = fnamemodify(path, ':h')
+    execute printf('edit %s', fnameescape(dir))
+
+    call vaffle#buffer#move_cursor_to_path(
+          \ fnamemodify(path, ':p'))
     return
   endif
 

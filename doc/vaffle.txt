@@ -94,8 +94,9 @@ version, but not supported.
 :Vaffle                                                              *:Vaffle*
   Open the current working directory with Vaffle.
 
-:Vaffle {dir}                                                      *:Vaffle_d*
-  Open specified directory with Vaffle.
+:Vaffle {file}                                                     *:Vaffle_f*
+  Open {file} with Vaffle. If {file} is not a directory, open its parent
+  directory and focus the file.
 
 
 ==============================================================================

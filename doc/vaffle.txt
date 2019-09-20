@@ -7,28 +7,28 @@
                 /__/__/__/__/   | |/ / // /_/ / / / / / ___/                 ~
                   /__/__/       |___/___^__/_/ /_/ /_/____/                  ~
                                                                              ~
-                         Sweet treat for your hungry                         ~
+                       Sweet treat for file operations                        ~
 
 
 ==============================================================================
 0. Contents                                                  *vaffle-contents*
 
 
-  1. Intro .................................. |vaffle-intro|
-    1.1. Concept .............................. |vaffle-concept|
-    1.2. Story ................................ |vaffle-story|
-    1.3. Requirements ......................... |vaffle-requirements|
-  2. Commands ............................... |vaffle-commands|
-  3. Key mappings ........................... |vaffle-key-mappings|
-    3.1. Toggle selection ..................... |vaffle-key-mappings-toggle|
-    3.2. Operations for the current item ...... |vaffle-key-mappings-current|
-    3.3. Operations for selections ............ |vaffle-key-mappings-selected|
-    3.4. Other operations ..................... |vaffle-key-mappings-others|
-    3.5. Default key mappings ................. |vaffle-default-key-mappings|
-  4. Global options ......................... |vaffle-options|
-  5. Examples ............................... |vaffle-examples|
-  6. FAQ .................................... |vaffle-faq|
-  7. About .................................. |vaffle-about|
+1. Intro .................................. |vaffle-intro|
+  1.1. Concept .............................. |vaffle-concept|
+  1.2. Story ................................ |vaffle-story|
+  1.3. Requirements ......................... |vaffle-requirements|
+2. Commands ............................... |vaffle-commands|
+3. Key mappings ........................... |vaffle-key-mappings|
+  3.1. Toggle selection ..................... |vaffle-key-mappings-toggle|
+  3.2. Operations for the current item ...... |vaffle-key-mappings-current|
+  3.3. Operations for selections ............ |vaffle-key-mappings-selected|
+  3.4. Other operations ..................... |vaffle-key-mappings-others|
+  3.5. Default key mappings ................. |vaffle-default-key-mappings|
+4. Global options ......................... |vaffle-options|
+5. Examples ............................... |vaffle-examples|
+6. FAQ .................................... |vaffle-faq|
+7. About .................................. |vaffle-about|
 
 
 ==============================================================================
@@ -61,12 +61,13 @@ scratch?
 window. But I uses Vim with heavy-split windows so I want to operate files
 in a small window...!
 
-|vimfiler| is full-featured file manager, maybe it can do all things you want to
-do. But... it's too complex to customize and requires another plugin: |unite|.
+|vimfiler| is full-featured file manager, maybe it can do all things you want
+to do. But... it's too complex to customize and requires another plugin:
+|unite|.
 
-|dirvish| is also awesome file manager. But it's a "minimalist directory viewer"
-and needs some effort to operate (select multiple, delete, move, rename, ...)
-files.
+|dirvish| is also awesome file manager. But it's a "minimalist directory
+viewer" and needs some effort to operate (select multiple, delete, move,
+rename, ...) files.
 
 I dreamed a file manager - that is suitable for small window, and is as simple
 as Dirvish, and has intuitive user interface like vimfiler!
@@ -91,10 +92,10 @@ version, but not supported.
 
 
 :Vaffle                                                              *:Vaffle*
-                Open the current working directory with Vaffle.
+  Open the current working directory with Vaffle.
 
 :Vaffle {dir}                                                      *:Vaffle_d*
-                Open specified directory with Vaffle.
+  Open specified directory with Vaffle.
 
 
 ==============================================================================
@@ -106,10 +107,10 @@ version, but not supported.
 
 
 *<Plug>(vaffle-toggle-all)*
-                Toggle selections of all items.
+  Toggle selections of all items.
 
 *<Plug>(vaffle-toggle-current)*
-                Toggle selection of the item under the cursor.
+  Toggle selection of the item under the cursor.
 
 
 ------------------------------------------------------------------------------
@@ -117,10 +118,10 @@ version, but not supported.
 
 
 *<Plug>(vaffle-open-current)*
-                Open the item under the cursor.
+  Open the item under the cursor.
 
 *<Plug>(vaffle-open-current-tab)*
-                Open the item under the cursor in a new tab.
+  Open the item under the cursor in a new tab.
 
 
 ------------------------------------------------------------------------------
@@ -128,29 +129,29 @@ version, but not supported.
 
 
 *<Plug>(vaffle-delete-selected)*
-                Delete selected items.
-                Note: Vaffle uses builtin function |delete()| to delete files,
-                so cannot undo the operation.
+  Delete selected items.
+  Note: Vaffle uses builtin function |delete()| to delete files, so cannot undo
+  the operation.
 
 *<Plug>(vaffle-fill-cmdline)*
-                Fill the command-line with a list of selected items. Useful
-                for passing their paths to a shell command.
+  Fill the command-line with a list of selected items. Useful for passing
+  their paths to a shell command.
 
 *<Plug>(vaffle-move-selected)*
-                Move selected items to specified directory.
+  Move selected items to specified directory.
 
 *<Plug>(vaffle-open-selected)*
-                Open selected items.
+  Open selected items.
 
 *<Plug>(vaffle-open-selected-split)*
-                Open selected items under the cursor with a split window.
+  Open selected items under the cursor with a split window.
 
 *<Plug>(vaffle-open-selected-vsplit)*
-                Open selected items under the cursor with a split window,
-                it will be split vertically.
+  Open selected items under the cursor with a split window, it will be split
+  vertically.
 
 *<Plug>(vaffle-rename-selected)*
-                Rename selected items.
+  Rename selected items.
 
 
 ------------------------------------------------------------------------------
@@ -158,32 +159,31 @@ version, but not supported.
 
 
 *<Plug>(vaffle-chdir-here)*
-                Change the current working directory to one the current buffer
-                has opened.
+  Change the current working directory to one the current buffer has opened.
 
 *<Plug>(vaffle-mkdir)*
-                Create a new directory in the current directory.
+  Create a new directory in the current directory.
 
 *<Plug>(vaffle-new-file)*
-                Create a new file in the current directory.
+  Create a new file in the current directory.
 
 *<Plug>(vaffle-open-home)*
-                Open home directory.
+  Open home directory.
 
 *<Plug>(vaffle-open-parent)*
-                Open the parent directory.
+  Open the parent directory.
 
 *<Plug>(vaffle-open-root)*
-                Open the root directory.
+  Open the root directory.
 
 *<Plug>(vaffle-quit)*
-                Quit Vaffle and close the buffer.
+  Quit Vaffle and close the buffer.
 
 *<Plug>(vaffle-refresh)*
-                Refresh the buffer.
+  Refresh the buffer.
 
 *<Plug>(vaffle-toggle-hidden)*
-                Toggle visibility of hidden (dot-prefixed) items.
+  Toggle visibility of hidden (dot-prefixed) items.
 
 
 ------------------------------------------------------------------------------
@@ -218,38 +218,33 @@ version, but not supported.
 
 
 *g:vaffle_auto_cd*
-                (Default: 0)
-                If enabled, changes the working directory to selected one
-                automatically.
+  (Default: 0)
+  If enabled, changes the working directory to selected one automatically.
 
 *g:vaffle_force_delete*
-                (Default: 0)
-                Vaffle doesn't delete non-empty directory by default. This
-                option will lift the restriction.
+  (Default: 0)
+  Vaffle doesn't delete non-empty directory by default. This option will lift
+  the restriction.
 
 *g:vaffle_show_hidden_files*
-                (Default: 0)
-                If enabled, Vaffle shows hidden files by default. You can
-                toggle the option with |<Plug>(vaffle-toggle-hidden)| any
-                time.
+  (Default: 0)
+  If enabled, Vaffle shows hidden files by default. You can toggle the option
+  with |<Plug>(vaffle-toggle-hidden)| any time.
 
 *g:vaffle_open_selected_split_position*
-                (Default: '')
-                Possible values: '', 'topleft' or 'rightbelow'
-                Set the position of the new window of
-                |<Plug>(vaffle-open-selected-split)|.
+  (Default: '')
+  Possible values: '', 'topleft' or 'rightbelow'
+  Set the position of the new window of |<Plug>(vaffle-open-selected-split)|.
 
 *g:vaffle_open_selected_vsplit_position*
-                (Default: '')
-                Possible values: '', 'topleft' or 'rightbelow'
-                Set the position of the new window of
-                |<Plug>(vaffle-open-selected-vsplit)|.
+  (Default: '')
+  Possible values: '', 'topleft' or 'rightbelow'
+  Set the position of the new window of |<Plug>(vaffle-open-selected-vsplit)|.
 
 *g:vaffle_use_default_mappings*
-                (Default: 1)
-                If disabled, Vaffle doesn't set up the default mappings. To
-                customize key mappings, see
-                |vaffle-example-custom-key-mappings|.
+  (Default: 1)
+  If disabled, Vaffle doesn't set up the default mappings. To customize key
+  mappings, see |vaffle-example-custom-key-mappings|.
 
 
 ==============================================================================
@@ -275,19 +270,15 @@ Customizing key mappings:                 *vaffle-example-custom-key-mappings*
 6. FAQ                                                            *vaffle-faq*
 
 
-Q:              I want to use Vaffle with NERDTree, but |:Vaffle| opens
-                NERDTree buffer...
-
-A:              Try adding the following command to your vimrc:
+Q: I want to use Vaffle with NERDTree, but |:Vaffle| opens NERDTree buffer...
+A: Try adding the following command to your vimrc:
 >
-                  let NERDTreeHijackNetrw = 0
+  let NERDTreeHijackNetrw = 0
 <
-Q:              How to prevent "Press ENTER or ..." message after every
-                action?
-
-A:              Try adding the following command to your vimrc:
+Q: How to prevent "Press ENTER or ..." message after every action?
+A: Try adding the following command to your vimrc:
 >
-                  set cmdheight=2
+  set cmdheight=2
 <
 
 ==============================================================================

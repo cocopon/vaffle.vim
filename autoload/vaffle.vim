@@ -51,18 +51,13 @@ endfunction
 
 
 function! vaffle#init(...) abort
-  let bufnr = bufnr('%')
-  let is_vaffle_buffer = vaffle#buffer#is_for_vaffle(bufnr)
-
   let path = get(a:000, 0, '')
-  let extracted_path = vaffle#buffer#extract_path_from_bufname(path)
-  if !empty(extracted_path)
-    let path = extracted_path
-  endif
   if empty(path)
     let path = getcwd()
   endif
 
+  let is_vaffle_buffer = vaffle#buffer#is_for_vaffle(
+        \ bufnr('%'))
   let bufname = bufname('%')
   if !is_vaffle_buffer && !isdirectory(bufname)
     " Open new directory buffer and overwrite it

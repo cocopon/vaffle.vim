@@ -43,13 +43,6 @@ function! s:set_up_default_mappings() abort
 endfunction
 
 
-function! s:create_line_from_item(item) abort
-  return printf('%s %s',
-        \ a:item.selected ? '*' : ' ',
-        \ a:item.basename . (a:item.is_dir ? '/' : ''))
-endfunction
-
-
 function! s:generate_unique_bufname(path) abort
   let bufname = ''
   let index = 0
@@ -165,6 +158,13 @@ function! vaffle#buffer#is_for_vaffle(bufnr) abort
 endfunction
 
 
+function! vaffle#buffer#render_item(item) abort
+  return printf('%s %s',
+        \ a:item.selected ? '*' : ' ',
+        \ a:item.basename . (a:item.is_dir ? '/' : ''))
+endfunction
+
+
 function! vaffle#buffer#redraw() abort
   setlocal modifiable
 
@@ -176,7 +176,7 @@ function! vaffle#buffer#redraw() abort
   if !empty(items)
     let lnum = 1
     for item in items
-      let line = s:create_line_from_item(item)
+      let line = vaffle#buffer#render_item(item)
       call setline(lnum, line)
       let lnum += 1
     endfor
@@ -215,7 +215,7 @@ function! vaffle#buffer#redraw_item(item) abort
   setlocal modifiable
 
   let lnum = a:item.index + 1
-  call setline(lnum, s:create_line_from_item(a:item))
+  call setline(lnum, vaffle#buffer#render_item(a:item))
 
   setlocal nomodifiable
   setlocal nomodified

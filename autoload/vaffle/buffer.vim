@@ -1,6 +1,7 @@
 let s:save_cpo = &cpoptions
 set cpoptions&vim
 
+
 function! s:map_default(mode, lhs, vaffle_command, sp_args) abort
   execute printf('%smap %s %s <Plug>(vaffle-%s)',
         \ a:mode,
@@ -8,6 +9,7 @@ function! s:map_default(mode, lhs, vaffle_command, sp_args) abort
         \ a:lhs,
         \ a:vaffle_command)
 endfunction
+
 
 function! s:set_up_default_mappings() abort
   " Toggle

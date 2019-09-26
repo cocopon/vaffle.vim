@@ -158,13 +158,6 @@ function! vaffle#buffer#is_for_vaffle(bufnr) abort
 endfunction
 
 
-function! vaffle#buffer#render_item(item) abort
-  return printf('%s %s',
-        \ a:item.selected ? '*' : ' ',
-        \ a:item.basename . (a:item.is_dir ? '/' : ''))
-endfunction
-
-
 function! vaffle#buffer#redraw() abort
   setlocal modifiable
 
@@ -172,17 +165,7 @@ function! vaffle#buffer#redraw() abort
   silent keepjumps %delete _
 
   let filer = vaffle#buffer#get_filer()
-  let items = filer.items
-  if !empty(items)
-    let lnum = 1
-    for item in items
-      let line = vaffle#buffer#render_item(item)
-      call setline(lnum, line)
-      let lnum += 1
-    endfor
-  else
-    call setline(1, '  (no items)')
-  endif
+  call setline(1, vaffle#renderer#render_filer(filer.items))
 
   setlocal nomodifiable
   setlocal nomodified

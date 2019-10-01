@@ -200,7 +200,7 @@ function! vaffle#buffer#redraw_item(item) abort
   setlocal modifiable
 
   let lnum = a:item.index + 1
-  call setline(lnum, vaffle#buffer#render_item(a:item))
+  call setline(lnum, vaffle#renderer#render_item(a:item))
 
   setlocal nomodifiable
   setlocal nomodified

@@ -53,7 +53,7 @@ endfunction
 function! vaffle#init(...) abort
   let path = get(a:000, 0, '')
   if empty(path)
-    let path = getcwd()
+    let path = expand('%:p')
   endif
 
   let path = fnamemodify(path, ':p')

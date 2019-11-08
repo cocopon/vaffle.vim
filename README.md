@@ -1,12 +1,11 @@
-Vaffle
-======
+# Vaffle
+[![CircleCI](https://circleci.com/gh/cocopon/vaffle.vim.svg?style=shield)](https://circleci.com/gh/cocopon/vaffle.vim)
 Vaffle is a lightweight file manager for Vim.
 
 
 
 
-Concept
--------
+##Concept
 Vaffle is...
 
 - **a file manager**
@@ -21,8 +20,7 @@ Vaffle is...
   
   
 
-Demo
-----
+## Demo
 
 
 ### Simple user interface
@@ -39,15 +37,13 @@ Demo
 
 
 
-Usage
------
+## Usage
 See the [document][vim-doc] for detailed information.
 
 
 
 
-License
--------
+## License
 MIT License. See `LICENSE.txt` for more information.
 
 

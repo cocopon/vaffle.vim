@@ -1,0 +1,10 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: thinca/vim:v8.0.1850
+    steps:
+      - checkout
+      - run: apk add --no-cache git
+      - run: git clone https://github.com/thinca/vim-themis
+      - run: vim-themis/bin/themis --reporter spec

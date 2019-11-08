@@ -1,4 +1,4 @@
-let s:suite = themis#suite('vaffle#util')
+let s:suite = themis#suite('vaffle-ui')
 let s:assert = themis#helper('assert')
 
 
@@ -7,9 +7,9 @@ function! s:get_listed_buffers() abort
 endfunction
 
 
-function! s:suite.test_vaffle_init() abort
-  e test/dummy/foo.txt
-  e test/dummy/bar.txt
+function! s:suite.test_init_unlist() abort
+  e test/files/init_unlist/foo.txt
+  e test/files/init_unlist/bar.txt
   Vaffle
 
   call s:assert.equals(

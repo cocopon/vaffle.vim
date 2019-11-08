@@ -91,37 +91,11 @@ function! s:find_lnum_for_path(filer, path) abort
 endfunction
 
 
-function! s:should_wipe_out(bufnr) abort
-  if !bufexists(a:bufnr)
-    return 0
-  endif
-
-  return vaffle#buffer#is_for_vaffle(a:bufnr)
-        \ && !buflisted(a:bufnr)
-        \ && !bufloaded(a:bufnr)
-endfunction
-
-
-function! s:clean_up_outdated_buffers() abort
-  let all_bufnrs = range(1, bufnr('$'))
-  let outdated_bufnrs = filter(
-        \ all_bufnrs,
-        \ 's:should_wipe_out(v:val)')
-  for bufnr in outdated_bufnrs
-    execute printf('silent bwipeout %d', bufnr)
-  endfor
-endfunction
-
-
-function! vaffle#buffer#init(path) abort
-  call s:clean_up_outdated_buffers()
-
-  let path = vaffle#util#normalize_path(a:path)
-
+function! vaffle#buffer#init(filer) abort
   " Give unique name to buffer to avoid unwanted sync
   " between different windows
   execute printf('silent file %s',
-        \ s:generate_unique_bufname(path))
+        \ s:generate_unique_bufname(a:filer.dir))
 
   if g:vaffle_use_default_mappings
     call s:set_up_default_mappings()
@@ -135,16 +109,11 @@ function! vaffle#buffer#init(path) abort
   setlocal noswapfile
   setlocal nowrap
 
-  let filer = vaffle#filer#create(path)
-  call vaffle#filer#inherit(filer, vaffle#buffer#get_filer())
-  let filer.items = vaffle#file#create_items_from_dir(
-        \ filer.dir,
-        \ filer.shows_hidden_files)
-  call vaffle#buffer#set_filer(filer)
+  call vaffle#buffer#set_filer(a:filer)
 
   call vaffle#buffer#redraw()
 
-  call s:perform_auto_cd_if_needed(path)
+  call s:perform_auto_cd_if_needed(a:filer.dir)
 endfunction
 
 
@@ -208,9 +177,15 @@ endfunction
 
 
 function! vaffle#buffer#duplicate() abort
-  call vaffle#file#edit(
-        \ vaffle#buffer#get_filer(),
-        \ '')
+  let pos = getcurpos()
+
+  let filer = vaffle#buffer#get_filer()
+  enew
+  call vaffle#buffer#init(filer)
+  call vaffle#window#init()
+
+  " Restores cursor completely
+  call setpos('.', pos)
 endfunction
 
 

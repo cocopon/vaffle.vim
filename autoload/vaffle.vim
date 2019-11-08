@@ -50,6 +50,28 @@ function! s:get_selected_items(filer) abort
 endfunction
 
 
+function! s:should_wipe_out(bufnr) abort
+  if !bufexists(a:bufnr)
+    return 0
+  endif
+
+  return vaffle#buffer#is_for_vaffle(a:bufnr)
+        \ && !buflisted(a:bufnr)
+        \ && !bufloaded(a:bufnr)
+endfunction
+
+
+function! s:clean_up_outdated_buffers() abort
+  let all_bufnrs = range(1, bufnr('$'))
+  let outdated_bufnrs = filter(
+        \ all_bufnrs,
+        \ 's:should_wipe_out(v:val)')
+  for bufnr in outdated_bufnrs
+    execute printf('silent bwipeout %d', bufnr)
+  endfor
+endfunction
+
+
 function! vaffle#init(...) abort
   let path = get(a:000, 0, '')
   if empty(path)
@@ -70,7 +92,15 @@ function! vaffle#init(...) abort
   endif
 
   try
-    call vaffle#buffer#init(path)
+    call s:clean_up_outdated_buffers()
+
+    let filer = vaffle#filer#create(path)
+    call vaffle#filer#inherit(filer, vaffle#buffer#get_filer())
+    let filer.items = vaffle#file#create_items_from_dir(
+          \ filer.dir,
+          \ filer.shows_hidden_files)
+
+    call vaffle#buffer#init(filer)
     call vaffle#window#init()
   catch /:E37:/
     call vaffle#util#echo_error(

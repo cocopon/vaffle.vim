@@ -182,6 +182,7 @@ function! vaffle#buffer#duplicate() abort
   let filer = vaffle#buffer#get_filer()
   enew
   call vaffle#buffer#init(filer)
+  call vaffle#window#init()
 
   " Restores cursor completely
   call setpos('.', pos)

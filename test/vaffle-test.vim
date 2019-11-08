@@ -53,3 +53,21 @@ function! s:suite.test_vaffle_duplicate_and_select_hidden() abort
         \ 1,
         \ 'Duplicated Vaffle should select correct hidden file')
 endfunction
+
+
+function! s:suite.test_vaffle_duplicate_and_quit() abort
+  Vaffle test/files/duplication
+  " Split the buffer
+  execute "normal \<C-w>v"
+  " Quit
+  normal q
+
+  call s:assert.equals(
+        \ bufname('%'),
+        \ '',
+        \ 'Duplicated Vaffle should quit')
+  call s:assert.equals(
+        \ &filetype,
+        \ '',
+        \ 'Duplicated Vaffle should quit')
+endfunction

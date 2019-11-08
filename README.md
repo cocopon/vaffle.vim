@@ -7,7 +7,7 @@ Vaffle is a lightweight file manager for Vim.
 
 
 
-##Concept
+## Concept
 Vaffle is...
 
 - **a file manager**

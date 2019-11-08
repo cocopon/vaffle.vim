@@ -26,15 +26,15 @@ Vaffle is...
 
 
 ### Simple user interface
-[![asciicast](https://asciinema.org/a/134279.png)](https://asciinema.org/a/134279)
+[![asciicast](https://user-images.githubusercontent.com/602961/68488153-c9573e80-0287-11ea-8809-8001af2955bf.gif)](https://asciinema.org/a/134279)
 
 
 ### Intuitive file operations
-[![asciicast](https://asciinema.org/a/134280.png)](https://asciinema.org/a/134280)
+[![asciicast](https://user-images.githubusercontent.com/602961/68488205-e2f88600-0287-11ea-92fc-917a1b579fb9.gif)](https://asciinema.org/a/134280)
 
 
 ### Supports buffer duplication
-[![asciicast](https://asciinema.org/a/134282.png)](https://asciinema.org/a/134282)
+[![asciicast](https://user-images.githubusercontent.com/602961/68488235-fad00a00-0287-11ea-8e73-b7bfce8d906f.gif)](https://asciinema.org/a/134282)
 
 
 

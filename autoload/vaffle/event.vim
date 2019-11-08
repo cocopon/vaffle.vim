@@ -25,11 +25,6 @@ function! vaffle#event#on_bufenter() abort
     return
   endif
 
-  let extracted_path = vaffle#buffer#extract_path_from_bufname(path)
-  let path = !empty(extracted_path)
-        \ ? extracted_path
-        \ : path 
-
   call vaffle#init(path)
 endfunction
 

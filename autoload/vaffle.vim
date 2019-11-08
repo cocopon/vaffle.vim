@@ -78,6 +78,11 @@ function! vaffle#init(...) abort
     let path = expand('%:p')
   endif
 
+  let extracted_path = vaffle#buffer#extract_path_from_bufname(path)
+  let path = !empty(extracted_path)
+        \ ? extracted_path
+        \ : path 
+
   let path = fnamemodify(path, ':p')
 
   if !isdirectory(path)

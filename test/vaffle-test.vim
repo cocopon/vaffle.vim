@@ -17,3 +17,15 @@ function! s:suite.test_init_unlist() abort
         \ 2,
         \ ':Vaffle should not unlist current buffer')
 endfunction
+
+
+function! s:suite.test_double_vaffle() abort
+  Vaffle test/files
+  let prev_dir = b:vaffle.dir
+  Vaffle
+
+  call s:assert.equals(
+        \ prev_dir,
+        \ b:vaffle.dir,
+        \ ':Vaffle on Vaffle buffer should not change working directory')
+endfunction

@@ -7,6 +7,7 @@ function! s:get_listed_buffers() abort
 endfunction
 
 
+" https://github.com/cocopon/vaffle.vim/issues/31
 function! s:suite.test_init_unlist() abort
   e test/e2e/files/init_unlist/foo.txt
   e test/e2e/files/init_unlist/bar.txt

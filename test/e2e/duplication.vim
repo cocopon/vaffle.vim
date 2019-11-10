@@ -1,9 +1,9 @@
-let s:suite = themis#suite('vaffle-ui')
+let s:suite = themis#suite('vaffle_e2e_duplication')
 let s:assert = themis#helper('assert')
 
 
 function! s:suite.test_duplicate_and_select() abort
-  Vaffle test/files/duplication
+  Vaffle test/e2e/files/duplication
   " Show hidden files
   normal .
   " Split the buffer
@@ -23,7 +23,7 @@ endfunction
 
 
 function! s:suite.test_duplicate_and_select_hidden() abort
-  Vaffle test/files/duplication
+  Vaffle test/e2e/files/duplication
   " Show hidden files
   normal .
   " Split the buffer
@@ -39,7 +39,7 @@ endfunction
 
 
 function! s:suite.test_duplicate_and_quit() abort
-  Vaffle test/files/duplication
+  Vaffle test/e2e/files/duplication
   " Split the buffer
   execute "normal \<C-w>v"
   " Quit

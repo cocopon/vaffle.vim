@@ -1,4 +1,4 @@
-let s:suite = themis#suite('vaffle-ui')
+let s:suite = themis#suite('vaffle_e2e_uncategorized')
 let s:assert = themis#helper('assert')
 
 
@@ -8,8 +8,8 @@ endfunction
 
 
 function! s:suite.test_init_unlist() abort
-  e test/files/init_unlist/foo.txt
-  e test/files/init_unlist/bar.txt
+  e test/e2e/files/init_unlist/foo.txt
+  e test/e2e/files/init_unlist/bar.txt
   Vaffle
 
   call s:assert.equals(
@@ -20,7 +20,7 @@ endfunction
 
 
 function! s:suite.test_double_vaffle() abort
-  Vaffle test/files
+  Vaffle test/e2e/files
   let prev_dir = b:vaffle.dir
   Vaffle
 

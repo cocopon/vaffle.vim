@@ -129,11 +129,6 @@ function! vaffle#buffer#is_for_vaffle(bufnr) abort
 endfunction
 
 
-function! vaffle#buffer#was_for_vaffle(bufnr) abort
-  return vaffle#buffer#is_for_vaffle(a:bufnr) && !exists('b:vaffle')
-endfunction
-
-
 function! vaffle#buffer#redraw() abort
   setlocal modifiable
 

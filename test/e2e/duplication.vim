@@ -2,6 +2,11 @@ let s:suite = themis#suite('vaffle_e2e_duplication')
 let s:assert = themis#helper('assert')
 
 
+function! s:suite.before_each() abort
+  %bwipeout!
+endfunction
+
+
 function! s:suite.test_duplicate_and_select() abort
   Vaffle test/e2e/files/duplication
   " Show hidden files
@@ -40,6 +45,7 @@ endfunction
 
 function! s:suite.test_duplicate_and_quit() abort
   Vaffle test/e2e/files/duplication
+
   " Split the buffer
   execute "normal \<C-w>v"
   " Quit
@@ -48,9 +54,23 @@ function! s:suite.test_duplicate_and_quit() abort
   call s:assert.equals(
         \ bufname('%'),
         \ '',
-        \ 'Duplicated Vaffle should quit')
+        \ 'Duplicated Vaffle should be closed')
   call s:assert.equals(
         \ &filetype,
         \ '',
-        \ 'Duplicated Vaffle should quit')
+        \ 'Duplicated Vaffle should be closed')
+
+  " Focus another buffer
+  execute "normal \<C-w>w"
+  " Quit another buffer
+  normal q
+
+  call s:assert.equals(
+        \ bufname('%'),
+        \ '',
+        \ 'Duplicated Vaffle should be closed')
+  call s:assert.equals(
+        \ &filetype,
+        \ '',
+        \ 'Duplicated Vaffle should be closed')
 endfunction

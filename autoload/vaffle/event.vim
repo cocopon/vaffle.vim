@@ -9,20 +9,35 @@ function! s:newtralize_netrw() abort
 endfunction
 
 
+function! s:should_init(bufnr, path) abort
+  let for_vaffle = vaffle#buffer#is_for_vaffle(a:bufnr)
+
+  if for_vaffle && !exists('b:vaffle')
+    " Deleted Vaffle buffer should be initialized
+    return 1
+  endif
+
+  if for_vaffle
+    " Living Vaffle buffer should not be initialized
+    return 0
+  endif
+
+  return isdirectory(a:path)
+endfunction
+
+
 function! vaffle#event#on_bufenter() abort
   call s:newtralize_netrw()
 
   let bufnr = bufnr('%')
-  let was_vaffle_buffer = vaffle#buffer#was_for_vaffle(bufnr)
   let path = expand('%:p')
 
-  let should_init = was_vaffle_buffer
-        \ || isdirectory(path)
-
-  if !should_init
-    " Store bufnr of non-directory buffer
-    " for restoring previous buffer when quitting
-    call vaffle#window#store_non_vaffle_buffer(bufnr)
+  if !s:should_init(bufnr, path)
+    if !vaffle#buffer#is_for_vaffle(bufnr)
+      " Store bufnr of non-directory, non-vaffle buffer
+      " for restoring previous buffer when quitting
+      call vaffle#window#store_non_vaffle_buffer(bufnr)
+    endif
     return
   endif
 

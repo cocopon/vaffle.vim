@@ -30,3 +30,17 @@ function! s:suite.test_double_vaffle() abort
         \ b:vaffle.dir,
         \ ':Vaffle on Vaffle buffer should not change working directory')
 endfunction
+
+
+function! s:suite.test_reinit_deleted_buffer() abort
+  Vaffle test/e2e/files/duplication
+  " Open item
+  normal l
+  " Then go back
+  execute "normal \<C-o>"
+
+  call s:assert.equals(
+        \ &filetype,
+        \ 'vaffle',
+        \ 'Deleted Vaffle buffer should be re-initialized')
+endfunction

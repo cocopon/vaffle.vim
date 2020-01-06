@@ -22,3 +22,4 @@ endfunction
 
 
 let &cpoptions = s:save_cpo
+unlet s:save_cpo

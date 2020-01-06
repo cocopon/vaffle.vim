@@ -63,5 +63,5 @@ nnoremap <silent> <Plug>(vaffle-open-root)            :<C-u>call vaffle#open('/'
 nnoremap <silent> <Plug>(vaffle-quit)                 :<C-u>call vaffle#quit()<CR>
 nnoremap <silent> <Plug>(vaffle-refresh)              :<C-u>call vaffle#refresh()<CR>
 
-
 let &cpoptions = s:save_cpo
+unlet s:save_cpo

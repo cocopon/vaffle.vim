@@ -1,9 +1,11 @@
 let s:suite = themis#suite('vaffle_e2e_duplication')
 let s:assert = themis#helper('assert')
+let s:cwd = getcwd()
 
 
 function! s:suite.before_each() abort
   %bwipeout!
+  execute printf('cd %s', fnameescape(s:cwd))
 endfunction
 
 

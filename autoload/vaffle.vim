@@ -99,6 +99,13 @@ function! vaffle#init(...) abort
   try
     call s:clean_up_outdated_buffers()
 
+    " If current buffer is for existing file, create new buffer before init
+    " to avoid overwriting the buffer
+    let should_new_buffer = filereadable(expand('%:p'))
+    if should_new_buffer
+      enew
+    endif
+
     let filer = vaffle#filer#create(path)
     call vaffle#filer#inherit(filer, vaffle#buffer#get_filer())
     let filer.items = vaffle#file#create_items_from_dir(

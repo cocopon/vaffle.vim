@@ -105,7 +105,6 @@ function! vaffle#buffer#init(filer) abort
   setlocal buftype=nowrite
   setlocal filetype=vaffle
   setlocal matchpairs=
-  setlocal nobuflisted
   setlocal noswapfile
   setlocal nowrap
 

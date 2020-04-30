@@ -3,9 +3,16 @@ set cpoptions&vim
 
 
 function! vaffle#renderer#render_item(item) abort
-  return printf('%s %s',
-        \ a:item.selected ? '*' : ' ',
-        \ a:item.basename . (a:item.is_dir ? '/' : ''))
+  if get(g:, 'vaffle_render_custom_icon', '') !=# ''
+    return printf('%s %s %s',
+          \ a:item.selected ? '*' : ' ',
+          \ call(g:vaffle_render_custom_icon, [a:item]),
+          \ a:item.basename . (a:item.is_dir ? '/' : ''))
+  else
+    return printf('%s %s',
+          \ a:item.selected ? '*' : ' ',
+          \ a:item.basename . (a:item.is_dir ? '/' : ''))
+  endif
 endfunction
 
 

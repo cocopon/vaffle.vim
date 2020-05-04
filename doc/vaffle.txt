@@ -247,6 +247,19 @@ version, but not supported.
   If disabled, Vaffle doesn't set up the default mappings. To customize key
   mappings, see |vaffle-example-custom-key-mappings|.
 
+*g:vaffle_render_custom_icon*
+  (Default: '')
+  If enable, Vaffle add icon font support. use like this,
+
+  example : Writing this config your vimrc >
+
+  function! RenderMyFavoriteIcon(item)
+    return WebDevIconsGetFileTypeSymbol(a:item.basename, a:item.is_dir)
+  endfunction
+  let g:vaffle_render_custom_icon = 'RenderMyFavoriteIcon'
+
+<  e.g : using vim-devicons       <https://github.com/ryanoasis/vim-devicons>
+
 
 ==============================================================================
 5. Examples                                                  *vaffle-examples*

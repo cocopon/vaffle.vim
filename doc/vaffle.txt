@@ -249,16 +249,8 @@ version, but not supported.
 
 *g:vaffle_render_custom_icon*
   (Default: '')
-  If enable, Vaffle add icon font support. use like this,
-
-  example : Writing this config your vimrc >
-
-  function! RenderMyFavoriteIcon(item)
-    return WebDevIconsGetFileTypeSymbol(a:item.basename, a:item.is_dir)
-  endfunction
-  let g:vaffle_render_custom_icon = 'RenderMyFavoriteIcon'
-
-<  e.g : using vim-devicons       <https://github.com/ryanoasis/vim-devicons>
+  If you want to render custom file type icon for each item, specify
+  the function name. See |vaffle-example-file-type-icons|.
 
 
 ==============================================================================
@@ -278,6 +270,16 @@ Customizing key mappings:                 *vaffle-example-custom-key-mappings*
     autocmd!
     autocmd FileType vaffle call s:customize_vaffle_mappings()
   augroup END
+<
+Adding file type icons:                       *vaffle-example-file-type-icons*
+>
+  " Install devicons (https://github.com/ryanoasis/vim-devicons)
+
+  function! VaffleRenderCustomIcon(item)
+    return WebDevIconsGetFileTypeSymbol(a:item.basename, a:item.is_dir)
+  endfunction
+
+  let g:vaffle_render_custom_icon = 'VaffleRenderCustomIcon'
 <
 
 ==============================================================================

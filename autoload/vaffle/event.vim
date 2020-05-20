@@ -41,7 +41,7 @@ function! vaffle#event#on_bufenter() abort
     return
   endif
 
-  call vaffle#init(path)
+  call vaffle#init(path, 1)
 endfunction
 
 

@@ -1,4 +1,4 @@
-let s:suite = themis#suite('vaffle_e2e_uncategorized')
+let s:suite = themis#suite('vaffle_e2e_unlist')
 let s:assert = themis#helper('assert')
 let s:cwd = getcwd()
 
@@ -22,7 +22,7 @@ function! s:suite.test_init_unlist() abort
 
   call s:assert.equals(
         \ len(s:get_listed_buffers()),
-        \ 2,
+        \ 3,
         \ ':Vaffle should not unlist current buffer')
 endfunction
 

@@ -72,11 +72,15 @@ function! s:clean_up_outdated_buffers() abort
 endfunction
 
 
+" a:000[0]: path
+" a:000[1]: should_overwrite
 function! vaffle#init(...) abort
   let path = get(a:000, 0, '')
   if empty(path)
     let path = expand('%:p')
   endif
+
+  let should_overwrite = get(a:000, 1, 0)
 
   let extracted_path = vaffle#buffer#extract_path_from_bufname(path)
   let path = !empty(extracted_path)
@@ -99,10 +103,7 @@ function! vaffle#init(...) abort
   try
     call s:clean_up_outdated_buffers()
 
-    " If current buffer is for existing file, create new buffer before init
-    " to avoid overwriting the buffer
-    let should_new_buffer = filereadable(expand('%:p'))
-    if should_new_buffer
+    if !should_overwrite && !vaffle#buffer#is_for_vaffle(bufnr('%'))
       enew
     endif
 

@@ -33,3 +33,14 @@ function! s:suite.test_reinit_deleted_buffer() abort
         \ 'vaffle',
         \ 'Deleted Vaffle buffer should be re-initialized')
 endfunction
+
+
+function! s:suite.test_not_init_modified_buffer() abort
+  call setline(1, 'foobar')
+  Vaffle
+
+  call s:assert.not_equals(
+        \ &filetype,
+        \ 'vaffle',
+        \ 'Vaffle should not initialize modified buffer')
+endfunction

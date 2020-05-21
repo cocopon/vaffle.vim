@@ -9,18 +9,6 @@ function! s:suite.before_each() abort
 endfunction
 
 
-function! s:suite.test_double_vaffle() abort
-  Vaffle test/e2e/files
-  let prev_dir = b:vaffle.dir
-  Vaffle
-
-  call s:assert.equals(
-        \ prev_dir,
-        \ b:vaffle.dir,
-        \ ':Vaffle on Vaffle buffer should not change working directory')
-endfunction
-
-
 function! s:suite.test_reinit_deleted_buffer() abort
   Vaffle test/e2e/files/duplication
   " Open item
@@ -43,4 +31,16 @@ function! s:suite.test_not_init_modified_buffer() abort
         \ &filetype,
         \ 'vaffle',
         \ 'Vaffle should not initialize modified buffer')
+endfunction
+
+
+function! s:suite.test_init_without_arguments() abort
+  cd test/e2e/files
+  e duplication/visible.txt
+  Vaffle
+
+  call s:assert.equals(
+        \ fnamemodify(b:vaffle.dir, ':t'),
+        \ 'files',
+        \ 'Vaffle without arguments should open current working directory')
 endfunction

@@ -77,7 +77,7 @@ endfunction
 function! vaffle#init(...) abort
   let path = get(a:000, 0, '')
   if empty(path)
-    let path = expand('%:p')
+    let path = getcwd()
   endif
 
   let should_overwrite = get(a:000, 1, 0)

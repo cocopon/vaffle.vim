@@ -15,6 +15,20 @@ function! s:keep_buffer_singularity() abort
   return 1
 endfunction
 
+function! s:is_valid_altbuf(bnr) abort
+  return a:bnr != bufnr('%') && bufexists(a:bnr) && empty(getwinvar(a:bnr, 'vaffle'))
+endfunction
+
+function! s:try_visit(bnr, noau) abort
+  if s:is_valid_altbuf(a:bnr)
+    " If _previous_ buffer is _not_ loaded (because of 'nohidden'), we must
+    " allow autocmds (else no syntax highlighting; #13).
+    let noau = a:noau && bufloaded(a:bnr) ? 'noau' : ''
+    execute 'silent keepjumps' noau 'buffer' a:bnr
+    return 1
+  endif
+  return 0
+endfunction
 
 function! s:lnum_to_item_index(lnum) abort
   return a:lnum - 1
@@ -264,13 +278,16 @@ function! vaffle#quit() abort
   call s:keep_buffer_singularity()
 
   " Try restoring previous buffer
-  let bufnr = vaffle#window#get_env().non_vaffle_bufnr
-  if bufexists(bufnr)
-    execute printf('buffer! %d', bufnr)
+  let win_env = vaffle#window#get_env()
+  if empty(win_env)
     return
   endif
 
-  enew
+  let found_alt = s:try_visit(win_env.altbuf, 1)
+  if !s:try_visit(win_env.prevbuf, 0) && !found_alt
+      \ && (1 == bufnr('%') || (win_env.prevbuf != bufnr('%') && win_env.altbuf != bufnr('%')))
+    bdelete
+  endif
 endfunction
 
 

@@ -4,7 +4,8 @@ set cpoptions&vim
 
 function! vaffle#win_env#create() abort
   let env = {}
-  let env.non_vaffle_bufnr = -1
+  let env.altbuf = -1
+  let env.prevbuf = -1
   return env
 endfunction
 

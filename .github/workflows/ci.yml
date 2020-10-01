@@ -40,4 +40,4 @@ jobs:
     - name: Test
       env:
         THEMIS_VIM: ${{ steps.vim.outputs.executable }}
-      run: ./vim-themis/bin/themis --reporter spec
+      run: ./vim-themis/bin/themis test/**/* --reporter spec

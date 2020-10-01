@@ -94,7 +94,7 @@ endfunction
 function! vaffle#buffer#init(filer) abort
   " Give unique name to buffer to avoid unwanted sync
   " between different windows
-  execute printf('silent file %s',
+  execute printf('silent keepalt file %s',
         \ s:generate_unique_bufname(a:filer.dir))
 
   if g:vaffle_use_default_mappings

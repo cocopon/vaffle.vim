@@ -24,3 +24,20 @@ function! s:suite.test_keepalt() abort
         \ 'foo.txt',
         \ 'Vaffle navigation should keep alternate file')
 endfunction
+
+function! s:suite.test_keepalt() abort
+  cd test/e2e/files
+  " Open file
+  e history/alt.txt
+
+  Vaffle history
+
+  " edit another file via vaffle; alt.txt should remain the alternate
+  call search('foo.txt')
+  call vaffle#open_current('')
+
+  call s:assert.equals(
+        \ fnamemodify(bufname('#'), ':t'),
+        \ 'alt.txt',
+        \ 'Vaffle navigation should keep alternate file')
+endfunction

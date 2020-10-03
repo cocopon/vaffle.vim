@@ -31,7 +31,7 @@ function! s:open_single(item, open_mode) abort
   let open_cmd = get(s:open_mode_to_cmd_single_map,
         \ a:open_mode,
         \ 'edit')
-  execute printf('%s %s',
+  execute printf('keepalt %s %s',
         \ open_cmd,
         \ fnameescape(a:item.path))
 endfunction
@@ -43,7 +43,7 @@ function! s:open_multiple(items, open_mode) abort
         \ 'split')
 
   for item in a:items
-    execute printf('%s %s',
+    execute printf('keepalt %s %s',
           \ open_cmd,
           \ fnameescape(item.path))
   endfor

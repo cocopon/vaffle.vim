@@ -28,12 +28,16 @@ function! s:open_single(item, open_mode) abort
     return
   endif
 
-  let open_cmd = get(s:open_mode_to_cmd_single_map,
-        \ a:open_mode,
-        \ 'edit')
-  execute printf('%s %s',
-        \ open_cmd,
-        \ fnameescape(a:item.path))
+  if a:open_mode ==# 'window'
+    call s:open_at_specified_window(a:item)
+  else
+    let open_cmd = get(s:open_mode_to_cmd_single_map,
+          \ a:open_mode,
+          \ 'edit')
+    execute printf('%s %s',
+          \ open_cmd,
+          \ fnameescape(a:item.path))
+  endif
 endfunction
 
 
@@ -43,10 +47,68 @@ function! s:open_multiple(items, open_mode) abort
         \ 'split')
 
   for item in a:items
-    execute printf('%s %s',
-          \ open_cmd,
-          \ fnameescape(item.path))
+    if a:open_mode ==# 'window'
+      call s:open_at_specified_window(item)
+    else
+      execute printf('%s %s',
+                  \ open_cmd,
+                  \ fnameescape(item.path))
+    endif
   endfor
+endfunction
+
+
+function! s:open_at_specified_window(item) abort
+  let candidate_winnrs = range(1, winnr('$'))
+
+  " Remove current winnr.
+  call remove(candidate_winnrs, winnr() - 1)
+  if empty(candidate_winnrs)
+    echo 'No windows to open the file.'
+    return
+  endif
+
+  let len = len(candidate_winnrs)
+  let keys = ['a', 's', 'd', 'f', 'h', 'j', 'k', 'l', '1', '2', '3', '4']
+
+  " Keep the statuslines of the all windows in the current tab.
+  let stored_statuslines = map(copy(candidate_winnrs),'getwinvar(v:val, "&statusline")')
+
+  " Show the window keys at each center of statusline.
+  for i in range(0, len - 1)
+    let winnr = candidate_winnrs[i]
+    let sline = printf('%' . winwidth(winnr) / 2 . 's', keys[i])
+    call setwinvar(winnr, '&statusline', sline)
+  endfor
+  redrawstatus
+
+  " Select a window to open the buffer.
+  echomsg 'Select window: '
+  let selected_key = nr2char(getchar())
+
+  " `<ESC>` is cancel key.
+  if selected_key ==? ''
+    echomsg 'Canceled.'
+    return
+  endif
+
+  let key_index = index(keys, selected_key)
+  if key_index == -1
+    echoerr 'Your input is invalid: ' . string(selected_key)
+    return
+  endif
+
+  " Open file at the window referred by `target_winnr`.
+  let target_winnr = candidate_winnrs[key_index]
+  execute target_winnr . 'wincmd w'
+  execute printf('edit %s', fnameescape(a:item.path))
+
+  " Restore statuslines.
+  for i in range(0, len - 1)
+    let winnr = candidate_winnrs[i]
+    call setwinvar(winnr, '&statusline', stored_statuslines[i])
+  endfor
+  redrawstatus
 endfunction
 
 

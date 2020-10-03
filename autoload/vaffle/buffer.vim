@@ -24,8 +24,9 @@ function! s:set_up_default_mappings() abort
   call s:map_default('n', '<CR>',    'open-selected',    '<buffer> <silent>')
   call s:map_default('n', 'r',       'rename-selected',  '<buffer> <silent>')
   " Operations for a item on cursor
-  call s:map_default('n', 'l',       'open-current',     '<buffer> <silent>')
-  call s:map_default('n', 't',       'open-current-tab', '<buffer> <nowait> <silent>')
+  call s:map_default('n', 'l',       'open-current',        '<buffer> <silent>')
+  call s:map_default('n', 't',       'open-current-tab',    '<buffer> <nowait> <silent>')
+  call s:map_default('n', 'w',       'open-current-window', '<buffer> <nowait> <silent>')
   " Misc
   call s:map_default('n', 'o',       'mkdir',            '<buffer> <silent>')
   call s:map_default('n', 'i',       'new-file',         '<buffer> <silent>')

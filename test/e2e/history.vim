@@ -41,3 +41,32 @@ function! s:suite.test_keepalt() abort
         \ 'alt.txt',
         \ 'Vaffle navigation should keep alternate file')
 endfunction
+
+function! s:suite.quit_goes_to_alt() abort
+  cd test/e2e/files
+
+  e history/alt.txt
+
+  Vaffle
+
+  normal q
+
+  call s:assert.equals(
+        \ fnamemodify(bufname('%'), ':t'),
+        \ 'alt.txt',
+        \ 'Vaffle quit should return to original file')
+endfunction
+
+function! s:suite.quit_goes_to_empty_buf() abort
+  cd test/e2e/files
+
+  " vaffle opens with no alternate file available
+  Vaffle
+
+  normal q
+
+  call s:assert.equals(
+        \ fnamemodify(bufname('%'), ':t'),
+        \ '',
+        \ 'Vaffle quit should open new, empty buf')
+endfunction

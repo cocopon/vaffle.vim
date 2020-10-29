@@ -114,7 +114,6 @@ function! vaffle#init(...) abort
           \ filer.shows_hidden_files)
 
     call vaffle#buffer#init(filer)
-    call vaffle#window#init()
   catch /:E37:/
     call vaffle#util#echo_error(
           \ 'E37: No write since last change')

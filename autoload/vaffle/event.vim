@@ -33,11 +33,6 @@ function! vaffle#event#on_bufenter() abort
   let path = expand('%:p')
 
   if !s:should_init(bufnr, path)
-    if !vaffle#buffer#is_for_vaffle(bufnr)
-      " Store bufnr of non-directory, non-vaffle buffer
-      " for restoring previous buffer when quitting
-      call vaffle#window#store_non_vaffle_buffer(bufnr)
-    endif
     return
   endif
 

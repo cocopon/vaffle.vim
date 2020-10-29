@@ -261,12 +261,17 @@ endfunction
 
 
 function! vaffle#quit() abort
+  " keep_buffer_singularity may create a new buffer so we
+  " need to stash the current buffer beforehand
+  let cur = bufnr('%')
   call s:keep_buffer_singularity()
 
-  " Try restoring previous buffer
-  let bufnr = vaffle#window#get_env().non_vaffle_bufnr
-  if bufexists(bufnr)
-    execute printf('buffer! %d', bufnr)
+  " Try restoring alternate buffer
+  let alt = bufnr('#') > 0 ? bufnr('#') : -1
+  " the case where cur == alt is when there are no other
+  " buffers except for vaffle
+  if bufexists(alt) && cur != alt
+    execute printf('buffer! %d', alt) 
     return
   endif
 

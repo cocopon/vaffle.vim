@@ -22,6 +22,7 @@ function! s:set_up_default_config()
         \   'vaffle_use_default_mappings': 1,
         \   'vaffle_open_current_split_position': 'topleft',
         \   'vaffle_open_current_vsplit_position': 'rightbelow',
+        \   'vaffle_show_header': 0,
         \ }
 
   for var_name in keys(config_dict)

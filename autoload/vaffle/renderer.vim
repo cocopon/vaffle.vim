@@ -24,6 +24,9 @@ function! vaffle#renderer#render_filer(items) abort
   return map(copy(a:items), 'vaffle#renderer#render_item(v:val)')
 endfunction
 
+function! vaffle#renderer#render_header(path)
+   return fnamemodify(a:path, ':p') . ':'
+endfunction
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo

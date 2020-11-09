@@ -135,7 +135,12 @@ function! vaffle#buffer#redraw() abort
   silent keepjumps %delete _
 
   let filer = vaffle#buffer#get_filer()
-  call setline(1, vaffle#renderer#render_filer(filer.items))
+
+  if g:vaffle_show_header
+    call setline(1, vaffle#renderer#render_header(filer.dir))
+  endif
+
+  call setline(1+g:vaffle_show_header, vaffle#renderer#render_filer(filer.items))
 
   setlocal nomodifiable
   setlocal nomodified
@@ -168,7 +173,7 @@ function! vaffle#buffer#redraw_item(item) abort
   setlocal modifiable
 
   let lnum = a:item.index + 1
-  call setline(lnum, vaffle#renderer#render_item(a:item))
+  call setline(lnum + g:vaffle_show_header, vaffle#renderer#render_item(a:item))
 
   setlocal nomodifiable
   setlocal nomodified

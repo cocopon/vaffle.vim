@@ -27,13 +27,19 @@ function! s:get_cursor_items(filer, mode) abort
     return []
   endif
 
+  " User clicked the header that is the current dir
+  if g:vaffle_show_header == 1 && line('.') == 1
+    " call vaffle#open_parent()
+    return []
+  endif
+
   let in_visual_mode = (a:mode ==? 'v')
   let lnums = in_visual_mode
         \ ? range(line('''<'), line('''>'))
         \ : [line('.')]
   return map(
         \ copy(lnums),
-        \ 'items[s:lnum_to_item_index(v:val)]')
+        \ 'items[s:lnum_to_item_index(v:val) - g:vaffle_show_header]')
 endfunction
 
 
@@ -85,7 +91,7 @@ function! vaffle#init(...) abort
   let extracted_path = vaffle#buffer#extract_path_from_bufname(path)
   let path = !empty(extracted_path)
         \ ? extracted_path
-        \ : path 
+        \ : path
 
   let path = fnamemodify(path, ':p')
 
@@ -120,7 +126,6 @@ function! vaffle#init(...) abort
     return
   endtry
 endfunction
-
 
 function! vaffle#refresh() abort
   call s:keep_buffer_singularity()
@@ -270,7 +275,7 @@ function! vaffle#quit() abort
   " the case where cur == alt is when there are no other
   " buffers except for vaffle
   if bufexists(alt) && cur != alt
-    execute printf('buffer! %d', alt) 
+    execute printf('buffer! %d', alt)
     return
   endif
 

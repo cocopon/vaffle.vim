@@ -232,6 +232,11 @@ version, but not supported.
   If enabled, Vaffle shows hidden files by default. You can toggle the option
   with |<Plug>(vaffle-toggle-hidden)| any time.
 
+*g:vaffle_show_header*
+  (Default: 0)
+  Possible values: 0, 1
+  If enabled, shows the current path in a header above the listed files
+
 *g:vaffle_open_selected_split_position*
   (Default: '')
   Possible values: '', 'topleft' or 'rightbelow'
@@ -251,7 +256,6 @@ version, but not supported.
   (Default: '')
   If you want to render custom file type icon for each item, specify
   the function name. See |vaffle-example-file-type-icons|.
-
 
 ==============================================================================
 5. Examples                                                  *vaffle-examples*
